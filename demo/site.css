@@ -1,0 +1,58 @@
+/* Domino's own: the set-up, the table of trains, the dominoes, and the API reference. Everything shared is in family.css, loaded before this. */
+:root { --intro-room: 11rem; --intro-room-wide: 6rem; --tile: #fbf8ee; --tile-ink: #1b1b1b; --tile-edge: #b9ad90; --tile-w: 52px; --tile-h: 30px; }
+@media (max-width: 600px) { :root { --tile-w: 46px; --tile-h: 28px; } }
+
+.setup { display: grid; gap: 10px; margin-bottom: 14px; }
+.setup .fam-row { gap: 8px 14px; }
+.fam-seg button { min-width: 44px; }
+
+.table { display: grid; gap: 12px; padding: 14px; }
+.table-top { display: grid; gap: 2px; }
+.status { margin: 0; min-height: 2.8em; font-weight: 700; }
+.info { margin: 0; font-size: .85rem; opacity: .85; min-height: 1.3em; }
+.news { margin: 0; font-size: .85rem; opacity: .9; min-height: 2.6em; }
+
+.trains { display: grid; gap: 8px; }
+.train { background: rgba(0,0,0,.18); border-radius: 10px; padding: 6px 10px 8px; border: 2px solid transparent; min-width: 0; }
+.train[data-turn="true"] { border-color: var(--gold); }
+.train-head { display: flex; justify-content: space-between; gap: 8px; font-size: .85rem; flex-wrap: wrap; }
+.train-head span { opacity: .85; }
+.train-line { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; min-height: calc(var(--tile-h) + 6px); padding-top: 4px; }
+.need { font-size: .75rem; opacity: .85; margin-left: 6px; }
+.lay { min-height: 44px; margin-left: 6px; }
+
+.tile { display: inline-flex; align-items: center; flex: none; width: var(--tile-w); height: var(--tile-h); border-radius: 6px; background: var(--tile); color: var(--tile-ink); border: 1px solid var(--tile-edge); box-shadow: 0 1px 2px rgba(0,0,0,.35); padding: 0 2px; font-weight: 700; font-variant-numeric: tabular-nums; user-select: none; -webkit-user-select: none; }
+.tile b { flex: 1; text-align: center; font-size: .9rem; }
+.tile i { width: 1px; align-self: stretch; margin: 4px 0; background: var(--tile-ink); opacity: .45; }
+.tile[data-double="true"] { box-shadow: 0 0 0 2px rgba(224,180,59,.7), 0 1px 2px rgba(0,0,0,.35); }
+
+.hand { display: flex; flex-wrap: wrap; gap: 8px; min-height: 52px; padding-top: 4px; }
+.hand .tile { width: 76px; height: 46px; cursor: pointer; font: inherit; font-weight: 700; }
+.hand .tile b { font-size: 1.1rem; }
+.hand .tile:disabled { opacity: .45; cursor: default; }
+.hand .tile[data-playable="true"] { transform: translateY(-4px); box-shadow: 0 0 0 3px var(--gold), 0 3px 6px rgba(0,0,0,.4); }
+.hand .tile[aria-pressed="true"] { transform: translateY(-8px); background: #fff3c4; }
+@media (prefers-reduced-motion: no-preference) { .hand .tile { transition: transform .12s; } }
+.moves { display: flex; flex-wrap: wrap; gap: 8px; min-height: 44px; }
+
+td[data-out="true"] { font-weight: 800; }
+#scores { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+#scores th, #scores td { padding: 6px 10px; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+#scores th:first-child { text-align: left; }
+.rules p { max-width: 72ch; line-height: 1.55; color: var(--muted); }
+
+/* The API reference: one page, a section for each entry point. */
+.api-contents ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 0 12px; font-size: .9rem; }
+.api-contents li a { display: inline-flex; align-items: center; min-height: 44px; overflow-wrap: anywhere; }
+.api-contents p { margin: 0 0 4px; }
+.api-entry { margin-top: 28px; min-width: 0; }
+.api-entry h2 { font-size: 1.15rem; margin: 0 0 6px; overflow-wrap: anywhere; }
+.api-names { display: flex; flex-wrap: wrap; gap: 2px 12px; margin: 0 0 12px; font-size: .85rem; }
+.api-names a { font-family: var(--mono); display: inline-flex; align-items: center; min-height: 32px; }
+.api-entry article { border-top: 1px solid var(--rule); padding: 12px 0; display: grid; gap: 8px; min-width: 0; }
+.api-entry article > * { min-width: 0; max-width: 100%; }
+.api-entry h3 { margin: 0; font-size: 1rem; font-family: var(--mono); overflow-wrap: anywhere; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.api-entry h3 .fam-badge { font-family: var(--font); font-weight: 600; }
+.api-entry p { margin: 0; line-height: 1.5; max-width: 72ch; }
+.api-entry p.api-names { max-width: none; }
+.api-entry pre { white-space: pre-wrap; overflow-wrap: anywhere; }

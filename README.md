@@ -10,6 +10,8 @@ Double-nine, double-twelve and double-fifteen sets; the full rules of Mexican Tr
   <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-0-2f5d4a">
 </p>
 
+<p align="center"><a href="https://johnmorrisdotca.github.io/domino/"><strong>Play Mexican Train →</strong></a> · <a href="https://johnmorrisdotca.github.io/domino/api.html">API reference</a></p>
+
 ## In 30 seconds
 
 ```sh
@@ -57,7 +59,7 @@ the fewest pips over the whole game wins.
 
 ## API
 
-The [API reference](https://github.com/johnmorrisdotca/domino/blob/main/docs/api.md) lists every export of every entry point with its signature and its doc comment. It is made from the source by `pnpm docs:api`, and a test fails when it falls behind the code.
+The [API reference](https://johnmorrisdotca.github.io/domino/api.html) (also kept in the repository as [`docs/api.md`](https://github.com/johnmorrisdotca/domino/blob/main/docs/api.md)) lists every export of every entry point with its signature and its doc comment. It is made from the source by `pnpm docs:api`, and a test fails when it falls behind the code.
 
 | Export | What it does |
 | --- | --- |
@@ -100,7 +102,9 @@ src/
 ```
 
 Tests sit beside the code they test (`*.test.ts`). `scripts/` checks the
-package as npm packs it and makes the API reference, `docs/api.md`.
+package as npm packs it and makes the API reference, `docs/api.md`, and builds
+the demo (`pnpm site`) and tests it in a real browser (`pnpm test:demo`); `demo/`
+is the page published on GitHub Pages.
 
 ## The name
 
@@ -129,7 +133,6 @@ Using it somewhere? [Tell us](https://github.com/johnmorrisdotca/domino/issues/n
 
 ## Roadmap
 
-- A demo site, playable in the browser, in the family's look, with English and Japanese
 - The words for the table in English and Japanese, and a React hook
 - More domino games: Block, Draw, All Fives and Chicken Foot
 

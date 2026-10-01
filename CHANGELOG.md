@@ -6,6 +6,16 @@ All notable changes to this project are written here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **A playable demo on GitHub Pages**, in the family's look and in English and
+  Japanese (the Japanese not yet read by a native reader): Mexican Train for
+  one against one to seven computers, with the set, the number of players and
+  every house rule chosen with a press, the family's cloth patches, and an API
+  reference page in the same frame. It is tested in a real browser on a phone
+  and a desk (`pnpm test:demo`), including a whole game played to its end. The
+  package itself is unchanged.
+
 ## [1.0.0] - 2026-09-30
 
 ### Added

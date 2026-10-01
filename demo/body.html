@@ -1,0 +1,59 @@
+      <section class="setup" aria-labelledby="setup-title">
+        <h2 id="setup-title" class="fam-sr" data-say="pageSetup"></h2>
+        <div class="fam-row">
+          <span class="fam-label" id="set-label" data-say="pageSet"></span>
+          <div class="fam-seg" id="sets" role="group" aria-labelledby="set-label" data-testid="sets">
+            <button type="button" data-set="9" aria-pressed="false" data-say="pageSet9"></button>
+            <button type="button" data-set="12" aria-pressed="true" data-say="pageSet12"></button>
+            <button type="button" data-set="15" aria-pressed="false" data-say="pageSet15"></button>
+          </div>
+        </div>
+        <div class="fam-row">
+          <span class="fam-label" id="players-label" data-say="pagePlayers"></span>
+          <div class="fam-seg" id="players" role="group" aria-labelledby="players-label" data-testid="players">
+            <button type="button" data-count="2" aria-pressed="false">2</button>
+            <button type="button" data-count="3" aria-pressed="false">3</button>
+            <button type="button" data-count="4" aria-pressed="true">4</button>
+            <button type="button" data-count="6" aria-pressed="false">6</button>
+            <button type="button" data-count="8" aria-pressed="false">8</button>
+          </div>
+          <span class="fam-label" id="length-label" data-say="pageLength"></span>
+          <div class="fam-seg" id="lengths" role="group" aria-labelledby="length-label" data-testid="lengths">
+            <button type="button" data-length="short" aria-pressed="true" data-say="pageShort"></button>
+            <button type="button" data-length="full" aria-pressed="false" data-say="pageFull"></button>
+          </div>
+        </div>
+        <div class="fam-row">
+          <span class="fam-label" id="doubles-label" data-say="pageDoubles"></span>
+          <div class="fam-seg" id="doubles" role="group" aria-labelledby="doubles-label" data-testid="doubles">
+            <button type="button" data-doubles="one" aria-pressed="true" data-say="pageOne"></button>
+            <button type="button" data-doubles="chain" aria-pressed="false" data-say="pageChain"></button>
+          </div>
+          <span class="fam-label" id="mexican-label" data-say="pageMexican"></span>
+          <div class="fam-seg" id="mexicans" role="group" aria-labelledby="mexican-label" data-testid="mexicans">
+            <button type="button" data-mexican="any" aria-pressed="true" data-say="pageAny"></button>
+            <button type="button" data-mexican="ownFirst" aria-pressed="false" data-say="pageOwnFirst"></button>
+          </div>
+          <button type="button" class="fam-button" data-primary="true" id="deal" data-testid="deal" data-say="pageDeal"></button>
+        </div>
+      </section>
+
+      <section class="fam-felt table" aria-label="Table" data-testid="table">
+        <div class="table-top">
+          <p class="status" id="status" role="status" aria-live="polite" data-testid="status"></p>
+          <p class="info" id="info" data-testid="info"></p>
+        </div>
+        <div class="trains" id="trains" data-testid="trains"></div>
+        <p class="news" id="news" data-testid="news"></p>
+        <div class="hand" id="hand" data-testid="hand" role="group" data-say-label="pageYourHand"></div>
+        <div class="moves" id="moves" data-testid="moves"></div>
+      </section>
+      __UNREVIEWED__
+      <section aria-labelledby="scores-title">
+        <h2 id="scores-title" data-say="pageScores"></h2>
+        <div class="fam-table-box"><table id="scores" data-testid="scores"></table></div>
+      </section>
+      <section class="rules" aria-labelledby="rules-title">
+        <h2 id="rules-title" data-say="pageRulesTitle"></h2>
+        <p data-say="pageRulesText"></p>
+      </section>

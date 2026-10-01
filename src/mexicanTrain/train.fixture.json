@@ -1,0 +1,258 @@
+{
+ "9/2/1/full": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":1,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "4990460bc98af0f2"
+ },
+ "9/2/1/short": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":1,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "1074c56cb16d6e9a"
+ },
+ "9/2/7/full": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":7,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "ca672791d1d5ee02"
+ },
+ "9/2/7/short": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":7,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "e0c59c7496c9b7d2"
+ },
+ "9/2/2026/full": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":2026,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "c5f198131a01d972"
+ },
+ "9/2/2026/short": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":2026,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "88d2130d43faf13a"
+ },
+ "9/2/123456789/full": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "f12fff7675e0291a"
+ },
+ "9/2/123456789/short": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "245ebe835d89dff2"
+ },
+ "9/4/1/full": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "0dd3b6fa3ff66aaa"
+ },
+ "9/4/1/short": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "5a83858605f33e92"
+ },
+ "9/4/7/full": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "39259a9a589d6ea2"
+ },
+ "9/4/7/short": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "43bdbca2422bd672"
+ },
+ "9/4/2026/full": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "29a3169f78a5c962"
+ },
+ "9/4/2026/short": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "13f99b046436f0b2"
+ },
+ "9/4/123456789/full": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "863713840a52ad52"
+ },
+ "9/4/123456789/short": {
+  "start": "{\"v\":1,\"set\":9,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "d15bbbe52230e92a"
+ },
+ "12/2/1/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":1,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "0c309e4ab0b76602"
+ },
+ "12/2/1/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":1,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "5d9eb9e118368a32"
+ },
+ "12/2/7/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":7,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "3bf2f7a672437e72"
+ },
+ "12/2/7/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":7,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "6f1f2e96e926aff2"
+ },
+ "12/2/2026/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":2026,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "d46c95cf1ce54152"
+ },
+ "12/2/2026/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":2026,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "ade5334b82357162"
+ },
+ "12/2/123456789/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "c0e24eb0d5d6d772"
+ },
+ "12/2/123456789/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "5d199f67c88d6a42"
+ },
+ "12/4/1/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "97e600383a73c282"
+ },
+ "12/4/1/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "2ff5ddcd2abc0152"
+ },
+ "12/4/7/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "6b4307e6778ffdc2"
+ },
+ "12/4/7/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "3de0d1dcc3427182"
+ },
+ "12/4/2026/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "d9a5c9b71d2b4672"
+ },
+ "12/4/2026/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "fd5af854c44de99a"
+ },
+ "12/4/123456789/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "63a93101e6f1749a"
+ },
+ "12/4/123456789/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "c054143d75a8f312"
+ },
+ "12/8/1/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "c7c251ee8b32da4a"
+ },
+ "12/8/1/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "24f6c02d07845e12"
+ },
+ "12/8/7/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "b9a8e4c4a27da722"
+ },
+ "12/8/7/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "f359ed1e957f8d72"
+ },
+ "12/8/2026/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "1becd9987dbad94a"
+ },
+ "12/8/2026/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "b7c5d0760edbcec2"
+ },
+ "12/8/123456789/full": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "f7770ddceb274192"
+ },
+ "12/8/123456789/short": {
+  "start": "{\"v\":1,\"set\":12,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "f90144456013f1da"
+ },
+ "15/2/1/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":1,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "d9bc805dc2f79492"
+ },
+ "15/2/1/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":1,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "c5daf4c7f8fb2ff2"
+ },
+ "15/2/7/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":7,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "2b01f5abf30234fa"
+ },
+ "15/2/7/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":7,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "0d03ab4d0bfd4e72"
+ },
+ "15/2/2026/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":2026,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "52d9504d117accf2"
+ },
+ "15/2/2026/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":2026,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "378ba4eb4cf62142"
+ },
+ "15/2/123456789/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "fce5b9687833b072"
+ },
+ "15/2/123456789/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\"],\"computers\":[true,true],\"moves\":\"\"}",
+  "end": "b051c43efa5b2ff2"
+ },
+ "15/4/1/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "a94cc16aa4862012"
+ },
+ "15/4/1/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "6d64e2dae9774a72"
+ },
+ "15/4/7/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "14190345b258d412"
+ },
+ "15/4/7/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "4c50ca5c83bacfca"
+ },
+ "15/4/2026/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "5761136e28f050f2"
+ },
+ "15/4/2026/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "0357578080642a32"
+ },
+ "15/4/123456789/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "fcf0cfd1656a2df2"
+ },
+ "15/4/123456789/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\"],\"computers\":[true,true,true,true],\"moves\":\"\"}",
+  "end": "de4f38521f07a8b2"
+ },
+ "15/8/1/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "68102e1d5a9b715a"
+ },
+ "15/8/1/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":1,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "636612e676bf10f2"
+ },
+ "15/8/7/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "6464d714f13f5e12"
+ },
+ "15/8/7/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":7,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "7181a317bc678982"
+ },
+ "15/8/2026/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "3e4cc2052f858b02"
+ },
+ "15/8/2026/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":2026,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "a6488ac9c1af2582"
+ },
+ "15/8/123456789/full": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"full\",\"doubles\":\"one\",\"mexican\":\"any\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "5d0d0383618705aa"
+ },
+ "15/8/123456789/short": {
+  "start": "{\"v\":1,\"set\":15,\"options\":{\"length\":\"short\",\"doubles\":\"chain\",\"mexican\":\"ownFirst\"},\"seed\":123456789,\"players\":[\"P0\",\"P1\",\"P2\",\"P3\",\"P4\",\"P5\",\"P6\",\"P7\"],\"computers\":[true,true,true,true,true,true,true,true],\"moves\":\"\"}",
+  "end": "4ba1933faa568b5a"
+ }
+}

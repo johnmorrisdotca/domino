@@ -1,0 +1,85 @@
+{
+  "name": "@johnmorrisdotca/domino",
+  "version": "1.0.0",
+  "description": "Dominoes for JavaScript and TypeScript: double-nine, double-twelve and double-fifteen sets, and the full rules of Mexican Train for two to eight players, with a computer player, seeded deals that replay exactly, and a compact saved-game format. Zero dependencies.",
+  "keywords": [
+    "dominoes",
+    "domino",
+    "mexican-train",
+    "mexican-train-dominoes",
+    "train-dominoes",
+    "double-twelve",
+    "double-nine",
+    "double-fifteen",
+    "domino-game",
+    "tile-game",
+    "board-game",
+    "game-engine",
+    "game-rules",
+    "rules-engine",
+    "computer-player",
+    "ai-player",
+    "bot",
+    "seeded",
+    "seeded-random",
+    "deterministic",
+    "replay",
+    "save-game",
+    "typescript",
+    "javascript",
+    "zero-dependencies",
+    "browser",
+    "node",
+    "party-game",
+    "family-game",
+    "itsutsu"
+  ],
+  "homepage": "https://github.com/johnmorrisdotca/domino#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnmorrisdotca/domino.git"
+  },
+  "bugs": {
+    "url": "https://github.com/johnmorrisdotca/domino/issues"
+  },
+  "author": "John Morris",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.check.json",
+    "test": "vitest run",
+    "test:package": "pnpm build && node scripts/check-package.mjs",
+    "check": "pnpm lint && pnpm typecheck && pnpm test",
+    "prepublishOnly": "pnpm check && pnpm build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^5.0.0"
+  },
+  "packageManager": "pnpm@10.11.0"
+}

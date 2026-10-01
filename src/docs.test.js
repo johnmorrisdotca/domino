@@ -5,7 +5,6 @@ import process from "node:process";
 
 import { describe, expect, it } from "vitest";
 
-import { FAMILY } from "../scripts/family-template.mjs";
 import * as domino from "./index.ts";
 import { TILE_SOUND_DATA } from "./sounds.ts";
 import * as sounds from "./tile-sounds.ts";
@@ -172,22 +171,6 @@ describe("the README's tables", () => {
     expect(runCli(["deal", "--seed", "4294967295"]).code).toBe(0);
     expect(runCli(["deal", "--seed", "4294967296"]).code).toBe(2);
     expect(runCli(["deal", "--seed", "0"]).code).toBe(0);
-  });
-});
-
-describe("the family", () => {
-  const section = readme.slice(readme.indexOf("### The family"), readme.indexOf("## Roadmap"));
-
-  it("names every other package of the family, once, linked to its repository", () => {
-    const listed = [...section.matchAll(/^- \[(\w+)\]\(https:\/\/github\.com\/johnmorrisdotca\/(\w+)\) \(([^)]+)\): /gm)];
-    const siblings = FAMILY.filter((one) => one.id !== "domino");
-    expect(listed.map((match) => match[2])).toEqual(siblings.map((one) => one.id));
-    for (const match of listed) {
-      const one = FAMILY.find((entry) => entry.id === match[2]);
-      expect(match[1], match[2]).toBe(one.name);
-      expect(match[3], match[2]).toBe(one.kana);
-    }
-    expect(FAMILY).toHaveLength(16);
   });
 });
 

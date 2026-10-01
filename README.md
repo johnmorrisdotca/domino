@@ -57,6 +57,8 @@ the fewest pips over the whole game wins.
 
 ## API
 
+The [API reference](https://github.com/johnmorrisdotca/domino/blob/main/docs/api.md) lists every export of every entry point with its signature and its doc comment. It is made from the source by `pnpm docs:api`, and a test fails when it falls behind the code.
+
 | Export | What it does |
 | --- | --- |
 | `startTrain(set, players, seed?, options?, computers?)` | A new game, or null for a table the rules do not allow |
@@ -73,6 +75,32 @@ the fewest pips over the whole game wins.
 
 A tile is a number, `a × 16 + b` with `a ≤ b` (`TRAIN_PIP_BASE`), so a hand is
 an array of numbers and a game is plain data that can be stored or sent as it is.
+
+## Architecture
+
+The dominoes and the rules of Mexican Train are plain functions over plain
+data with no DOM and no dependency: a game is a value, every move returns the
+next one, and a seed replays a deal exactly. The computer player and the
+saved-game format are separate modules over the same rules, and every game so
+far lives in a folder of its own, so the next one is a sibling of
+`mexicanTrain/`.
+
+```text
+src/
+├── index.ts    the main entry: the dominoes, Mexican Train's rules, its computer player and its saved-game format
+├── random.ts   seeded randomness, the one thing every deal is made from
+├── version.ts  the package's version
+└── mexicanTrain/  Mexican Train, the one game so far
+    ├── dominoes.ts                the dominoes themselves: the double-nine, double-twelve and double-fifteen sets, their ends and pips, and which fit
+    ├── mexicanTrain.constants.ts  the numbers the game is played by: set sizes, train lengths and the doubles rules
+    ├── mexicanTrain.ts            the rules of Mexican Train: deal, trains, doubles, drawing and scoring
+    ├── mexicanTrain.types.ts      the game, its moves and its options, as the rules speak of them
+    ├── trainCodec.ts              a game as text and back: its options, its seed and every move
+    └── trainComputer.ts           the computer player
+```
+
+Tests sit beside the code they test (`*.test.ts`). `scripts/` checks the
+package as npm packs it and makes the API reference, `docs/api.md`.
 
 ## The name
 

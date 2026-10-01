@@ -93,6 +93,60 @@ test("a seeded deal is the same deal every time", async ({ page }) => {
   expect(await hand(page).evaluateAll((all) => all.map((el) => el.dataset.ends))).toEqual(first);
 });
 
+test("the address names the deal: opening it deals the same hands at the same table, and Deal again takes a new seed", async ({ page }) => {
+  const errors = await open(page, "?lang=en&set=9&players=3&length=full&doubles=chain&mexican=own-first&seed=2026");
+  for (const [group, attribute, value] of [["sets", "data-set", "9"], ["players", "data-count", "3"], ["lengths", "data-length", "full"], ["doubles", "data-doubles", "chain"], ["mexicans", "data-mexican", "ownFirst"]]) {
+    await expect(page.locator(`[data-testid="${group}"] [aria-pressed="true"]`)).toHaveAttribute(attribute, value);
+  }
+  // The same hand `domino deal --seed 2026 --players 3 --set 9` prints for the first seat.
+  expect(await hand(page).evaluateAll((all) => all.map((el) => el.dataset.ends))).toEqual("3-0 4-2 4-3 6-3 6-6 7-7 8-4 8-7 9-4 9-5".split(" "));
+  await expect(page.locator('[data-testid="info"]')).toContainText("Round 1 of 10");
+  const query = () => new URL(page.url()).searchParams;
+  expect(Object.fromEntries(query())).toMatchObject({ set: "9", players: "3", length: "full", doubles: "chain", mexican: "own-first", seed: "2026" });
+  // Another table keeps the seed in use; Deal again takes a new one.
+  await tap(page, '[data-testid="players"] [data-count="2"]');
+  expect(query().get("players")).toBe("2");
+  expect(query().get("seed")).toBe("2026");
+  await tap(page, '[data-testid="deal"]');
+  expect(query().get("seed")).not.toBe("2026");
+  await sound(page, errors);
+});
+
+test("Using it: the code, the command and the saved game are the table's own, and the code runs", async ({ page }) => {
+  const errors = await open(page, "?lang=en&set=9&players=3&length=short&seed=2026");
+  const code = page.locator('[data-testid="using-code"]');
+  await expect(code).toContainText('startTrain(9, ["","",""], 2026, { length: "short", doubles: "one", mexican: "any" }, [false, true, true]);');
+  await expect(page.locator('[data-testid="cli-code"]')).toHaveText("npx @johnmorrisdotca/domino deal --seed 2026 --players 3 --set 9");
+  // The code, run against the package this page was built from, deals the hand on the table.
+  const dealt = await page.evaluate(async () => {
+    const lib = await import("./dist/index.js");
+    const source = document.querySelector('[data-testid="using-code"]').textContent.replace(/^import .*$/m, "");
+    const game = new Function(...Object.keys(lib), `${source}\nreturn game;`)(...Object.values(lib));
+    return { seed: game.seed, moves: lib.movesOf(game).length, hand: [...game.hands[0]].sort((x, y) => x - y).map((tile) => lib.tileWords(tile)) };
+  });
+  expect(dealt.seed).toBe(2026);
+  // Its last line lays the first tile, so the first player is down to nine.
+  expect(dealt.moves).toBe(1);
+  expect(dealt.hand).toHaveLength(9);
+  // The saved text reads back to this very game, and grows with it.
+  const saved = page.locator('[data-testid="saved-code"]');
+  await expect(saved).toContainText('"seed":2026');
+  await expect(saved).toContainText('"moves":""');
+  await expect(status(page)).toContainText(/Your turn|Nothing fits/, { timeout: 15000 });
+  const lifted = page.locator('[data-testid="hand"] .tile[data-playable="true"]');
+  if ((await lifted.count()) > 0) {
+    await tap(page, lifted.first());
+    if ((await page.locator('[data-testid="lay"]').count()) > 0) await tap(page, '[data-testid="lay"]');
+    await expect(saved).not.toContainText('"moves":""');
+  }
+  // The copy buttons answer, whether or not this browser lets a page use the clipboard.
+  for (const id of ["copy-link", "copy-code", "copy-saved"]) {
+    await tap(page, `[data-testid="${id}"]`);
+    await expect(page.locator(`[data-testid="${id}"]`)).toHaveText(/Copied|Copy it by hand/);
+  }
+  await sound(page, errors);
+});
+
 test("a person lays a tile, the computers answer, and play goes round until the person is wanted again", async ({ page }) => {
   const errors = await open(page, "?lang=en&seed=2026");
   // Whoever leads, wait for a turn that is the person's.
@@ -131,6 +185,58 @@ test("with nothing that fits, the person draws, and passes when the drawn tile w
     await expect.poll(() => hand(page).count()).toBe(before + 1);
   }
   expect(typeof label).toBe("string");
+});
+
+test("Sound is off until pressed, then a tile laid makes a sound, and pressing again silences the table", async ({ page }) => {
+  // A page of audio nodes that count what is started: a sound made is a source started.
+  await page.addInitScript(() => {
+    window.__started = 0;
+    window.AudioContext = class {
+      state = "running";
+      currentTime = 0;
+      sampleRate = 44100;
+      destination = {};
+      createGain() { return { gain: { value: 1 }, connect() {} }; }
+      createBiquadFilter() { return { frequency: { value: 0 }, Q: { value: 0 }, connect() {} }; }
+      createBuffer(_channels, length) { return { getChannelData: () => new Float32Array(length) }; }
+      createBufferSource() { return { playbackRate: { value: 1 }, connect() {}, start() { window.__started += 1; } }; }
+      decodeAudioData() { return Promise.resolve({ duration: 0.1 }); }
+      resume() { return Promise.resolve(); }
+      close() { return Promise.resolve(); }
+    };
+  });
+  const errors = await open(page, "?lang=en&seed=2026");
+  const started = () => page.evaluate(() => window.__started);
+  const switchOf = page.locator('[data-testid="sound"]');
+  await expect(switchOf).toHaveAttribute("aria-pressed", "false");
+  await expect(status(page)).toContainText(/Your turn|Nothing fits/, { timeout: 15000 });
+  const lay = async () => {
+    const lifted = page.locator('[data-testid="hand"] .tile[data-playable="true"]');
+    await tap(page, lifted.first());
+    if ((await page.locator('[data-testid="lay"]').count()) > 0) await tap(page, '[data-testid="lay"]');
+  };
+  // Off: a tile laid is silent.
+  await lay();
+  await page.waitForTimeout(200);
+  expect(await started()).toBe(0);
+  // On: turning it on makes the click of a tile, and so does every move after it.
+  await expect(status(page)).toContainText(/Your turn|Nothing fits/, { timeout: 15000 });
+  await tap(page, switchOf);
+  await expect(switchOf).toHaveAttribute("aria-pressed", "true");
+  await expect.poll(started).toBeGreaterThan(0);
+  const before = await started();
+  await expect(status(page)).toContainText(/Your turn|Nothing fits/, { timeout: 15000 });
+  if ((await page.locator('[data-testid="hand"] .tile[data-playable="true"]').count()) > 0) {
+    await lay();
+    await expect.poll(started).toBeGreaterThan(before);
+  }
+  // Off again: nothing more.
+  await tap(page, switchOf);
+  const quiet = await started();
+  await expect(status(page)).toContainText(/Your turn|Nothing fits|Round over|Game over/, { timeout: 15000 });
+  await page.waitForTimeout(200);
+  expect(await started()).toBe(quiet);
+  await sound(page, errors);
 });
 
 test("the cloth patches in the header change the felt of the table", async ({ page }) => {

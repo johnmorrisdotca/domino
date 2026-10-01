@@ -3,9 +3,9 @@
         <div class="fam-row" data-help-en="Which set of tiles to play with. A bigger set has more tiles and makes a longer game. Choosing deals again." data-help-ja="使うドミノのセットです。大きいセットほど牌が多く、ゲームも長くなります。選ぶと配り直します。">
           <span class="fam-label" id="set-label" data-say="pageSet"></span>
           <div class="fam-seg" id="sets" role="group" aria-labelledby="set-label" data-testid="sets">
-            <button type="button" data-set="9" aria-pressed="false" data-say="pageSet9"></button>
-            <button type="button" data-set="12" aria-pressed="true" data-say="pageSet12"></button>
-            <button type="button" data-set="15" aria-pressed="false" data-say="pageSet15"></button>
+            <button type="button" data-set="9" aria-pressed="false" data-say="set9"></button>
+            <button type="button" data-set="12" aria-pressed="true" data-say="set12"></button>
+            <button type="button" data-set="15" aria-pressed="false" data-say="set15"></button>
           </div>
         </div>
         <div class="fam-row">
@@ -22,8 +22,8 @@
           <div class="fam-row" data-help-en="How long the game is: a short one, or a round starting from every double in the set. Choosing deals again." data-help-ja="ゲームの長さです（短め、またはセットのすべてのダブルから始める全ラウンド）。選ぶと配り直します。">
             <span class="fam-label" id="length-label" data-say="pageLength"></span>
             <div class="fam-seg" id="lengths" role="group" aria-labelledby="length-label" data-testid="lengths">
-              <button type="button" data-length="short" aria-pressed="true" data-say="pageShort"></button>
-              <button type="button" data-length="full" aria-pressed="false" data-say="pageFull"></button>
+              <button type="button" data-length="short" aria-pressed="true" data-say="lengthShort"></button>
+              <button type="button" data-length="full" aria-pressed="false" data-say="lengthFull"></button>
             </div>
           </div>
         </div>
@@ -31,15 +31,20 @@
           <div class="fam-row" data-help-en="How a double is dealt with. Cover one: a double is covered before anything else is played. Chain: after a double you may lay another double first. Choosing deals again." data-help-ja="ダブルの扱いです。「1枚で覆う」は、ほかを出す前にダブルを覆います。「連続」は、ダブルのあとにもうひとつダブルを出してから覆えます。選ぶと配り直します。">
             <span class="fam-label" id="doubles-label" data-say="pageDoubles"></span>
             <div class="fam-seg" id="doubles" role="group" aria-labelledby="doubles-label" data-testid="doubles">
-              <button type="button" data-doubles="one" aria-pressed="true" data-say="pageOne"></button>
-              <button type="button" data-doubles="chain" aria-pressed="false" data-say="pageChain"></button>
+              <button type="button" data-doubles="one" aria-pressed="true" data-say="doublesOne"></button>
+              <button type="button" data-doubles="chain" aria-pressed="false" data-say="doublesChain"></button>
             </div>
           </div>
           <div class="fam-row" data-help-en="When the Mexican Train may be started: by anybody at any time, or only after you have started your own train. Choosing deals again." data-help-ja="メキシカントレインを始められる時期です（いつでも誰でも、または自分の道を始めたあと）。選ぶと配り直します。">
             <span class="fam-label" id="mexican-label" data-say="pageMexican"></span>
             <div class="fam-seg" id="mexicans" role="group" aria-labelledby="mexican-label" data-testid="mexicans">
-              <button type="button" data-mexican="any" aria-pressed="true" data-say="pageAny"></button>
-              <button type="button" data-mexican="ownFirst" aria-pressed="false" data-say="pageOwnFirst"></button>
+              <button type="button" data-mexican="any" aria-pressed="true" data-say="mexicanAny"></button>
+              <button type="button" data-mexican="ownFirst" aria-pressed="false" data-say="mexicanOwnFirst"></button>
+            </div>
+          </div>
+          <div class="fam-row" data-help-en="Tile sounds: tiles laid, drawn and shuffled, and a knock for a pass. Off until you press it." data-help-ja="牌の音です（置く、引く、混ぜる、パスのノック）。押すまでは鳴りません。">
+            <div class="fam-seg" id="sounds" role="group" data-say-label="pageSound">
+              <button type="button" id="sound" data-testid="sound" aria-pressed="false" data-say="pageSound"></button>
             </div>
           </div>
           <button type="button" class="fam-button" data-primary="true" id="deal" data-testid="deal" data-say="pageDeal" data-tip-en="Shuffle and deal a new game with these choices" data-tip-ja="この設定で、新しく配り直します"></button>
@@ -60,6 +65,27 @@
       <section aria-labelledby="scores-title">
         <h2 id="scores-title" data-say="pageScores"></h2>
         <div class="fam-table-box"><table id="scores" data-testid="scores"></table></div>
+      </section>
+      <section class="more" aria-labelledby="using-title">
+        <h2 id="using-title" data-say="usingTitle"></h2>
+        <p data-say="usingText"></p>
+        <div class="fam-row" data-help-en="Copy the address of this exact deal: the set, the players, the rules and the seed. Whoever opens it is dealt the same hands." data-help-ja="この配りそのもののアドレス（セット、人数、ルール、シード）をコピーします。開いた人にも同じ手牌が配られます。">
+          <button type="button" class="fam-button" id="copy-link" data-testid="copy-link" data-say="usingCopyLink"></button>
+        </div>
+        <h3 data-say="usingCode"></h3>
+        <pre class="snippet" id="using-code" data-testid="using-code" tabindex="0"></pre>
+        <div class="fam-row" data-help-en="Copy the code above, to paste into your own project." data-help-ja="上のコードをコピーして、自分のプロジェクトに貼り付けられます。">
+          <button type="button" class="fam-button" id="copy-code" data-testid="copy-code" data-say="usingCopy"></button>
+        </div>
+        <h3 data-say="usingCli"></h3>
+        <p data-say="usingCliText"></p>
+        <pre class="snippet" id="cli-code" data-testid="cli-code" tabindex="0"></pre>
+        <h3 data-say="usingSaved"></h3>
+        <p data-say="usingSavedText"></p>
+        <pre class="snippet saved" id="saved-code" data-testid="saved-code" tabindex="0"></pre>
+        <div class="fam-row" data-help-en="Copy the game so far as text, to keep it or send it." data-help-ja="ここまでのゲームをテキストでコピーします。保存したり、送ったりできます。">
+          <button type="button" class="fam-button" id="copy-saved" data-testid="copy-saved" data-say="usingCopySaved"></button>
+        </div>
       </section>
       <section class="rules" aria-labelledby="rules-title">
         <h2 id="rules-title" data-say="pageRulesTitle"></h2>

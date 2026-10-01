@@ -1,12 +1,13 @@
 // The Domino demo: a game of Mexican Train against the computer, set up with a few presses. Every rule, the
-// legal plays and the computer's move are the package's own; this page draws the state it is given and passes
-// the person's choices on. Everything it says is in English or Japanese.
-import { computerMove, endsOf, handPips, laidEnds, legalPlays, mexicanOf, openEnd, playTrain, startTrain, tileWords, trainMoves, trainTotals } from "./dist/index.js";
+// legal plays, the computer's move and the words of the table (in English or Japanese) are the package's own;
+// this page draws the state it is given and passes the person's choices on.
+import { DOMINO_STRINGS, computerMove, dominoSay, encodeTrain, endsOf, handPips, laidEnds, legalPlays, mexicanOf, openEnd, playTrain, startTrain, tileWords, trainMoves, trainName, trainNews, trainSeatName, trainStatus, trainTotals } from "./dist/index.js";
+import { createTileSounds } from "./dist/tile-sounds.js";
 
 const $ = (id) => document.getElementById(id);
 
-// The page's own words. The Japanese has not yet been read by a native reader: the page says so in Japanese only.
-const WORDS = {
+// The page's own words, beside the table's (DOMINO_STRINGS). The Japanese has not yet been read by a native reader: the page says so in Japanese only.
+const PAGE = {
   en: {
     pitch: "Mexican Train for one against the computers: lay a train of dominoes out from the hub, and be first to empty your hand. Double-nine, double-twelve or double-fifteen, two to eight players.",
     name: "Domino is ドミノ, the word Japanese borrowed for dominoes.",
@@ -16,56 +17,28 @@ const WORDS = {
     pageApiIntro: "Every export of every entry point, with its signature and its doc comment. Made from the source when the site is built, so it cannot fall behind the code.",
     pageSetup: "Set up the table",
     pageSet: "Set",
-    pageSet9: "Double-nine",
-    pageSet12: "Double-twelve",
-    pageSet15: "Double-fifteen",
     pagePlayers: "Players",
     pageLength: "Rounds",
-    pageShort: "Short",
-    pageFull: "Every double",
     pageDoubles: "Doubles",
-    pageOne: "Cover one",
-    pageChain: "Chain",
     pageMexican: "Mexican Train",
-    pageAny: "Anyone, any time",
-    pageOwnFirst: "After your own",
     pageDeal: "Deal again",
+    pageSound: "Sound",
     pageYourHand: "Your hand",
     pageScores: "Scores",
     pageRulesTitle: "How it plays",
     pageRulesText: "Each round starts from a hub double. Lay a tile whose end matches the end of a train: your own, the Mexican Train, or another player's that is open. A double must be covered before anything else is played. If you cannot lay, draw once; if that tile will not go either, pass, and your train opens for everyone until you next lay on it. Whoever empties their hand first ends the round, and the fewest pips over the game wins.",
-    you: "You",
-    computer: "Computer {n}",
-    mexican: "Mexican Train",
-    open: "open",
-    closed: "closed",
-    tilesLeft: "{n} left",
-    boneyard: "Boneyard: {n}",
-    round: "Round {n} of {total}, hub double {engine}",
-    needs: "Next: {n}",
-    layHere: "Lay here",
-    draw: "Draw a tile",
-    pass: "Pass",
-    nextRound: "Next round",
-    again: "Play again",
-    yourTurn: "Your turn. Tap a tile to lay it.",
-    yourTurnCover: "Your turn. Cover the double.",
-    yourTurnDraw: "Nothing fits. Draw a tile.",
-    yourTurnPass: "Nothing fits. Pass.",
-    yourTurnChoose: "Choose a train for the tile.",
-    thinking: "{who} to play.",
-    roundOver: "Round over. {why}",
-    outBy: "{who} played out.",
-    blocked: "Nobody can play.",
-    gameOver: "Game over. {who} won with {pips} pips.",
-    laid: "{who} laid {tile} on {train}.",
-    drew: "{who} drew a tile.",
-    passed: "{who} passed.",
-    trainOf: "{who}'s train",
-    trainYours: "Your train",
-    round_col: "Hub",
-    total: "Total",
-    pips: "{n} pips",
+    usingTitle: "Using it",
+    usingText: "The table above is this package: every rule, every legal play and every computer move comes from it. This is all it takes to make the game you are looking at.",
+    usingCode: "In code",
+    usingCli: "From a terminal",
+    usingCliText: "The same deal from the command line, with nothing to install; the language follows your system, or --lang ja.",
+    usingSaved: "The game so far, as text",
+    usingSavedText: "Everything the package keeps of a game: its table, its seed and its moves. Read it back with decodeTrain, or domino check.",
+    usingCopy: "Copy the code",
+    usingCopyLink: "Copy link to this deal",
+    usingCopySaved: "Copy the game",
+    usingCopied: "Copied",
+    usingCopyFailed: "Copy it by hand",
     foot: "Open source under the MIT licence. Nothing here is stored or sent anywhere.",
   },
   ja: {
@@ -77,88 +50,97 @@ const WORDS = {
     pageApiIntro: "すべてのエントリポイントのすべてのエクスポートを、シグネチャとドキュメントコメントつきで載せています。サイトをビルドするときにソースから作るので、コードとずれません。",
     pageSetup: "テーブルの設定",
     pageSet: "セット",
-    pageSet9: "ダブルナイン",
-    pageSet12: "ダブルトゥエルブ",
-    pageSet15: "ダブルフィフティーン",
     pagePlayers: "人数",
     pageLength: "ラウンド",
-    pageShort: "短め",
-    pageFull: "すべてのダブル",
     pageDoubles: "ダブル",
-    pageOne: "1枚で覆う",
-    pageChain: "連続",
     pageMexican: "メキシカントレイン",
-    pageAny: "いつでも誰でも",
-    pageOwnFirst: "自分の道のあと",
     pageDeal: "配り直す",
+    pageSound: "音",
     pageYourHand: "あなたの手牌",
     pageScores: "得点",
     pageRulesTitle: "遊び方",
     pageRulesText: "各ラウンドは、ハブのダブルから始まります。道の端と同じ数の端を持つ牌を置きます。置ける道は、自分の道、メキシカントレイン、そして開いている他のプレイヤーの道です。ダブルを置いたら、ほかの何よりも先に覆わなければなりません。置けないときは1枚引き、それも置けなければパスします。パスすると、次に自分の道に置くまで、その道は全員に開きます。手牌を最初に出し切った人がラウンドを終え、ゲーム全体でピップ（点）がいちばん少ない人が勝ちです。",
-    you: "あなた",
-    computer: "コンピューター{n}",
-    mexican: "メキシカントレイン",
-    open: "開放",
-    closed: "閉鎖",
-    tilesLeft: "残り{n}枚",
-    boneyard: "山: {n}枚",
-    round: "第{n}ラウンド（全{total}）、ハブのダブル {engine}",
-    needs: "次: {n}",
-    layHere: "ここに置く",
-    draw: "1枚引く",
-    pass: "パス",
-    nextRound: "次のラウンド",
-    again: "もう一度",
-    yourTurn: "あなたの番です。牌をタップして置きます。",
-    yourTurnCover: "あなたの番です。ダブルを覆ってください。",
-    yourTurnDraw: "置ける牌がありません。1枚引いてください。",
-    yourTurnPass: "置ける牌がありません。パスしてください。",
-    yourTurnChoose: "牌を置く道を選んでください。",
-    thinking: "{who}の番です。",
-    roundOver: "ラウンド終了。{why}",
-    outBy: "{who}が出し切りました。",
-    blocked: "誰も置けません。",
-    gameOver: "ゲーム終了。{who}の勝ち（{pips}点）。",
-    laid: "{who}が{tile}を{train}に置きました。",
-    drew: "{who}が1枚引きました。",
-    passed: "{who}はパスしました。",
-    trainOf: "{who}の道",
-    trainYours: "あなたの道",
-    round_col: "ハブ",
-    total: "合計",
-    pips: "{n}点",
+    usingTitle: "使い方",
+    usingText: "上のテーブルは、このパッケージそのものです。ルール、置ける牌、コンピューターの手は、すべてパッケージが決めています。いま見ているゲームは、下のコードだけで作れます。",
+    usingCode: "コードで",
+    usingCli: "ターミナルで",
+    usingCliText: "同じ配りをコマンドラインで。インストールは不要です。言語はシステムに従います（--lang ja でも指定できます）。",
+    usingSaved: "ここまでのゲーム（テキスト）",
+    usingSavedText: "パッケージがゲームについて保存するすべて（卓、シード、手）です。decodeTrain または domino check で読み直せます。",
+    usingCopy: "コードをコピー",
+    usingCopyLink: "この配りのリンクをコピー",
+    usingCopySaved: "ゲームをコピー",
+    usingCopied: "コピーしました",
+    usingCopyFailed: "手でコピーしてください",
     foot: "MITライセンスのオープンソースです。ここでは何も保存せず、どこにも送りません。",
   },
 };
+const WORDS = { en: { ...DOMINO_STRINGS.en, ...PAGE.en }, ja: { ...DOMINO_STRINGS.ja, ...PAGE.ja } };
 
-const settings = { set: 12, count: 4, length: "short", doubles: "one", mexican: "any" };
+// The table's choices, read from the address if it names them (a link to a deal), else the usual table.
+const asked = new URLSearchParams(location.search);
+const choice = (name, allowed, usual) => (allowed.includes(asked.get(name)) ? asked.get(name) : usual);
+const settings = {
+  set: Number(choice("set", ["9", "12", "15"], "12")),
+  count: Number(choice("players", ["2", "3", "4", "6", "8"], "4")),
+  length: choice("length", ["short", "full"], "short"),
+  doubles: choice("doubles", ["one", "chain"], "one"),
+  mexican: choice("mexican", ["any", "own-first"], "any") === "own-first" ? "ownFirst" : "any",
+};
+let seed = /^\d{1,10}$/.test(asked.get("seed") ?? "") && Number(asked.get("seed")) <= 4294967295 ? Number(asked.get("seed")) : null;
 let game = null;
 let chosen = null;
 let timer = null;
-const asked = new URLSearchParams(location.search);
 
 const language = familyLanguage({
   id: "domino",
   words: WORDS,
   onChange: () => render(),
 });
-const t = (key, values = {}) => language.word(key).replace(/\{(\w+)\}/g, (whole, name) => (name in values ? String(values[name]) : whole));
+const t = (key, values = {}) => dominoSay(language.word(key), values);
 
-const names = () => [t("you"), ...Array.from({ length: settings.count - 1 }, (_, at) => t("computer", { n: at + 1 }))];
-const who = (seat) => (seat === 0 ? t("you") : t("computer", { n: seat }));
-const trainName = (train) => (train === mexicanOf(game) ? t("mexican") : train === 0 ? t("trainYours") : t("trainOf", { who: who(train) }));
+// Seats are named by the package, in the page's language, so a switch of language renames them at once.
+const who = (seat) => trainSeatName(game, seat, language.lang, 0);
 const delay = () => window.dominoDelay ?? 750;
+const drawSeed = () => Math.floor(Math.random() * 2147483647) + 1;
 
-function deal() {
-  const seed = /^\d{1,10}$/.test(asked.get("seed") ?? "") ? Number(asked.get("seed")) : Math.floor(Math.random() * 2147483647);
-  game = startTrain(settings.set, names(), seed, { length: settings.length, doubles: settings.doubles, mexican: settings.mexican }, names().map((_, seat) => seat !== 0));
+/** The address names this deal, so that copying it shares it. */
+function writeAddress() {
+  const query = new URLSearchParams(location.search);
+  query.set("set", String(game.set));
+  query.set("players", String(game.players.length));
+  query.set("length", game.options.length);
+  query.set("doubles", game.options.doubles);
+  query.set("mexican", game.options.mexican === "ownFirst" ? "own-first" : "any");
+  query.set("seed", String(game.seed));
+  history.replaceState(history.state, "", `${location.pathname}?${query}${location.hash}`);
+}
+
+/** A new deal at the table as chosen. Pressing Deal again takes a new seed; changing the table keeps the one in use. */
+function deal(fresh = false) {
+  if (fresh || seed === null) seed = drawSeed();
+  const count = settings.count;
+  game = startTrain(settings.set, Array.from({ length: count }, () => ""), seed, { length: settings.length, doubles: settings.doubles, mexican: settings.mexican }, Array.from({ length: count }, (_, at) => at !== 0));
   chosen = null;
+  writeAddress();
+  sounds.play("shuffle");
   render();
 }
+
+// The tile sounds, off until the person turns them on: nothing is fetched before then.
+const sounds = createTileSounds({ muted: true });
+const SOUND_OF = { play: "lay", draw: "draw", pass: "knock", next: "shuffle" };
+$("sound").addEventListener("click", () => {
+  const on = $("sound").getAttribute("aria-pressed") !== "true";
+  $("sound").setAttribute("aria-pressed", String(on));
+  sounds.setMuted(!on);
+  if (on) sounds.play("lay");
+});
 
 function play(move) {
   const next = playTrain(game, move);
   if (next === null) return;
+  sounds.play(SOUND_OF[move.kind]);
   game = next;
   chosen = null;
   render();
@@ -200,30 +182,10 @@ function render() {
 
   $("info").textContent = `${t("round", { n: game.round + 1, total: game.rounds, engine: game.engine })} · ${t("boneyard", { n: game.boneyard.length })}`;
 
-  // The status line: whose move it is, and what is wanted of a person.
-  let status;
-  if (game.phase === "finished") status = t("gameOver", { who: game.winners.map(who).join(" & "), pips: Math.min(...trainTotals(game)) });
-  else if (game.phase === "roundOver") {
-    const last = game.results[game.results.length - 1];
-    status = t("roundOver", { why: last.ending === "domino" ? t("outBy", { who: who(last.out) }) : t("blocked") });
-  } else if (!mine) status = t("thinking", { who: who(game.toPlay) });
-  else if (moves[0]?.kind === "draw") status = t("yourTurnDraw");
-  else if (moves[0]?.kind === "pass") status = t("yourTurnPass");
-  else if (chosen !== null) status = t("yourTurnChoose");
-  else if (game.uncovered.length > 0) status = t("yourTurnCover");
-  else status = t("yourTurn");
-  $("status").textContent = status;
-
+  // The status line: whose move it is, and what is wanted of a person. Choosing which train a tile goes on is the page's own step.
+  $("status").textContent = mine && chosen !== null && moves[0]?.kind === "play" ? t("yourTurnChoose") : trainStatus(game, language.lang, 0);
   // What just happened.
-  const last = game.last;
-  let news = "";
-  if (last !== null) {
-    if (last.move.kind === "play") {
-      news = t("laid", { who: who(last.seat), tile: tileWords(last.move.tile), train: trainName(last.move.train) });
-    } else if (last.move.kind === "draw") news = t("drew", { who: who(last.seat) });
-    else if (last.move.kind === "pass") news = t("passed", { who: who(last.seat) });
-  }
-  $("news").textContent = news;
+  $("news").textContent = trainNews(game, language.lang, 0);
 
   // The trains: every seat's own, then the Mexican Train.
   const canLayTo = new Set(chosen === null ? [] : legal.filter((one) => one.tile === chosen).map((one) => one.train));
@@ -236,7 +198,7 @@ function render() {
     const head = document.createElement("div");
     head.className = "train-head";
     const name = document.createElement("b");
-    name.textContent = trainName(index);
+    name.textContent = trainName(game, index, language.lang, 0);
     const meta = document.createElement("span");
     meta.textContent = index === mexican ? t("open") : `${t("tilesLeft", { n: game.hands[index].length })} · ${t(train.open ? "open" : "closed")}`;
     head.append(name, meta);
@@ -304,13 +266,14 @@ function render() {
     again.className = "fam-button";
     again.dataset.primary = "true";
     again.textContent = t("again");
-    again.addEventListener("click", deal);
+    again.addEventListener("click", () => deal(true));
     bar.push(again);
   } else if (mine && moves[0]?.kind === "draw") press(t("draw"), { kind: "draw" }, true);
   else if (mine && moves[0]?.kind === "pass") press(t("pass"), { kind: "pass" }, true);
   $("moves").replaceChildren(...bar);
 
   drawScores();
+  drawUsing();
 
   // A computer's move after a pause, so that a person can follow it.
   if (game.phase === "playing" && game.toPlay !== 0) {
@@ -321,11 +284,26 @@ function render() {
   }
 }
 
+/** The code that makes the game on the table, and its saved text: made from the game itself, so they are always the table's. */
+function drawUsing() {
+  const names = JSON.stringify(game.players);
+  const options = `{ length: "${game.options.length}", doubles: "${game.options.doubles}", mexican: "${game.options.mexican}" }`;
+  $("using-code").textContent = `import { computerMove, legalPlays, playTrain, startTrain } from "@johnmorrisdotca/domino";
+
+// ${game.players.length} at a double-${game.set} table; the seats the computers play are the ones marked true.
+let game = startTrain(${game.set}, ${names}, ${game.seed}, ${options}, [${game.computers.join(", ")}]);
+legalPlays(game);                           // every tile the first player may lay, and on which train
+game = playTrain(game, computerMove(game)); // a move: the next game, or null for one the rules refuse`;
+  const command = `npx @johnmorrisdotca/domino deal --seed ${game.seed} --players ${game.players.length} --set ${game.set}`;
+  $("cli-code").textContent = command;
+  $("saved-code").textContent = encodeTrain(game);
+}
+
 function drawScores() {
   const table = $("scores");
   const head = document.createElement("tr");
   const corner = document.createElement("th");
-  corner.textContent = t("round_col");
+  corner.textContent = t("hub");
   head.append(corner);
   for (let seat = 0; seat < game.players.length; seat += 1) {
     const th = document.createElement("th");
@@ -373,7 +351,28 @@ for (const [group, attribute, key] of [["sets", "set", "set"], ["players", "coun
     });
   }
 }
-$("deal").addEventListener("click", deal);
+$("deal").addEventListener("click", () => deal(true));
+// The buttons show the table the address named.
+for (const [group, attribute, key] of [["sets", "set", "set"], ["players", "count", "count"], ["lengths", "length", "length"], ["doubles", "doubles", "doubles"], ["mexicans", "mexican", "mexican"]]) press(group, attribute, settings[key]);
+
+/** Put text on the clipboard and say so on the button for a moment. */
+async function copy(button, text, label) {
+  let said = t("usingCopied");
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    said = t("usingCopyFailed");
+  }
+  button.textContent = said;
+  button.dataset.said = "true";
+  setTimeout(() => {
+    button.textContent = t(label);
+    delete button.dataset.said;
+  }, 1500);
+}
+$("copy-code").addEventListener("click", () => copy($("copy-code"), $("using-code").textContent, "usingCopy"));
+$("copy-link").addEventListener("click", () => copy($("copy-link"), location.href, "usingCopyLink"));
+$("copy-saved").addEventListener("click", () => copy($("copy-saved"), $("saved-code").textContent, "usingCopySaved"));
 
 deal();
 document.documentElement.dataset.ready = "true";

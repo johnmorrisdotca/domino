@@ -1,10 +1,10 @@
 # API reference
 
-Every export of every entry point of `@johnmorrisdotca/domino`, with its signature and its doc comment. This file is made from the source by `pnpm docs:api`, and a test fails when it falls behind: 1 entry point, 60 exports.
+Every export of every entry point of `@johnmorrisdotca/domino`, with its signature and its doc comment. This file is made from the source by `pnpm docs:api`, and a test fails when it falls behind: 3 entry points, 87 exports.
 
 ## `@johnmorrisdotca/domino`
 
-[`cleanTrainName`](#main-cleanTrainName) · [`computerMove`](#main-computerMove) · [`decodeTrain`](#main-decodeTrain) · [`Domino`](#main-Domino) · [`DoublesRule`](#main-DoublesRule) · [`encodeTrain`](#main-encodeTrain) · [`endsOf`](#main-endsOf) · [`everyTile`](#main-everyTile) · [`fits`](#main-fits) · [`handPips`](#main-handPips) · [`handSizeFor`](#main-handSizeFor) · [`isDouble`](#main-isDouble) · [`laidAgainst`](#main-laidAgainst) · [`LaidDomino`](#main-LaidDomino) · [`laidEnds`](#main-laidEnds) · [`legalPlays`](#main-legalPlays) · [`longestRun`](#main-longestRun) · [`mayLay`](#main-mayLay) · [`mexicanOf`](#main-mexicanOf) · [`MexicanStart`](#main-MexicanStart) · [`moveCount`](#main-moveCount) · [`movesOf`](#main-movesOf) · [`openEnd`](#main-openEnd) · [`peopleAt`](#main-peopleAt) · [`pipsOf`](#main-pipsOf) · [`playTrain`](#main-playTrain) · [`Random`](#main-Random) · [`replayTrain`](#main-replayTrain) · [`RoundEnding`](#main-RoundEnding) · [`RoundResult`](#main-RoundResult) · [`roundsFor`](#main-roundsFor) · [`seededRandom`](#main-seededRandom) · [`shuffled`](#main-shuffled) · [`startTrain`](#main-startTrain) · [`tileOf`](#main-tileOf) · [`tileOfLaid`](#main-tileOfLaid) · [`tileWords`](#main-tileWords) · [`Train`](#main-Train) · [`TRAIN_DEFAULT_OPTIONS`](#main-TRAIN_DEFAULT_OPTIONS) · [`TRAIN_DOUBLES`](#main-TRAIN_DOUBLES) · [`TRAIN_LENGTHS`](#main-TRAIN_LENGTHS) · [`TRAIN_MEXICAN`](#main-TRAIN_MEXICAN) · [`TRAIN_NAME_MOST`](#main-TRAIN_NAME_MOST) · [`TRAIN_PHASES`](#main-TRAIN_PHASES) · [`TRAIN_PIP_BASE`](#main-TRAIN_PIP_BASE) · [`TRAIN_SET_NAMES`](#main-TRAIN_SET_NAMES) · [`TRAIN_SETS`](#main-TRAIN_SETS) · [`trainAgain`](#main-trainAgain) · [`TrainGame`](#main-TrainGame) · [`TrainHistory`](#main-TrainHistory) · [`TrainLength`](#main-TrainLength) · [`TrainMove`](#main-TrainMove) · [`trainMoves`](#main-trainMoves) · [`TrainOptions`](#main-TrainOptions) · [`TrainPhase`](#main-TrainPhase) · [`trainPlayerName`](#main-trainPlayerName) · [`TrainSeat`](#main-TrainSeat) · [`trainSetName`](#main-trainSetName) · [`trainTotals`](#main-trainTotals) · [`VERSION`](#main-VERSION)
+[`cleanTrainName`](#main-cleanTrainName) · [`CLI_MOVES_MOST`](#main-CLI_MOVES_MOST) · [`cliLanguage`](#main-cliLanguage) · [`CliResult`](#main-CliResult) · [`CliSurroundings`](#main-CliSurroundings) · [`computerMove`](#main-computerMove) · [`decodeTrain`](#main-decodeTrain) · [`Domino`](#main-Domino) · [`DOMINO_STRINGS`](#main-DOMINO_STRINGS) · [`dominoLanguage`](#main-dominoLanguage) · [`dominoSay`](#main-dominoSay) · [`DominoStrings`](#main-DominoStrings) · [`DoublesRule`](#main-DoublesRule) · [`encodeTrain`](#main-encodeTrain) · [`endsOf`](#main-endsOf) · [`everyTile`](#main-everyTile) · [`fits`](#main-fits) · [`handPips`](#main-handPips) · [`handSizeFor`](#main-handSizeFor) · [`isDouble`](#main-isDouble) · [`laidAgainst`](#main-laidAgainst) · [`LaidDomino`](#main-LaidDomino) · [`laidEnds`](#main-laidEnds) · [`Language`](#main-Language) · [`legalPlays`](#main-legalPlays) · [`longestRun`](#main-longestRun) · [`mayLay`](#main-mayLay) · [`mexicanOf`](#main-mexicanOf) · [`MexicanStart`](#main-MexicanStart) · [`moveCount`](#main-moveCount) · [`movesOf`](#main-movesOf) · [`openEnd`](#main-openEnd) · [`peopleAt`](#main-peopleAt) · [`pipsOf`](#main-pipsOf) · [`playTrain`](#main-playTrain) · [`Random`](#main-Random) · [`replayTrain`](#main-replayTrain) · [`RoundEnding`](#main-RoundEnding) · [`RoundResult`](#main-RoundResult) · [`roundsFor`](#main-roundsFor) · [`runCli`](#main-runCli) · [`seededRandom`](#main-seededRandom) · [`shuffled`](#main-shuffled) · [`startTrain`](#main-startTrain) · [`tileOf`](#main-tileOf) · [`tileOfLaid`](#main-tileOfLaid) · [`tileWords`](#main-tileWords) · [`Train`](#main-Train) · [`TRAIN_DEFAULT_OPTIONS`](#main-TRAIN_DEFAULT_OPTIONS) · [`TRAIN_DOUBLES`](#main-TRAIN_DOUBLES) · [`TRAIN_LENGTHS`](#main-TRAIN_LENGTHS) · [`TRAIN_MEXICAN`](#main-TRAIN_MEXICAN) · [`TRAIN_NAME_MOST`](#main-TRAIN_NAME_MOST) · [`TRAIN_PHASES`](#main-TRAIN_PHASES) · [`TRAIN_PIP_BASE`](#main-TRAIN_PIP_BASE) · [`TRAIN_SET_NAMES`](#main-TRAIN_SET_NAMES) · [`TRAIN_SETS`](#main-TRAIN_SETS) · [`trainAgain`](#main-trainAgain) · [`TrainGame`](#main-TrainGame) · [`TrainHistory`](#main-TrainHistory) · [`TrainLength`](#main-TrainLength) · [`TrainMove`](#main-TrainMove) · [`trainMoves`](#main-trainMoves) · [`trainName`](#main-trainName) · [`trainNews`](#main-trainNews) · [`TrainOptions`](#main-TrainOptions) · [`TrainPhase`](#main-TrainPhase) · [`trainPlayerName`](#main-trainPlayerName) · [`TrainSeat`](#main-TrainSeat) · [`trainSeatName`](#main-trainSeatName) · [`trainSetLabel`](#main-trainSetLabel) · [`trainSetName`](#main-trainSetName) · [`trainStatus`](#main-trainStatus) · [`trainTotals`](#main-trainTotals) · [`VERSION`](#main-VERSION)
 
 <a id="main-cleanTrainName"></a>
 
@@ -15,6 +15,46 @@ cleanTrainName(name: string): string
 ```
 
 A seat's name as given, its spaces tidied and cut to `TRAIN_NAME_MOST` characters.
+
+<a id="main-CLI_MOVES_MOST"></a>
+
+### const `CLI_MOVES_MOST`
+
+```ts
+CLI_MOVES_MOST: 100000
+```
+
+The most moves a played game may take before the command line gives up, far above any game the rules allow.
+
+<a id="main-cliLanguage"></a>
+
+### function `cliLanguage`
+
+```ts
+cliLanguage(flag: string | undefined, env?: Record<string, string | undefined>, locale?: string): Language
+```
+
+The language the command line speaks: `--lang`, or the environment's, or the system's; Japanese for `ja…`, English for anything else.
+
+<a id="main-CliResult"></a>
+
+### type `CliResult`
+
+```ts
+type CliResult = { /** 0 when all went well, 1 when what was asked for could not be done, 2 when the command itself was wrong. */ code: 0 | 1 | 2; /** For standard output. */ out: string; /** For standard error. */ err: string; };
+```
+
+What the command line came to.
+
+<a id="main-CliSurroundings"></a>
+
+### type `CliSurroundings`
+
+```ts
+type CliSurroundings = { /** The environment, for the language: `LC_ALL`, `LC_MESSAGES` and `LANG`. */ env?: Record<string, string | undefined>; /** Standard input, when `--stdin` asks for it: the saved game. */ stdin?: string; /** The system's language where the environment names none: what `Intl` says, on Windows. */ locale?: string; /** Where a seed comes from when none is given: a function like `Math.random`, wh…
+```
+
+What the command line is run in. All of it is optional.
 
 <a id="main-computerMove"></a>
 
@@ -45,6 +85,46 @@ type Domino = number;
 ```
 
 A domino in a hand or the boneyard: `low * 16 + high`.
+
+<a id="main-DOMINO_STRINGS"></a>
+
+### const `DOMINO_STRINGS`
+
+```ts
+DOMINO_STRINGS: Record<Language, DominoStrings>
+```
+
+Every string, in both languages. The Japanese has not yet been read by a native reader.
+
+<a id="main-dominoLanguage"></a>
+
+### function `dominoLanguage`
+
+```ts
+dominoLanguage(tag: string | undefined): Language
+```
+
+The language a person asked for, by `en` or `ja` or a tag that begins with one: English for anything else.
+
+<a id="main-dominoSay"></a>
+
+### function `dominoSay`
+
+```ts
+dominoSay(text: string, values?: Readonly<Record<string, string | number>>): string
+```
+
+A string with its braces filled in from `values`; a brace with no value is left as it is.
+
+<a id="main-DominoStrings"></a>
+
+### type `DominoStrings`
+
+```ts
+type DominoStrings = { /** The set's names, by its highest double. */ set9: string; set12: string; set15: string; /** The house rules' names, each with the way it is chosen. */ lengthFull: string; lengthShort: string; doublesOne: string; doublesChain: string; mexicanAny: string; mexicanOwnFirst: string; /** A seat's default name. */ you: string; computer: string; player: string; /** The trains. */ mexican: string; t…
+```
+
+The names of the strings. Each is one line or one block of text.
 
 <a id="main-DoublesRule"></a>
 
@@ -163,6 +243,16 @@ laidEnds(laid: LaidDomino): [number, number]
 ```
 
 A laid tile's two ends in the order it lies: the one touching the train, then the open one.
+
+<a id="main-Language"></a>
+
+### type `Language`
+
+```ts
+type Language = "en" | "ja";
+```
+
+The languages Domino speaks.
 
 <a id="main-legalPlays"></a>
 
@@ -337,6 +427,16 @@ roundsFor(set: number, length: TrainLength): number
 ```
 
 How many rounds a game of this length plays with this set: one per double, top to blank, or the first half of them.
+
+<a id="main-runCli"></a>
+
+### function `runCli`
+
+```ts
+runCli(args: readonly string[], around?: CliSurroundings): CliResult
+```
+
+Run the command line. See `domino --help` for what it takes. One seed serves the whole run, so the same command prints the same lines on every machine.
 
 <a id="main-seededRandom"></a>
 
@@ -595,6 +695,26 @@ trainMoves(game: TrainGame): TrainMove[]
 
 Every move the player to move may make now; none once the game is over.
 
+<a id="main-trainName"></a>
+
+### function `trainName`
+
+```ts
+trainName(game: Pick<TrainGame, "players" | "computers">, train: number, language: Language, you?: TrainSeat): string
+```
+
+A train's name: "Your train", "Computer 2's train", or the Mexican Train.
+
+<a id="main-trainNews"></a>
+
+### function `trainNews`
+
+```ts
+trainNews(game: TrainGame, language: Language, you?: TrainSeat): string
+```
+
+What the last move did, in a line, or "" before there is one: "Computer 2 laid 9–4 on Your train."
+
 <a id="main-TrainOptions"></a>
 
 ### type `TrainOptions`
@@ -633,6 +753,26 @@ type TrainSeat = number;
 
 Who sits where: 0 is the first player, round the table in the order the set-up named them.
 
+<a id="main-trainSeatName"></a>
+
+### function `trainSeatName`
+
+```ts
+trainSeatName(game: Pick<TrainGame, "players" | "computers">, seat: TrainSeat, language: Language, you?: TrainSeat): string
+```
+
+A seat's name: the one given at the table, or "You" for the person at this device, or "Computer 3" or "Player 3" for the seat's number.
+
+<a id="main-trainSetLabel"></a>
+
+### function `trainSetLabel`
+
+```ts
+trainSetLabel(set: number, language: Language): string | null
+```
+
+The set's name by its highest double ("Double-twelve"), or null for a number that is no set offered.
+
 <a id="main-trainSetName"></a>
 
 ### function `trainSetName`
@@ -642,6 +782,18 @@ trainSetName(set: number): string | null
 ```
 
 The set's name, or null for a number that is no set offered.
+
+<a id="main-trainStatus"></a>
+
+### function `trainStatus`
+
+```ts
+trainStatus(game: TrainGame, language: Language, you?: TrainSeat): string
+```
+
+What is going on, in a line: who is to play, or what the person at `you` is
+asked to do (lay, cover a double, draw, pass), or how the round or the game
+ended.
 
 <a id="main-trainTotals"></a>
 
@@ -658,7 +810,139 @@ Each seat's total over every round played: the lowest wins.
 ### const `VERSION`
 
 ```ts
-VERSION: "1.0.0"
+VERSION: "1.1.0"
 ```
 
 The package's version.
+
+## `@johnmorrisdotca/domino/tile-sounds`
+
+[`createTileSounds`](#tile-sounds-createTileSounds) · [`MOST_SOUNDS_AT_ONCE`](#tile-sounds-MOST_SOUNDS_AT_ONCE) · [`PlayTileSoundOptions`](#tile-sounds-PlayTileSoundOptions) · [`soundTimes`](#tile-sounds-soundTimes) · [`TILE_SOUND_KINDS`](#tile-sounds-TILE_SOUND_KINDS) · [`TileSoundData`](#tile-sounds-TileSoundData) · [`TileSoundKind`](#tile-sounds-TileSoundKind) · [`TileSounds`](#tile-sounds-TileSounds) · [`TileSoundsOptions`](#tile-sounds-TileSoundsOptions) · [`TileSoundWindow`](#tile-sounds-TileSoundWindow)
+
+<a id="tile-sounds-createTileSounds"></a>
+
+### function `createTileSounds`
+
+```ts
+createTileSounds(options?: TileSoundsOptions): TileSounds
+```
+
+A table's tile sounds. Nothing is fetched and no audio context is made until the first sound.
+
+<a id="tile-sounds-MOST_SOUNDS_AT_ONCE"></a>
+
+### const `MOST_SOUNDS_AT_ONCE`
+
+```ts
+MOST_SOUNDS_AT_ONCE: 8
+```
+
+As many sounds as one call plays: fifteen tiles drawn are eight clicks, not a wall of noise.
+
+<a id="tile-sounds-PlayTileSoundOptions"></a>
+
+### type `PlayTileSoundOptions`
+
+```ts
+type PlayTileSoundOptions = { /** How many tiles: `draw` with 7 is seven tiles taken one after another (heard as at most `MOST_SOUNDS_AT_ONCE`). Unless said, one. */ count?: number; /** Milliseconds between one tile's sound and the next. Unless said, 85. */ gap?: number; /** Milliseconds to wait before the first. Unless said, none. */ delay?: number; };
+```
+
+How one sound is played.
+
+<a id="tile-sounds-soundTimes"></a>
+
+### function `soundTimes`
+
+```ts
+soundTimes(count: number, gap?: number): number[]
+```
+
+When each of `count` sounds starts, in milliseconds from the first: one every `gap`, and no more than `MOST_SOUNDS_AT_ONCE`, spread over the same time.
+
+<a id="tile-sounds-TILE_SOUND_KINDS"></a>
+
+### const `TILE_SOUND_KINDS`
+
+```ts
+TILE_SOUND_KINDS: readonly ["shuffle", "draw", "lay", "knock"]
+```
+
+Every kind of sound, in the order a game meets them.
+
+<a id="tile-sounds-TileSoundData"></a>
+
+### type `TileSoundData`
+
+```ts
+type TileSoundData = Readonly<Record<string, string>>;
+```
+
+The recordings, by name (`lay-2`), as base64 AAC.
+
+<a id="tile-sounds-TileSoundKind"></a>
+
+### type `TileSoundKind`
+
+```ts
+type TileSoundKind = (typeof TILE_SOUND_KINDS)[number];
+```
+
+One kind of sound: `shuffle` the tiles stirred face down, `draw` a tile taken from the boneyard, `lay` a tile set down on a train, `knock` a rap on the table, which is how a pass is announced.
+
+<a id="tile-sounds-TileSounds"></a>
+
+### type `TileSounds`
+
+```ts
+type TileSounds = { /** Play a sound, or several of one kind in a row; nothing while muted or closed. */ play(kind: TileSoundKind, options?: PlayTileSoundOptions): void; /** Fetch and decode the recordings now, rather than at the first sound. True once they are ready; false where they cannot be had. */ load(): Promise<boolean>; /** Whether it is muted. */ readonly muted: boolean; /** Mute or unmute. Muting stops not…
+```
+
+A table's sounds: `play` one, mute and unmute, change the volume, `close` when the table goes.
+
+<a id="tile-sounds-TileSoundsOptions"></a>
+
+### type `TileSoundsOptions`
+
+```ts
+type TileSoundsOptions = { /** Start muted: nothing plays, and nothing is fetched, until `setMuted(false)`. Unless said, not muted. */ muted?: boolean; /** How loud, from 0 to 1. Unless said, 0.6. */ volume?: number; /** Where the recordings come from: the package's own module unless another is handed in. */ load?: () => Promise<{ TILE_SOUND_DATA: TileSoundData }>; /** The window to make sound in: the page's own unl…
+```
+
+How a table's sounds are made. Every field may be left out.
+
+<a id="tile-sounds-TileSoundWindow"></a>
+
+### type `TileSoundWindow`
+
+```ts
+type TileSoundWindow = { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext; atob?: (text: string) => string; };
+```
+
+The parts of a window the sounds use: an audio context and `atob`. Any of them may be missing.
+
+## `@johnmorrisdotca/domino/sounds`
+
+[`TILE_SOUND_DATA`](#sounds-TILE_SOUND_DATA) · [`TileSoundFile`](#sounds-TileSoundFile)
+
+<a id="sounds-TILE_SOUND_DATA"></a>
+
+### const `TILE_SOUND_DATA`
+
+```ts
+TILE_SOUND_DATA: Readonly<Record<TileSoundFile, string>>
+```
+
+The tile sounds, recorded: tiles shuffled, drawn, laid and knocked on the
+table, as base64 AAC (.m4a). From Kenney's Casino Audio
+pack, CC0; see docs/credits.md. Written by scripts/sounds.mjs from the files
+in ./sounds, never by hand. `createTileSounds` loads this module only when
+a sound is first played, so a page that stays silent never downloads it.
+
+<a id="sounds-TileSoundFile"></a>
+
+### type `TileSoundFile`
+
+```ts
+type TileSoundFile = "draw-1" | "draw-2" | "knock-1" | "knock-2" | "lay-1" | "lay-2" | "lay-3" | "shuffle-1" | "shuffle-2";
+```
+
+The name of one recording: its kind of sound and a number, such as `lay-2`.

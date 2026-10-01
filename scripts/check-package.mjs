@@ -98,12 +98,20 @@ for (const name of Object.keys(pkg.bin ?? {})) {
     console.error(`FAIL ${name} --version said ${version}`);
     process.exit(1);
   }
-  const shuffled = run(command, ["--seed", "42", "--shuffle", "a", "b", "c"], project, true).replace(/\r\n/g, "\n");
-  if (shuffled !== "c\na\nb\n") {
-    console.error(`FAIL ${name} shuffled ${JSON.stringify(shuffled)}`);
+  const dealt = run(command, ["deal", "--seed", "2026", "--players", "3", "--set", "9"], project, true).replace(/\r\n/g, "\n");
+  if (!dealt.startsWith("Double-nine, 3 players, seed 2026\nRound 1 of 10, hub double 9\nComputer 1: 3-0 4-2 4-3")) {
+    console.error(`FAIL ${name} dealt ${JSON.stringify(dealt)}`);
     process.exit(1);
   }
-  console.log(`ok   ${name} --version and a seeded shuffle, as installed`);
+  const game = run(command, ["play", "--seed", "2026", "--players", "3", "--set", "9", "--length", "short", "--save"], project, true).replace(/\r\n/g, "\n");
+  const kept = game.trim().split("\n").at(-1);
+  // The saved game is JSON, which a Windows shell would mangle: node runs the installed script itself.
+  const checked = run(process.execPath, [join(project, "node_modules", ...pkg.name.split("/"), pkg.bin[name]), "check", kept], project);
+  if (!/moves made: 277/.test(game) || !/moves made: 277/.test(checked) || !/The game is over\./.test(checked)) {
+    console.error(`FAIL ${name} played ${JSON.stringify(game.slice(0, 200))} and read it back as ${JSON.stringify(checked.slice(0, 200))}`);
+    process.exit(1);
+  }
+  console.log(`ok   ${name} --version, a seeded deal and a game played and read back, as installed`);
 }
 
 rmSync(scratch, { recursive: true, force: true });

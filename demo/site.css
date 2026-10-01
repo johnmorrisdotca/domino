@@ -56,3 +56,13 @@ td[data-out="true"] { font-weight: 800; }
 .api-entry p { margin: 0; line-height: 1.5; max-width: 72ch; overflow-wrap: anywhere; }
 .api-entry p.api-names { max-width: none; }
 .api-entry pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* Using it: the code that makes the table above. */
+.more { display: grid; gap: 10px; margin-top: 24px; min-width: 0; }
+.more > * { min-width: 0; max-width: 100%; }
+.more h2, .more h3 { margin: 0; }
+.more h3 { font-size: .95rem; }
+.more p { margin: 0; max-width: 72ch; line-height: 1.55; color: var(--muted); }
+.snippet { white-space: pre; }
+.snippet.saved { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 9rem; overflow-y: auto; }
+.more .fam-row { gap: 8px 14px; }

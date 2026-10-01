@@ -12,6 +12,11 @@ Double-nine, double-twelve and double-fifteen sets; the full rules of Mexican Tr
 
 <p align="center"><a href="https://johnmorrisdotca.github.io/domino/"><strong>Play Mexican Train →</strong></a> · <a href="https://johnmorrisdotca.github.io/domino/api.html">API reference</a></p>
 
+<p align="center">
+  <img src="docs/desktop.jpg" alt="A game of Mexican Train for three in the demo, under its header with the language chooser and five cloth patches: the set, players and rules to choose, a train for every seat and the Mexican Train, and your hand with the tiles you may lay lifted" width="620">
+  <img src="docs/phone.jpg" alt="The same game on a phone in dark mode, in Japanese: every train down the table and your hand of ten, four tiles lifted" width="200">
+</p>
+
 ## In 30 seconds
 
 ```sh

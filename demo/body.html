@@ -1,6 +1,6 @@
       <section class="setup" aria-labelledby="setup-title">
         <h2 id="setup-title" class="fam-sr" data-say="pageSetup"></h2>
-        <div class="fam-row">
+        <div class="fam-row" data-help-en="Which set of tiles to play with. A bigger set has more tiles and makes a longer game. Choosing deals again." data-help-ja="使うドミノのセットです。大きいセットほど牌が多く、ゲームも長くなります。選ぶと配り直します。">
           <span class="fam-label" id="set-label" data-say="pageSet"></span>
           <div class="fam-seg" id="sets" role="group" aria-labelledby="set-label" data-testid="sets">
             <button type="button" data-set="9" aria-pressed="false" data-say="pageSet9"></button>
@@ -9,32 +9,40 @@
           </div>
         </div>
         <div class="fam-row">
-          <span class="fam-label" id="players-label" data-say="pagePlayers"></span>
-          <div class="fam-seg" id="players" role="group" aria-labelledby="players-label" data-testid="players">
-            <button type="button" data-count="2" aria-pressed="false">2</button>
-            <button type="button" data-count="3" aria-pressed="false">3</button>
-            <button type="button" data-count="4" aria-pressed="true">4</button>
-            <button type="button" data-count="6" aria-pressed="false">6</button>
-            <button type="button" data-count="8" aria-pressed="false">8</button>
+          <div class="fam-row" data-help-en="How many sit at the table: you and the computers. Choosing deals again." data-help-ja="卓につく人数です（あなたとコンピューター）。選ぶと配り直します。">
+            <span class="fam-label" id="players-label" data-say="pagePlayers"></span>
+            <div class="fam-seg" id="players" role="group" aria-labelledby="players-label" data-testid="players">
+              <button type="button" data-count="2" aria-pressed="false">2</button>
+              <button type="button" data-count="3" aria-pressed="false">3</button>
+              <button type="button" data-count="4" aria-pressed="true">4</button>
+              <button type="button" data-count="6" aria-pressed="false">6</button>
+              <button type="button" data-count="8" aria-pressed="false">8</button>
+            </div>
           </div>
-          <span class="fam-label" id="length-label" data-say="pageLength"></span>
-          <div class="fam-seg" id="lengths" role="group" aria-labelledby="length-label" data-testid="lengths">
-            <button type="button" data-length="short" aria-pressed="true" data-say="pageShort"></button>
-            <button type="button" data-length="full" aria-pressed="false" data-say="pageFull"></button>
+          <div class="fam-row" data-help-en="How long the game is: a short one, or a round starting from every double in the set. Choosing deals again." data-help-ja="ゲームの長さです（短め、またはセットのすべてのダブルから始める全ラウンド）。選ぶと配り直します。">
+            <span class="fam-label" id="length-label" data-say="pageLength"></span>
+            <div class="fam-seg" id="lengths" role="group" aria-labelledby="length-label" data-testid="lengths">
+              <button type="button" data-length="short" aria-pressed="true" data-say="pageShort"></button>
+              <button type="button" data-length="full" aria-pressed="false" data-say="pageFull"></button>
+            </div>
           </div>
         </div>
         <div class="fam-row">
-          <span class="fam-label" id="doubles-label" data-say="pageDoubles"></span>
-          <div class="fam-seg" id="doubles" role="group" aria-labelledby="doubles-label" data-testid="doubles">
-            <button type="button" data-doubles="one" aria-pressed="true" data-say="pageOne"></button>
-            <button type="button" data-doubles="chain" aria-pressed="false" data-say="pageChain"></button>
+          <div class="fam-row" data-help-en="How a double is dealt with. Cover one: a double is covered before anything else is played. Chain: after a double you may lay another double first. Choosing deals again." data-help-ja="ダブルの扱いです。「1枚で覆う」は、ほかを出す前にダブルを覆います。「連続」は、ダブルのあとにもうひとつダブルを出してから覆えます。選ぶと配り直します。">
+            <span class="fam-label" id="doubles-label" data-say="pageDoubles"></span>
+            <div class="fam-seg" id="doubles" role="group" aria-labelledby="doubles-label" data-testid="doubles">
+              <button type="button" data-doubles="one" aria-pressed="true" data-say="pageOne"></button>
+              <button type="button" data-doubles="chain" aria-pressed="false" data-say="pageChain"></button>
+            </div>
           </div>
-          <span class="fam-label" id="mexican-label" data-say="pageMexican"></span>
-          <div class="fam-seg" id="mexicans" role="group" aria-labelledby="mexican-label" data-testid="mexicans">
-            <button type="button" data-mexican="any" aria-pressed="true" data-say="pageAny"></button>
-            <button type="button" data-mexican="ownFirst" aria-pressed="false" data-say="pageOwnFirst"></button>
+          <div class="fam-row" data-help-en="When the Mexican Train may be started: by anybody at any time, or only after you have started your own train. Choosing deals again." data-help-ja="メキシカントレインを始められる時期です（いつでも誰でも、または自分の道を始めたあと）。選ぶと配り直します。">
+            <span class="fam-label" id="mexican-label" data-say="pageMexican"></span>
+            <div class="fam-seg" id="mexicans" role="group" aria-labelledby="mexican-label" data-testid="mexicans">
+              <button type="button" data-mexican="any" aria-pressed="true" data-say="pageAny"></button>
+              <button type="button" data-mexican="ownFirst" aria-pressed="false" data-say="pageOwnFirst"></button>
+            </div>
           </div>
-          <button type="button" class="fam-button" data-primary="true" id="deal" data-testid="deal" data-say="pageDeal"></button>
+          <button type="button" class="fam-button" data-primary="true" id="deal" data-testid="deal" data-say="pageDeal" data-tip-en="Shuffle and deal a new game with these choices" data-tip-ja="この設定で、新しく配り直します"></button>
         </div>
       </section>
 

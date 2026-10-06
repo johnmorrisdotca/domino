@@ -1,7 +1,7 @@
 {
   "name": "@johnmorrisdotca/domino",
-  "version": "1.1.0",
-  "description": "Dominoes for JavaScript and TypeScript: double-nine, double-twelve and double-fifteen sets, and the full rules of Mexican Train for two to eight players, with a computer player, seeded deals that replay exactly, a compact saved-game format, the words of the table in English and Japanese, tile sounds and a command line. Zero dependencies.",
+  "version": "1.1.1",
+  "description": "Dominoes for JavaScript and TypeScript: double-nine to double-fifteen sets and the full rules of Mexican Train for two to eight, with a computer player, seeded deals, English and Japanese words, and a command line. Zero dependencies.",
   "keywords": [
     "dominoes",
     "domino",
@@ -51,7 +51,7 @@
     "boneyard",
     "pips"
   ],
-  "homepage": "https://github.com/johnmorrisdotca/domino#readme",
+  "homepage": "https://johnmorrisdotca.github.io/domino/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johnmorrisdotca/domino.git"

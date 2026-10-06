@@ -2,7 +2,7 @@
  * THE SOUNDS OF A DOMINO TABLE: tiles shuffled, a tile drawn from the
  * boneyard, a tile laid, a knock on the table for a pass. The recordings are
  * poker chips set down and handled (Kenney's Casino Audio, CC0; see
- * docs/credits.md), the nearest recorded sound of a hard tile on a table that
+ * CREDITS.md), the nearest recorded sound of a hard tile on a table that
  * is free to use. They are loaded the first time a sound is played and never
  * before, so a page that stays silent never fetches them. Where they cannot be
  * loaded or decoded, a short sound made in the browser stands in. Nothing here

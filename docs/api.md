@@ -810,7 +810,7 @@ Each seat's total over every round played: the lowest wins.
 ### const `VERSION`
 
 ```ts
-VERSION: "1.1.1"
+VERSION: "1.1.2"
 ```
 
 The package's version.
@@ -933,7 +933,7 @@ TILE_SOUND_DATA: Readonly<Record<TileSoundFile, string>>
 
 The tile sounds, recorded: tiles shuffled, drawn, laid and knocked on the
 table, as base64 AAC (.m4a). From Kenney's Casino Audio
-pack, CC0; see docs/credits.md. Written by scripts/sounds.mjs from the files
+pack, CC0; see CREDITS.md. Written by scripts/sounds.mjs from the files
 in ./sounds, never by hand. `createTileSounds` loads this module only when
 a sound is first played, so a page that stays silent never downloads it.
 

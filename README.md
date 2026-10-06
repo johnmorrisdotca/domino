@@ -8,14 +8,31 @@ Double-nine, double-twelve and double-fifteen sets; the full rules of Mexican Tr
   <a href="https://www.npmjs.com/package/@johnmorrisdotca/domino"><img alt="npm" src="https://img.shields.io/npm/v/@johnmorrisdotca/domino?color=2f5d4a"></a>
   <a href="./LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-2f5d4a"></a>
   <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-0-2f5d4a">
+  <img alt="TypeScript" src="https://img.shields.io/badge/types-TypeScript-3178c6">
 </p>
 
 <p align="center"><a href="https://johnmorrisdotca.github.io/domino/"><strong>Play Mexican Train →</strong></a> · <a href="https://johnmorrisdotca.github.io/domino/api.html">API reference</a></p>
 
-<p align="center">
-  <img src="docs/desktop.jpg" alt="A game of Mexican Train for three in the demo, under its header with the language chooser, five cloth patches and the Help switch: the set, players and rules to choose, a train for every seat and the Mexican Train, and your hand with the tiles you may lay lifted" width="620">
-  <img src="docs/phone.jpg" alt="The same game on a phone in dark mode, in Japanese: every train down the table and your hand of ten, four tiles lifted" width="200">
-</p>
+<table align="center">
+<tr>
+<td align="center" valign="top">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/hero-desk-dark.webp">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/hero-desk-light.webp" alt="The demo on a desk, in English, a few turns into a game of Mexican Train for three: the page header with the language chooser, five cloth patches and the Help switch, the choices of set, players, rounds, doubles rule and Mexican Train rule, then the green table with a train for each seat and the Mexican Train, the status line Your turn, Cover the double, and your hand of tiles with the ones that may be laid lifted" width="600">
+</picture>
+<br><em>The demo on a desk: a double-nine table for three, a few turns in.</em>
+</td>
+<td align="center" valign="top">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/hero-phone-dark.webp">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/hero-phone-light.webp" alt="The demo on a phone, in Japanese: every train down the green table, the status line saying it is your turn to cover the double, and your hand of ten tiles with four lifted and gold-edged" width="190">
+</picture>
+<br><em>On a phone, in Japanese, in the device's light or dark.</em>
+</td>
+</tr>
+</table>
+
+Domino is the rules of dominoes as plain functions over plain data: the set, the tiles and what fits, a table of two to eight laying trains out from a hub double, a computer to fill any empty seat, and a game that is only its seed and its moves, so it replays exactly on any machine and is kept as a line of text. It has no screen of its own, because every site draws its own table; it gives the rules, the words and the sounds. [The demo](https://johnmorrisdotca.github.io/domino/) is a table built on it with nothing to install.
 
 ## In 30 seconds
 
@@ -49,6 +66,75 @@ npx @johnmorrisdotca/domino play --seed 2026 --players 3 --set 9 --length short
 - **People who want to look at a game**: the command line deals a seed, plays
   one out and reads a kept game back, in English or Japanese.
 
+## Features
+
+- **The full rules of Mexican Train**, for two to eight players on a
+  double-nine, double-twelve or double-fifteen set, with the house rules as
+  options.
+- **A computer player** that plans its longest run, plays doubles well and
+  answers in a few milliseconds.
+- **Seeded deals that replay exactly.** The same seed and table deal the same
+  hands on every machine, and a game is only its table, its seed and its moves.
+- **Saved games as text**, read back through the rules, so a changed save is
+  refused.
+- **The words of a table** in English and Japanese: whose turn it is, what was
+  laid, how a round ended. See [Languages](#languages).
+- **Tile sounds**, optional: tiles laid, drawn and shuffled, and a knock for a
+  pass. See [Sounds](#sounds).
+- **A command line**: deal a seed, play a game out, read a kept game back. See
+  [The command line](#the-command-line).
+- **No dependencies, and no drawing.** Plain functions over plain data.
+
+
+### What's in it
+
+Each picture is the real demo, a table drawn from the package's functions and taken from [the demo](https://johnmorrisdotca.github.io/domino/) with `pnpm screenshots:readme`, in light and dark.
+
+<table>
+<tr>
+<td align="center" valign="top" width="50%">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/table-desk-dark.webp">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/table-desk-light.webp" alt="A double-twelve table for four on a desk, in the middle of the first round: a row for Your train and each computer's train and the Mexican Train, each with its tiles laid in a line from the hub double 12-12 and the number it needs next, the line Computer 4 laid 10-9 on Computer 4's train, and your hand of fifteen tiles with two lifted" width="400">
+</picture>
+<br><em><strong>The table.</strong> A train for every seat, the Mexican Train that anybody may add to, and the tiles in your hand that may be laid, lifted.</em>
+</td>
+<td align="center" valign="top" width="50%">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/big-table-desk-dark.webp">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/big-table-desk-light.webp" alt="A double-fifteen table for eight at the start of the first round: nine rows, one for each of the eight seats and the Mexican Train, each holding only the hub double 15-15, and your hand of fifteen tiles in a row with the two that may be laid lifted" width="400">
+</picture>
+<br><em><strong>The largest table.</strong> A double-fifteen set (136 tiles) for eight players, a hand of fifteen each.</em>
+</td>
+</tr>
+<tr>
+<td align="center" valign="top" width="50%">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/set-up-desk-dark.webp">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/set-up-desk-light.webp" alt="The demo's choices on a desk: the set (double-nine, double-twelve with double-twelve chosen, double-fifteen), the number of players (2, 3, 4 chosen, 6, 8), the rounds (Short chosen, Every double), the doubles rule (Cover one chosen, Chain), when the Mexican Train may start (Anyone, any time chosen, After your own), the Sound switch and the Deal again button" width="400">
+</picture>
+<br><em><strong>The options.</strong> The three sets, two to eight players, and the three house rules, all set when the game starts.</em>
+</td>
+<td align="center" valign="top" width="50%">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/using-it-desk-dark.webp">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/using-it-desk-light.webp" alt="The demo's Using it panel on a desk: the code that makes the game on the table (startTrain, legalPlays, playTrain with computerMove), the same deal on the command line as an npx line, and the game so far as the text encodeTrain writes, each with a copy button" width="400">
+</picture>
+<br><em><strong>The code behind the table.</strong> The panel shows the lines that make the game on the screen, the same deal on the command line, and the game kept as text.</em>
+</td>
+</tr>
+<tr>
+<td align="center" valign="top" width="50%">
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/japanese-phone-dark.webp">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/japanese-phone-light.webp" alt="The table on a phone in Japanese at the first turn of a double-nine game for three: the status line あなたの番です。牌をタップして置きます。, the round and hub, four trains each holding only the 9-9 double, and a hand of ten tiles with two lifted" width="240">
+</picture>
+<br><em><strong>In Japanese.</strong> The words of the table come from the package, in English or Japanese.</em>
+</td>
+<td></td>
+</tr>
+</table>
+
 ## Use it in your project
 
 Domino has no screen of its own: it is plain functions over plain data, so
@@ -57,6 +143,16 @@ however you like, and pass each move through `playTrain`. The table in the
 [demo](https://johnmorrisdotca.github.io/domino/) is
 [`demo/page.js`](./demo/page.js), a page of plain DOM that does exactly that,
 and the demo's *Using it* panel shows the code for the game on the table.
+
+### Install
+
+```sh
+npm install @johnmorrisdotca/domino
+# or: pnpm add @johnmorrisdotca/domino
+# or: yarn add @johnmorrisdotca/domino
+```
+
+It is ES modules only, with its types included, and needs Node 22 or later outside a browser. A page with no bundler can import it from a CDN (`@1` is the major version): see the first example under [Examples](#examples).
 
 ### 1. The API alone
 
@@ -99,29 +195,302 @@ per game and plays it again through the rules whenever it needs the state.
 ### 4. From a terminal
 
 See [The command line](#the-command-line).
-
-There is no React, Vue, Svelte or Angular component, on purpose: a table is a
+See [The command line](#the-command-line). There is no React, Vue, Svelte or Angular component, on purpose: a table is a
 screen, and every site draws its own. Domino gives it the rules, the words and
-the sounds.
+the sounds, and [In a framework](#in-a-framework) holds a game in each one's state.
 
-## Features
+### In a framework
 
-- **The full rules of Mexican Train**, for two to eight players on a
-  double-nine, double-twelve or double-fifteen set, with the house rules as
-  options.
-- **A computer player** that plans its longest run, plays doubles well and
-  answers in a few milliseconds.
-- **Seeded deals that replay exactly.** The same seed and table deal the same
-  hands on every machine, and a game is only its table, its seed and its moves.
-- **Saved games as text**, read back through the rules, so a changed save is
-  refused.
-- **The words of a table** in English and Japanese: whose turn it is, what was
-  laid, how a round ended. See [Languages](#languages).
-- **Tile sounds**, optional: tiles laid, drawn and shuffled, and a knock for a
-  pass. See [Sounds](#sounds).
-- **A command line**: deal a seed, play a game out, read a kept game back. See
-  [The command line](#the-command-line).
-- **No dependencies, and no drawing.** Plain functions over plain data.
+Domino has no component of its own, on purpose: a table is a screen, and every site draws its own. What every framework needs is the same, a game held in state and one function that applies a move, and each is a few lines. `playTrain` returns `null` for a move the rules refuse, so a handler can ignore it.
+
+#### React
+
+```jsx
+import { useState } from "react";
+import { computerMove, legalPlays, playTrain, startTrain, tileWords, trainStatus } from "@johnmorrisdotca/domino";
+
+export function Table() {
+  const [game, setGame] = useState(() => startTrain(9, ["You", "", ""], 2026, undefined, [false, true, true]));
+  const lay = ({ tile, train }) => setGame((now) => playTrain(now, { kind: "play", tile, train }) ?? now);
+  return (
+    <section>
+      <p role="status">{trainStatus(game, "en", 0)}</p>
+      {game.toPlay === 0 && legalPlays(game).map((play) => (
+        <button key={`${play.tile}-${play.train}`} onClick={() => lay(play)}>{tileWords(play.tile)} on train {play.train}</button>
+      ))}
+      {game.toPlay !== 0 && <button onClick={() => setGame((now) => playTrain(now, computerMove(now)) ?? now)}>Let the computer move</button>}
+    </section>
+  );
+}
+```
+
+#### Vue
+
+```vue
+<script setup>
+import { shallowRef } from "vue";
+import { computerMove, legalPlays, playTrain, startTrain, tileWords, trainStatus } from "@johnmorrisdotca/domino";
+
+const game = shallowRef(startTrain(9, ["You", "", ""], 2026, undefined, [false, true, true]));
+const lay = (move) => { game.value = playTrain(game.value, move) ?? game.value; };
+</script>
+
+<template>
+  <p role="status">{{ trainStatus(game, "en", 0) }}</p>
+  <button v-for="play in game.toPlay === 0 ? legalPlays(game) : []" :key="`${play.tile}-${play.train}`" @click="lay({ kind: 'play', ...play })">
+    {{ tileWords(play.tile) }} on train {{ play.train }}
+  </button>
+  <button v-if="game.toPlay !== 0" @click="lay(computerMove(game))">Let the computer move</button>
+</template>
+```
+
+#### Svelte
+
+```svelte
+<script>
+  import { computerMove, legalPlays, playTrain, startTrain, tileWords, trainStatus } from "@johnmorrisdotca/domino";
+
+  let game = startTrain(9, ["You", "", ""], 2026, undefined, [false, true, true]);
+  const lay = (move) => { game = playTrain(game, move) ?? game; };
+</script>
+
+<p role="status">{trainStatus(game, "en", 0)}</p>
+{#if game.toPlay === 0}
+  {#each legalPlays(game) as play}
+    <button on:click={() => lay({ kind: "play", ...play })}>{tileWords(play.tile)} on train {play.train}</button>
+  {/each}
+{:else}
+  <button on:click={() => lay(computerMove(game))}>Let the computer move</button>
+{/if}
+```
+
+#### Angular
+
+```ts no-check
+import { Component, signal } from "@angular/core";
+import { computerMove, legalPlays, playTrain, startTrain, trainStatus } from "@johnmorrisdotca/domino";
+
+@Component({
+  selector: "app-table",
+  standalone: true,
+  template: `<p role="status">{{ status() }}</p><button (click)="computer()">Let the computer move</button>`,
+})
+export class TableComponent {
+  game = signal(startTrain(9, ["You", "", ""], 2026, undefined, [false, true, true])!);
+  status = () => trainStatus(this.game(), "en", 0);
+  computer() { this.game.update((now) => playTrain(now, computerMove(now)) ?? now); }
+}
+```
+
+## Examples
+
+Each example is a whole recipe: copy it and it works. They are run in CI against the built package (`pnpm test:readme`), so none of them is a guess, and the output shown is what they print.
+
+### A table in a page, with no bundler
+
+Save this as a file, serve it, and open it: a double-nine table for three with two computers, your hand as buttons, and the computers answering after each of your moves. The module comes from a CDN, and `@1` is the major version.
+
+```html
+<!doctype html>
+<meta charset="utf-8">
+<title>Mexican Train</title>
+<p id="status" role="status"></p>
+<div id="hand"></div>
+<script type="module">
+  import { computerMove, legalPlays, playTrain, startTrain, tileWords, trainStatus } from "https://cdn.jsdelivr.net/npm/@johnmorrisdotca/domino@1/dist/index.js";
+
+  let game = startTrain(9, ["You", "", ""], 2026, undefined, [false, true, true]);
+
+  function show() {
+    document.getElementById("status").textContent = trainStatus(game, "en", 0);
+    document.getElementById("hand").replaceChildren(...legalPlays(game).filter(() => game.toPlay === 0).map(({ tile, train }) => {
+      const button = document.createElement("button");
+      button.textContent = `${tileWords(tile)} on train ${train}`;
+      button.onclick = () => { game = playTrain(game, { kind: "play", tile, train }) ?? game; answer(); };
+      return button;
+    }));
+  }
+  function answer() {
+    while (game.phase === "playing" && game.toPlay !== 0) game = playTrain(game, computerMove(game)) ?? game;
+    show();
+  }
+  answer();
+</script>
+```
+
+### Deal a seed and read the hands
+
+The same seed and table deal the same hands on every machine, so a seed is a deal you can name. `endsOf` gives a tile's two ends, and `tileWords` says one.
+
+```ts
+import { startTrain, tileWords } from "@johnmorrisdotca/domino";
+
+const game = startTrain(12, ["You", "", "", ""], 2026, undefined, [false, true, true, true])!;
+console.log(game.hands[0].map(tileWords).join("  "));   // your fifteen tiles
+console.log(game.engine, game.hands.map((hand) => hand.length), game.boneyard.length);
+```
+
+```text
+4–2  2–0  6–2  8–1  7–6  6–4  8–3  6–6  3–3  9–9  8–2  12–9  11–0  4–0  9–5
+12 [ 15, 15, 15, 15 ] 30
+```
+
+### Let the computers play a whole game
+
+`computerMove` is a move for whoever is to play, in any phase, so a game with only computers at the table is a loop. This is the game the command line plays for the same seed: 277 moves, and Computer 3 wins with 57 pips.
+
+```ts
+import { computerMove, playTrain, startTrain, trainTotals } from "@johnmorrisdotca/domino";
+
+let game = startTrain(9, ["", "", ""], 2026, { length: "short", doubles: "one", mexican: "any" }, [true, true, true])!;
+let moves = 0;
+while (game.phase !== "finished") {
+  game = playTrain(game, computerMove(game))!;
+  moves += 1;
+}
+console.log(moves, "moves in", game.rounds, "rounds");
+console.log("pips by seat:", trainTotals(game), "winner: seat", game.winners[0]);
+```
+
+```text
+277 moves in 5 rounds
+pips by seat: [ 88, 117, 57 ] winner: seat 2
+```
+
+### House rules
+
+Three options change the game, and all three are set when the game starts: how many rounds (`length`), what a double does (`doubles`) and when the Mexican Train may be started (`mexican`). A table the rules do not allow is `null`.
+
+```ts
+import { startTrain, TRAIN_DEFAULT_OPTIONS } from "@johnmorrisdotca/domino";
+
+console.log(TRAIN_DEFAULT_OPTIONS);
+const house = startTrain(15, ["Ann", "Ben", "Cho"], 99, { length: "short", doubles: "chain", mexican: "ownFirst" });
+console.log(house?.options, house?.rounds, house?.hands[0].length);   // double-fifteen: 16 rounds, or 8 when short
+console.log(startTrain(12, ["Only one at the table"]));              // a table needs two to eight
+```
+
+```text
+{ length: 'full', doubles: 'one', mexican: 'any' }
+{ length: 'short', doubles: 'chain', mexican: 'ownFirst' } 8 12
+null
+```
+
+### Keep a game and read it back
+
+A game is its table, its seed and its moves, so the saved text is short, and what is read back is made again by playing every move through the rules. A changed save is `null`.
+
+```ts
+import { computerMove, decodeTrain, encodeTrain, playTrain, startTrain } from "@johnmorrisdotca/domino";
+
+let game = startTrain(12, ["You", "", "", ""], 2026, undefined, [false, true, true, true])!;
+game = playTrain(game, computerMove(game))!;
+
+const kept = encodeTrain(game);
+console.log(kept);
+console.log(decodeTrain(kept)?.last);                                   // the same game, and its last move
+console.log(decodeTrain(kept.replace('"seed":2026', '"seed":2027')));   // a changed seed no longer makes these moves: null
+```
+
+```text
+{"v":1,"set":12,"options":{"length":"full","doubles":"one","mexican":"any"},"seed":2026,"players":["You","","",""],"computers":[false,true,true,true],"moves":"p156.0"}
+{ seat: 0, move: { kind: 'play', tile: 156, train: 0 } }
+null
+```
+
+### A server that checks every move
+
+The client sends a move and the server holds the saved text. `decodeTrain` trusts nothing it reads, and `playTrain` refuses a move the rules do not allow, so the server never has to believe the client.
+
+```ts
+import { decodeTrain, encodeTrain, legalPlays, playTrain, startTrain, type TrainMove } from "@johnmorrisdotca/domino";
+
+const saved = encodeTrain(startTrain(12, ["Ann", "Ben"], 5)!);   // what the database holds
+
+/** The new saved text, or null when the save is not a game or the move is not a legal one. */
+function accept(saved: string, move: TrainMove): string | null {
+  const game = decodeTrain(saved);
+  const next = game === null ? null : playTrain(game, move);
+  return next === null ? null : encodeTrain(next);
+}
+
+const game = decodeTrain(saved)!;
+const legal = legalPlays(game)[0]!;
+console.log(accept(saved, { kind: "play", tile: legal.tile, train: legal.train })?.endsWith(`"moves":"p${legal.tile}.${legal.train}"}`));
+console.log(accept(saved, { kind: "draw" }));                      // a draw while a tile fits: refused
+console.log(accept("not a game", { kind: "pass" }));               // refused
+```
+
+```text
+true
+null
+null
+```
+
+### The words of a table, in two languages
+
+The package says what the rules have already decided, in a sentence a page can put in an `aria-live` region: whose turn it is, what was just laid, who is who.
+
+```ts
+import { computerMove, playTrain, startTrain, trainNews, trainSeatName, trainStatus } from "@johnmorrisdotca/domino";
+
+let game = startTrain(9, ["You", "", ""], 7, undefined, [false, true, true])!;
+console.log(trainStatus(game, "en", 0), "|", trainStatus(game, "ja", 0));
+game = playTrain(game, computerMove(game))!;
+console.log(trainNews(game, "en", 0));
+console.log(trainSeatName(game, 1, "en", 0), "|", trainSeatName(game, 1, "ja", 0));
+```
+
+```text
+Your turn. Tap a tile to lay it. | あなたの番です。牌をタップして置きます。
+You laid 9–7 on Your train.
+Computer 2 | コンピューター2
+```
+
+### The command line, and the same thing from code
+
+`domino check` reads a saved game back through the rules and says where it stands, and `domino replay` says every move in words. `runCli` is the whole command line as a pure function, so the same text comes back from a test or a server.
+
+```sh
+npx @johnmorrisdotca/domino check '{"v":1,"set":9,"options":{"length":"short","doubles":"chain","mexican":"ownFirst"},"seed":7,"players":["Ann","Ben",""],"computers":[false,false,true],"moves":""}'
+```
+
+```text
+Double-nine, 3 players, seed 7, 5 rounds; moves made: 0
+Round 1 of 5 is being played; Ann is to play.
+```
+
+```ts
+import { runCli } from "@johnmorrisdotca/domino";
+
+const result = runCli(["deal", "--seed", "7", "--players", "2", "--set", "9"]);
+console.log(result.code, result.out.split("\n")[0]);
+console.log(runCli(["check", "{}"]));   // exit code 1: what was asked for could not be done
+```
+
+```text
+0 Double-nine, 2 players, seed 7
+{
+  code: 1,
+  out: '',
+  err: 'domino: that is not a game these rules can play out again\n'
+}
+```
+
+### Tile sounds that wait for a tap
+
+A browser lets a page make sound only after somebody has touched it, and a muted table never downloads the recordings. The player is silent until asked, and nothing throws where there is no audio.
+
+```ts no-run
+import { createTileSounds } from "@johnmorrisdotca/domino/tile-sounds";
+
+const sounds = createTileSounds({ muted: true, volume: 0.6 });   // nothing is fetched yet
+document.querySelector("#sound")!.addEventListener("click", () => {
+  sounds.setMuted(false);
+  sounds.play("shuffle");               // the first sound fetches the recordings
+});
+sounds.play("lay");                     // a tile laid: silent while muted
+```
 
 ## Mexican Train
 
@@ -171,7 +540,7 @@ again exactly by the tests.
 npm install -g @johnmorrisdotca/domino    # then `domino`, or use npx with nothing installed
 ```
 
-```
+```text
 Usage: domino <command> [options]
 
 Dominoes and Mexican Train: the same deal for the same seed, on every machine.
@@ -238,34 +607,13 @@ import { runCli } from "@johnmorrisdotca/domino";
 runCli(["deal", "--seed", "2026", "--players", "3", "--set", "9"]);   // { code: 0, out: "Double-nine, 3 players, …", err: "" }
 ```
 
-## Languages
-
-The words of a table are English and Japanese: `DOMINO_STRINGS.en` and
-`DOMINO_STRINGS.ja`, one table, so the two are kept side by side. Five functions
-say what the rules have already decided, in either language:
-
-```ts
-import { trainNews, trainSeatName, trainStatus } from "@johnmorrisdotca/domino";
-
-trainStatus(game, "ja", 0);        // "あなたの番です。牌をタップして置きます。"
-trainNews(game, "en", 0);          // "You laid 12–9 on Your train."  (after the first move)
-trainSeatName(game, 1, "en", 0);   // "Computer 2"
-```
-
-`dominoSay` fills in the braces (`{who}`, `{tile}`) of any string, and
-`dominoLanguage` reads a tag such as `ja_JP.UTF-8`. **Japanese: included; not yet
-reviewed by a native reader. Corrections welcome.** Every Japanese string is
-listed beside its English in [docs/strings-ja.md](./docs/strings-ja.md), and there
-is an [issue template](https://github.com/johnmorrisdotca/domino/issues/new?template=fix-a-translation.md)
-for fixing one. Any other language is a table of your own with the same names.
-
 ## Sounds
 
 Recordings for a table to play: the tiles shuffled, one drawn, one laid, and a
 knock on the table for a pass. Nothing sounds unless a table asks, and nothing is
 fetched until the first sound.
 
-```ts
+```ts no-check
 import { createTileSounds } from "@johnmorrisdotca/domino/tile-sounds";
 
 const sounds = createTileSounds();           // silent until asked: nothing is fetched yet
@@ -286,7 +634,7 @@ muteButton.onclick = () => sounds.setMuted(!sounds.muted);
 - **What they really are.** The recordings are poker chips, from Kenney's
   [Casino Audio](https://kenney.nl/assets/casino-audio) (CC0), because that is the
   nearest recorded click of a hard tile on a table that is free to use. They are
-  not dominoes, and [docs/credits.md](./docs/credits.md) says so, names each file
+  not dominoes, and [CREDITS.md](./CREDITS.md) says so, names each file
   and what was done to it.
 - **What it costs.** The player is small, and the recordings are a few tens of
   kilobytes of AAC in a module of their own (`@johnmorrisdotca/domino/sounds`),
@@ -323,6 +671,26 @@ The [API reference](https://johnmorrisdotca.github.io/domino/api.html) (also kep
 | `TrainGame`, `TrainMove`, `TrainOptions`, `Domino`, `Language`, … | The types |
 | `VERSION` | This package's version |
 
+
+### Entry points
+
+| Entry | What it holds |
+| --- | --- |
+| `@johnmorrisdotca/domino` | The dominoes, the rules of Mexican Train, the computer player, saved games, the words and the command line |
+| `@johnmorrisdotca/domino/tile-sounds` | `createTileSounds`: the sounds player, silent until asked |
+| `@johnmorrisdotca/domino/sounds` | `TILE_SOUND_DATA`: the recordings as base64 AAC, fetched by the first sound |
+
+### The calls to learn first
+
+| Call | What it does |
+| --- | --- |
+| `startTrain(set, players, seed, options, computers)` | A new game |
+| `legalPlays(game)` | Every tile you may lay now, and on which train |
+| `playTrain(game, move)` | The game after a move, or `null` |
+| `computerMove(game)` | A move for whoever is to play |
+| `encodeTrain(game)` and `decodeTrain(text)` | A game as text, and back |
+| `trainStatus(game, language, seat)` | One sentence on whose turn it is |
+
 ## Theming
 
 None, on purpose: Domino draws nothing, so there is nothing of its own to
@@ -343,6 +711,19 @@ and [`demo/domino.css`](./demo/domino.css), over the family's shared stylesheet.
 | A tile | `low * 16 + high`, each end 0 to 15 | `TRAIN_PIP_BASE` |
 | Moves a played game may take on the command line | 100,000 | `CLI_MOVES_MOST` |
 
+## Accessibility
+
+Domino draws nothing, so what it can do for a table's accessibility is give a page the words and keep its own behaviour out of the way. What a table built on it does is the page's to say, and the demo's table is the worked example.
+
+- **Sentences for a screen reader.** `trainStatus` (whose turn it is, and what is wanted of you), `trainNews` (what was just laid, drawn or passed) and `trainSeatName` (who is who) are plain sentences in English or Japanese, made for an `aria-live` region: the demo puts the status in a `role="status"` element, so a move is spoken without moving focus.
+- **A tile can be said.** `tileWords` gives a tile as words that read aloud (`12–9`), and the demo labels every tile in the hand with it, as a real `button` that is disabled when it cannot be laid.
+- **The keyboard.** In the demo every tile and every action is a native button, so Tab, Enter and Space play a whole game; a tile that may go on more than one train asks which, with a button for each train. Nothing in the package needs a pointer.
+- **No colour carries a meaning alone.** The package returns data and words, never colours. In the demo a train's marker is also said in words (open or closed), and the tile that may be laid is also the only one that is not disabled.
+- **Touch targets.** The demo's tiles in your hand are 76 by 46 pixels and its buttons at least 44 pixels high, and its table fits a phone at 390 pixels.
+- **Sound is optional.** The tile sounds are silent until a page asks, never the only sign of a move (every move is also a sentence in `trainNews`), and a muted table never downloads them.
+- **Reduced motion.** The package animates nothing. The demo's one transition, a tile lifting when it may be laid, is off under `prefers-reduced-motion`.
+- **Not yet.** The package has no way to say a whole train as one sentence, so a screen-reader user hears a train as its tiles, one by one. The Japanese words have not been read by a native reader (see [Languages](#languages)). The colour pairs of the demo have not been measured against WCAG contrast ratios.
+
 ## Browser and runtime support
 
 The rules, the computer player, the words and the command line run anywhere
@@ -352,6 +733,35 @@ and, for the packed package and the command line, on Linux, macOS and Windows.
 The sounds need the Web Audio API, which every current browser has; elsewhere
 they are silent and nothing throws. The demo is tested in Chromium and in
 WebKit, Safari's engine, at phone size with touch.
+
+## Languages
+
+The words of a table are English and Japanese: `DOMINO_STRINGS.en` and
+`DOMINO_STRINGS.ja`, one table, so the two are kept side by side. Five functions
+say what the rules have already decided, in either language:
+
+```ts no-check
+import { trainNews, trainSeatName, trainStatus } from "@johnmorrisdotca/domino";
+
+trainStatus(game, "ja", 0);        // "あなたの番です。牌をタップして置きます。"
+trainNews(game, "en", 0);          // "You laid 12–9 on Your train."  (after the first move)
+trainSeatName(game, 1, "en", 0);   // "Computer 2"
+```
+
+`dominoSay` fills in the braces (`{who}`, `{tile}`) of any string, and
+`dominoLanguage` reads a tag such as `ja_JP.UTF-8`. **Japanese: included; not yet
+reviewed by a native reader. Corrections welcome.** Every Japanese string is
+listed beside its English in [docs/strings-ja.md](./docs/strings-ja.md), and there
+is an [issue template](https://github.com/johnmorrisdotca/domino/issues/new?template=fix-a-translation.md)
+for fixing one. Any other language is a table of your own with the same names.
+
+## Roadmap
+
+- More domino games: Block, Draw, All Fives and Chicken Foot
+- A React hook, for a table kept in component state
+
+Left out on purpose: anything played for stakes, and play over a network, which
+needs a server. A game here is plain data, so your own server can carry it.
 
 ## Architecture
 
@@ -436,34 +846,29 @@ Domino is one of twenty-four packages, each made for the same site, each at
 **This package is Domino.** The demos of all twenty-four share one header and footer, so each links the rest.
 <!-- family:end -->
 
-## Roadmap
-
-- More domino games: Block, Draw, All Fives and Chicken Foot
-- A React hook, for a table kept in component state
-
-Left out on purpose: anything played for stakes, and play over a network, which
-needs a server. A game here is plain data, so your own server can carry it.
-
-## Contributing
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md). In short:
+## Development
 
 ```sh
 pnpm install
-pnpm check         # lint, types and tests
-pnpm test:cli      # the command line, run as a child process
-pnpm test:package  # pack it as npm does, install it, import every entry and run the command
-pnpm test:demo     # the demo in real browsers, by taps
+pnpm check              # lint, types and tests
+pnpm test:cli           # the command line, run as a child process
+pnpm test:package       # pack it as npm does, install it, import every entry and run the command
+pnpm test:demo          # the demo in real browsers, by taps
+pnpm test:readme        # run every example in this README against the built package
+pnpm site               # build the demo into site/, as the Pages workflow publishes it
+pnpm screenshots:readme # take the README's pictures from the built demo, in light and dark
 ```
 
-A change to the rules must leave every game in the fixture dealing and playing
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md). A change to the rules must leave every game in the fixture dealing and playing
 exactly as it did. Please follow the [code of conduct](./CODE_OF_CONDUCT.md).
 
 ## Changes
 
-See [CHANGELOG.md](./CHANGELOG.md).
+See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.1.2, adds no code: it is this README in full, with pictures of the table, examples that are run on every change, examples for React, Vue, Svelte and Angular, and an Accessibility section.
 
 ## Licence
 
 [MIT](./LICENSE) © John Morris. The tile sounds are Kenney's Casino Audio, CC0:
-see [docs/credits.md](./docs/credits.md).
+see [CREDITS.md](./CREDITS.md).

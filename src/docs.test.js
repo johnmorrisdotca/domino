@@ -105,7 +105,7 @@ describe("the README on languages", () => {
 
 describe("the README's command line", () => {
   it("shows the help the package prints, word for word", () => {
-    const from = readme.indexOf("```\nUsage: domino") + 4;
+    const from = readme.indexOf("```text\nUsage: domino") + 8;
     expect(readme.slice(from, readme.indexOf("```", from))).toBe(DOMINO_STRINGS.en.cliUsage);
   });
 
@@ -197,7 +197,7 @@ describe("package.json", () => {
   });
 
   it("ships what the README says it ships", () => {
-    for (const file of ["dist", "bin", "docs/credits.md", "README.md", "LICENSE", "CHANGELOG.md"]) expect(pkg.files).toContain(file);
+    for (const file of ["dist", "bin", "CREDITS.md", "README.md", "LICENSE", "CHANGELOG.md"]) expect(pkg.files).toContain(file);
   });
 });
 

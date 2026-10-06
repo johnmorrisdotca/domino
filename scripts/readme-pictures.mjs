@@ -1,66 +1,69 @@
-// Takes the pictures the README shows, from the built demo in `site/`: `pnpm pictures` (builds the demo, then runs this).
-// The page is served to a browser without a port, never fetched from the live site, and the same each run:
-// the deal is seeded (`?seed=`), the computers move at once and motion is reduced.
-// Output: docs/desktop.jpg (1280 wide, light, English) and docs/phone.jpg (390 by 844, dark, Japanese).
-import { existsSync, readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+// Takes the pictures the README shows, from the built demo in `site/`: `pnpm screenshots:readme` (builds the demo, then runs this).
+// The family's standard is in johnmorrisdotca/.github (README-STANDARD.md); the shared part is readme-pictures-lib.mjs.
+// The page is served to a browser without a port, never fetched from the live site, and the same each run: the deal is named by
+// the address (set, players, seed), the computers answer at once (`window.dominoDelay = 0`), and every turn the pictures play is
+// played as a person does, by pressing a lifted tile, and waited for on the page's own marks, never on a clock.
+// Output: docs/images/<subject>-<desk|phone>-<light|dark>.webp.
+import { takePictures } from "./readme-pictures-lib.mjs";
 
-import { chromium } from "@playwright/test";
+const READY = 'html[data-ready="true"] [data-testid="hand"]';
+const address = (query, lang = "en") => `/?lang=${lang}&help=off&seed=2026&${query}`;
+const TABLE = '[data-testid="table"]';
+const LIFTED = '[data-testid="hand"] .tile[data-playable="true"]';
+const ASKED = '[data-testid="moves"] button';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const site = join(root, "site");
-const docs = join(root, "docs");
-const host = "http://domino.test";
-const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml" };
-const QUALITY = 70;
+/** What the table looks like now, so that a move can be waited for. */
+const looks = (page) => page.evaluate(() => `${document.querySelectorAll('[data-testid="trains"] .tile').length}|${document.querySelectorAll('[data-testid="hand"] .tile').length}|${document.querySelector('[data-testid="status"]')?.textContent}`);
 
-if (!existsSync(join(site, "index.html"))) throw new Error("site/ is not built: run `pnpm pictures` (it builds the demo first)");
-const browser = await chromium.launch();
-
-/** Play `turns` turns as a person does: lay a lifted tile (on the train offered), else press what is asked, and let the computers answer.
- * It ends on a turn where a tile can be laid, so the picture shows a hand with tiles lifted. */
-async function play(page, turns) {
-  const lifted = page.locator('[data-testid="hand"] .tile[data-playable="true"]');
-  const asked = page.locator('[data-testid="moves"] button');
-  for (let n = 0; n < turns + 6; n += 1) {
-    await page.waitForFunction(() => document.querySelector('[data-testid="hand"] .tile[data-playable="true"]') || document.querySelector('[data-testid="moves"] button'));
-    if (n >= turns && (await lifted.count()) > 0) return;
-    if ((await lifted.count()) > 0) {
-      await lifted.first().click();
+/** Play `count` turns as a person does: lay a lifted tile (on the train offered), else press what is asked, and let the computers answer. Ends on a turn where a tile can be laid. */
+async function play(page, count) {
+  for (let turn = 0; turn < count + 8; turn += 1) {
+    await page.waitForSelector(`${LIFTED}, ${ASKED}`);
+    if (turn >= count && (await page.locator(LIFTED).count()) > 0) return;
+    const before = await looks(page);
+    if ((await page.locator(LIFTED).count()) > 0) {
+      await page.locator(LIFTED).first().click();
       if ((await page.locator('[data-testid="lay"]').count()) > 0) await page.locator('[data-testid="lay"]').first().click();
-    } else await asked.first().click();
-    await page.waitForTimeout(200);
+    } else await page.locator(ASKED).first().click();
+    await page.waitForFunction((was) => `${document.querySelectorAll('[data-testid="trains"] .tile').length}|${document.querySelectorAll('[data-testid="hand"] .tile').length}|${document.querySelector('[data-testid="status"]')?.textContent}` !== was, before);
+    await page.waitForSelector('[data-train="0"][data-turn="true"], [data-testid="moves"] button');
   }
 }
 
-async function shot({ width, height, colorScheme, lang, turns, path, scrollTo }) {
-  const context = await browser.newContext({ viewport: { width, height }, colorScheme, reducedMotion: "reduce", locale: "en-US", deviceScaleFactor: 2 });
-  const page = await context.newPage();
-  await page.route(`${host}/**`, (route) => {
-    const { pathname } = new URL(route.request().url());
-    const file = join(site, pathname === "/" ? "index.html" : pathname);
-    if (!existsSync(file)) return route.fulfill({ status: 404, body: "" });
-    return route.fulfill({ body: readFileSync(file), contentType: TYPES[file.slice(file.lastIndexOf("."))] ?? "application/octet-stream" });
-  });
-  await page.addInitScript(() => {
-    window.dominoDelay = 0;
-  });
-  await page.goto(`${host}/?lang=${lang}&seed=2026`);
-  await page.locator("html[data-ready='true']").waitFor({ state: "attached" });
-  // A double-nine set for three keeps the table short enough to show under the header.
-  await page.locator('[data-testid="sets"] [data-set="9"]').click();
-  await page.locator('[data-testid="players"] [data-count="3"]').click();
-  await play(page, turns);
-  if (scrollTo) await page.locator(scrollTo).evaluate((element) => window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY - 16));
-  else await page.evaluate(() => window.scrollTo(0, 0));
-  await page.mouse.move(0, 0);
-  await page.screenshot({ path, type: "jpeg", quality: QUALITY });
-  await context.close();
-}
+const scrollTo = (selector) => (page) => page.locator(selector).evaluate((element) => window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY - 16));
+const noDelay = () => { window.dominoDelay = 0; };
 
-// From the top of the page, so the header, the language chooser and the cloth patches show, a few turns into a game of Mexican Train.
-await shot({ width: 1280, height: 960, colorScheme: "light", lang: "en", turns: 4, path: join(docs, "desktop.jpg") });
-// The phone is scrolled to the table.
-await shot({ width: 390, height: 844, colorScheme: "dark", lang: "ja", turns: 4, path: join(docs, "phone.jpg"), scrollTo: '[data-testid="table"]' });
-await browser.close();
+await takePictures({
+  shots: [
+    // A few turns into a game of Mexican Train for three, from the top of the page, so the header and the set-up show. On a phone, in Japanese, scrolled to the table.
+    {
+      subject: "hero",
+      views: ["desk", "phone"],
+      url: address("set=9&players=3"),
+      init: noDelay,
+      ready: READY,
+      height: 960,
+      async prepare(page, { view }) {
+        if (view === "phone") {
+          await page.goto(`http://domino.test${address("set=9&players=3", "ja")}`);
+          await page.waitForSelector(READY);
+          await play(page, 4);
+          await scrollTo(TABLE)(page);
+        } else {
+          await play(page, 4);
+          await page.evaluate(() => window.scrollTo(0, 0));
+        }
+      },
+    },
+    // The table in the middle of a round: a train for every seat and the Mexican Train, the hand with the tiles that may be laid lifted.
+    { subject: "table", views: ["desk"], url: address("set=12&players=4"), init: noDelay, ready: READY, target: TABLE, prepare: (page) => play(page, 6) },
+    // The set-up: the set, the number of players, the rounds, the doubles rule and when the Mexican Train may be started.
+    { subject: "set-up", views: ["desk"], url: address("set=12&players=4"), ready: READY, target: ".setup" },
+    // The largest table: a double-fifteen set for eight, every train in its own row and a hand of fifteen.
+    { subject: "big-table", views: ["desk"], url: address("set=15&players=8"), ready: READY, target: TABLE },
+    // The words and the tiles in Japanese, on a phone, at the first turn.
+    { subject: "japanese", views: ["phone"], url: address("set=9&players=3", "ja"), ready: READY, target: TABLE },
+    // The code for the game on the table, the same deal on the command line, and the game kept as text.
+    { subject: "using-it", views: ["desk"], url: address("set=9&players=3"), init: noDelay, ready: READY, target: "section.more", prepare: (page) => play(page, 2) },
+  ],
+});

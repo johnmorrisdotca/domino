@@ -28,15 +28,15 @@ describe("the recordings", () => {
     expect(readFileSync("src/sounds.ts").length).toBeLessThan(50_000);
   });
 
-  it("are each named in docs/credits.md, with where they came from and their licence", () => {
-    const credits = readFileSync("docs/credits.md", "utf8");
+  it("are each named in CREDITS.md, with where they came from and their licence", () => {
+    const credits = readFileSync("CREDITS.md", "utf8");
     for (const name of files) expect(credits).toContain(`sounds/${name}`);
     expect(credits).toContain("CC0");
     expect(credits).toContain("https://kenney.nl/assets/casino-audio");
   });
 
-  it("are each given in docs/credits.md at the size they are", () => {
-    const credits = readFileSync("docs/credits.md", "utf8");
+  it("are each given in CREDITS.md at the size they are", () => {
+    const credits = readFileSync("CREDITS.md", "utf8");
     for (const name of files) expect(credits).toContain(`| \`sounds/${name}\` |`);
     for (const name of files) expect(credits, name).toMatch(new RegExp(`\\| \`sounds/${name}\` \\|[^\\n]*\\| ${readFileSync(`sounds/${name}`).length.toLocaleString("en-US")} bytes \\|`));
     expect(credits).toContain(`${files.reduce((sum, name) => sum + readFileSync(`sounds/${name}`).length, 0).toLocaleString("en-US")} bytes in all`);

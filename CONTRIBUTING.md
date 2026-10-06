@@ -116,7 +116,7 @@ pnpm site           # builds the demo into ./site
 - **Examples in the README are run by `src/docs.test.js`.** Change a number in
   one and the other has to follow.
 - **Sounds are CC0 or public domain, checked at the source**, and named in
-  `docs/credits.md` with what was done to them; `pnpm sounds` writes
+  `CREDITS.md` with what was done to them; `pnpm sounds` writes
   `src/sounds.ts` from `sounds/`. No GPL or LGPL code.
 - **The demo is tested by tapping it.** `e2e/*.demo.mjs` are Playwright tests
   that open the built demo in Chromium and WebKit, at a phone's width by touch

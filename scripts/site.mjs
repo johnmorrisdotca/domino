@@ -14,7 +14,7 @@ const frame = ({ title, description, links, body, scripts }) => `<!doctype html>
     ${familyHead({ id, title, description, ogTitle: "Domino ドミノ: Mexican Train", ogDescription: "Play Mexican Train against the computers, with dominoes in three sizes of set." })}
     <link rel="icon" href="${icon}" />
     <link rel="stylesheet" href="family.css" />
-    <link rel="stylesheet" href="site.css" />
+    <link rel="stylesheet" href="domino.css" />
   </head>
   <body>
     <main>
@@ -30,13 +30,13 @@ ${body}
 
 rmSync("site", { recursive: true, force: true });
 mkdirSync("site", { recursive: true });
-for (const file of ["family.css", "site.css", "page.js"]) cpSync(`demo/${file}`, `site/${file}`);
+for (const file of ["family.css", "domino.css", "page.js"]) cpSync(`demo/${file}`, `site/${file}`);
 cpSync("dist", "site/dist", { recursive: true });
 
 writeFileSync(
   "site/index.html",
   frame({
-    title: "Domino ドミノ: Mexican Train, against computers",
+    title: "Domino · Mexican Train, against computers",
     description: "Play Mexican Train against one to seven computers with double-nine, double-twelve or double-fifteen dominoes, every rule and house rule the Domino package plays by, in English and Japanese. Free and open source.",
     links: [{ href: "api.html", say: "pageApi" }],
     body: readFileSync("demo/body.html", "utf8").replace("__UNREVIEWED__", familyUnreviewed({ id })).trimEnd(),

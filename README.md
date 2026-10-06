@@ -328,7 +328,7 @@ The [API reference](https://johnmorrisdotca.github.io/domino/api.html) (also kep
 None, on purpose: Domino draws nothing, so there is nothing of its own to
 theme, and a table built on it looks however your page looks. The demo is the
 worked example: its dominoes and table are drawn by [`demo/page.js`](./demo/page.js)
-and [`demo/site.css`](./demo/site.css), over the family's shared stylesheet.
+and [`demo/domino.css`](./demo/domino.css), over the family's shared stylesheet.
 
 ## Limits
 

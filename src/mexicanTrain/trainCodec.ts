@@ -38,6 +38,19 @@ function moveOf(text: string): TrainMove | null {
   return played === null ? null : { kind: "play", tile: Number(played[1]), train: Number(played[2]) };
 }
 
+/** Serialize setup and recorded legal moves so the same seeded game can be replayed.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @returns Serialize setup and recorded legal moves so the same seeded game can be replayed.
+ * @example
+ * ```ts
+ * import { encodeTrain, playTrain, startTrain, trainMoves } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const moved = playTrain(game,trainMoves(game)[0])!;
+ * console.log(encodeTrain(moved));
+ * ```
+ */
 export function encodeTrain(game: TrainGame): string {
   return JSON.stringify({
     v: VERSION,
@@ -61,7 +74,19 @@ function optionsOf(value: unknown): TrainOptions | null {
   return { length, doubles, mexican } as TrainOptions;
 }
 
-/** A kept game read back, or null for nothing kept or anything these rules cannot play out again. */
+/** A kept game read back, or null for nothing kept or anything these rules cannot play out again.
+ *
+ * @param text - The localized template, or saved-game text specified by this signature.
+ * @returns A kept game read back, or null for nothing kept or anything these rules cannot play out again.
+ * @example
+ * ```ts
+ * import { decodeTrain, encodeTrain, playTrain, startTrain, trainMoves } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const moved = playTrain(game,trainMoves(game)[0])!;
+ * console.log(decodeTrain(encodeTrain(moved))?.turn);
+ * ```
+ */
 export function decodeTrain(text: string | null): TrainGame | null {
   if (text === null) return null;
   let kept: Record<string, unknown>;

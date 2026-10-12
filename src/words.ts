@@ -14,13 +14,38 @@ import { DOMINO_STRINGS, dominoSay, type DominoStrings, type Language } from "./
  * named the same way.
  */
 
-/** The set's name by its highest double ("Double-twelve"), or null for a number that is no set offered. */
+/** The set's name by its highest double ("Double-twelve"), or null for a number that is no set offered.
+ *
+ * @param set - The highest double of the supported set: 9, 12 or 15.
+ * @param language - The English or Japanese display language.
+ * @returns The set's name by its highest double ("Double-twelve"), or null for a number that is no set offered.
+ * @example
+ * ```ts
+ * import { trainSetLabel } from "@johnmorrisdotca/domino";
+ *
+ * console.log(trainSetLabel(9,"en"));
+ * ```
+ */
 export function trainSetLabel(set: number, language: Language): string | null {
   const t = DOMINO_STRINGS[language];
   return ({ 9: t.set9, 12: t.set12, 15: t.set15 } as Record<number, string>)[set] ?? null;
 }
 
-/** A seat's name: the one given at the table, or "You" for the person at this device, or "Computer 3" or "Player 3" for the seat's number. */
+/** A seat's name: the one given at the table, or "You" for the person at this device, or "Computer 3" or "Player 3" for the seat's number.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @param seat - The zero-based player seat.
+ * @param language - The English or Japanese display language.
+ * @param you - The zero-based seat at this device; omit when no seat is local.
+ * @returns A seat's name: the one given at the table, or "You" for the person at this device, or "Computer 3" or "Player 3" for the seat's number.
+ * @example
+ * ```ts
+ * import { startTrain, trainSeatName } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(trainSeatName(game,1,"ja",0));
+ * ```
+ */
 export function trainSeatName(game: Pick<TrainGame, "players" | "computers">, seat: TrainSeat, language: Language, you?: TrainSeat): string {
   const t = DOMINO_STRINGS[language];
   const given = game.players[seat]?.trim() ?? "";
@@ -29,7 +54,21 @@ export function trainSeatName(game: Pick<TrainGame, "players" | "computers">, se
   return dominoSay(game.computers[seat] ? t.computer : t.player, { n: seat + 1 });
 }
 
-/** A train's name: "Your train", "Computer 2's train", or the Mexican Train. */
+/** A train's name: "Your train", "Computer 2's train", or the Mexican Train.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @param train - The zero-based train index; players.length is the Mexican Train.
+ * @param language - The English or Japanese display language.
+ * @param you - The zero-based seat at this device; omit when no seat is local.
+ * @returns A train's name: "Your train", "Computer 2's train", or the Mexican Train.
+ * @example
+ * ```ts
+ * import { mexicanOf, startTrain, trainName } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(trainName(game,mexicanOf(game),"en",0));
+ * ```
+ */
 export function trainName(game: Pick<TrainGame, "players" | "computers">, train: number, language: Language, you?: TrainSeat): string {
   const t = DOMINO_STRINGS[language];
   if (train === mexicanOf(game)) return t.mexican;
@@ -37,7 +76,21 @@ export function trainName(game: Pick<TrainGame, "players" | "computers">, train:
   return dominoSay(t.trainOf, { who: trainSeatName(game, train, language, you) });
 }
 
-/** What the last move did, in a line, or "" before there is one: "Computer 2 laid 9–4 on Your train." */
+/** What the last move did, in a line, or "" before there is one: "Computer 2 laid 9–4 on Your train."
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @param language - The English or Japanese display language.
+ * @param you - The zero-based seat at this device; omit when no seat is local.
+ * @returns What the last move did, in a line, or "" before there is one: "Computer 2 laid 9–4 on Your train."
+ * @example
+ * ```ts
+ * import { playTrain, startTrain, trainMoves, trainNews } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const moved = playTrain(game,trainMoves(game)[0])!;
+ * console.log(trainNews(moved,"en",0));
+ * ```
+ */
 export function trainNews(game: TrainGame, language: Language, you?: TrainSeat): string {
   const t: DominoStrings = DOMINO_STRINGS[language];
   const last = game.last;
@@ -66,6 +119,18 @@ function why(game: TrainGame, language: Language, you?: TrainSeat): string {
  * What is going on, in a line: who is to play, or what the person at `you` is
  * asked to do (lay, cover a double, draw, pass), or how the round or the game
  * ended.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @param language - The English or Japanese display language.
+ * @param you - The zero-based seat at this device; omit when no seat is local.
+ * @returns What is going on, in a line: who is to play, or what the person at `you` is asked to do (lay, cover a double, draw, pass), or how the round or the game ended.
+ * @example
+ * ```ts
+ * import { startTrain, trainStatus } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(trainStatus(game,"en",0));
+ * ```
  */
 export function trainStatus(game: TrainGame, language: Language, you?: TrainSeat): string {
   const t = DOMINO_STRINGS[language];

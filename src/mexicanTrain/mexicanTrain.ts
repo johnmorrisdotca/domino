@@ -33,25 +33,71 @@ import type { Domino, RoundEnding, TrainGame, TrainHistory, TrainMove, TrainOpti
  *  - a round ends when somebody lays their last tile, or when nobody can lay
  *    and there is nothing left to draw; every player scores the pips left in
  *    their hand, and after the last round the lowest total wins.
+ *
+ * @example
+ * ```ts
+ * import { TRAIN_PHASES } from "@johnmorrisdotca/domino";
+ * console.log(TRAIN_PHASES);
+ * ```
  */
 
 export const TRAIN_PHASES = { playing: "playing", roundOver: "roundOver", finished: "finished" } as const satisfies Record<TrainPhase, TrainPhase>;
 
 /** The sets a table may be dealt from, and how many may sit at it. */
 const SPEC = { sizes: [9, 12, 15] as readonly number[], fewestPlayers: 2, mostPlayers: 8 };
-/** The longest name a seat keeps. */
+/** The longest name a seat keeps.
+ *
+ * @example
+ * ```ts
+ * import { TRAIN_NAME_MOST } from "@johnmorrisdotca/domino";
+ * console.log(TRAIN_NAME_MOST);
+ * ```
+ */
 export const TRAIN_NAME_MOST = 20;
-/** A seat's name as given, its spaces tidied and cut to `TRAIN_NAME_MOST` characters. */
+/** A seat's name as given, its spaces tidied and cut to `TRAIN_NAME_MOST` characters.
+ *
+ * @param name - The player name to tidy and truncate.
+ * @returns A seat's name as given, its spaces tidied and cut to `TRAIN_NAME_MOST` characters.
+ * @example
+ * ```ts
+ * import { cleanTrainName } from "@johnmorrisdotca/domino";
+ *
+ * console.log(cleanTrainName("  A   B  "));
+ * ```
+ */
 export function cleanTrainName(name: string): string {
   return name.replace(/\s+/g, " ").trim().slice(0, TRAIN_NAME_MOST);
 }
 
-/** The Mexican Train's number among a game's trains: after every seat's own. */
+/** The Mexican Train's number among a game's trains: after every seat's own.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @returns The Mexican Train's number among a game's trains: after every seat's own.
+ * @example
+ * ```ts
+ * import { mexicanOf, startTrain } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(mexicanOf(game));
+ * ```
+ */
 export function mexicanOf(game: Pick<TrainGame, "players">): number {
   return game.players.length;
 }
 
-/** The number a train's next tile must match: its last tile's open end, or the engine double's when nothing is laid on it yet. */
+/** The number a train's next tile must match: its last tile's open end, or the engine double's when nothing is laid on it yet.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @param train - The zero-based train index; players.length is the Mexican Train.
+ * @returns The number a train's next tile must match: its last tile's open end, or the engine double's when nothing is laid on it yet.
+ * @example
+ * ```ts
+ * import { mexicanOf, openEnd, startTrain } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(openEnd(game,mexicanOf(game)));
+ * ```
+ */
 export function openEnd(game: TrainGame, train: number): number {
   const laid = game.trains[train].laid;
   return laid.length === 0 ? game.engine : laidEnds(laid[laid.length - 1])[1];
@@ -98,6 +144,19 @@ function dealRound(table: TrainGame, round: number): TrainGame {
  * shuffle is drawn from. Null for a table the game is not offered for — a set
  * not in `PARTY_SPECS`, or too few or too many players — rather than a game
  * nobody chose.
+ *
+ * @param set - The highest double of the supported set: 9, 12 or 15.
+ * @param players - Player count, or names in seat order, as specified by this signature.
+ * @param seed - The seed for reproducible shuffles.
+ * @param options - Native sound-player choices or Mexican Train house rules specified by the signature.
+ * @param computers - Which seats are computer-controlled, in player order.
+ * @returns The seeded game, or null for an unsupported set or player count.
+ * @example
+ * ```ts
+ * import { startTrain } from "@johnmorrisdotca/domino";
+ *
+ * console.log(startTrain(9,["A","B"],42)?.hands.map(hand=>hand.length));
+ * ```
  */
 export function startTrain(
   set: number,
@@ -150,6 +209,16 @@ function mayLayOn(game: TrainGame, seat: TrainSeat, train: number): boolean {
  * what the table lights up. While a double is uncovered anywhere the only
  * lay is to cover the last of them, on whoever's train it is — or, under the
  * chained-doubles rule, another double laid by the player still laying them.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @returns Every tile the player to move may lay, and where: what `moves` offers, and what the table lights up. While a double is uncovered anywhere the only lay is to cover the last of them, on whoever's train it is — or, under the chained-doubles rule, another double laid by the player still laying them.
+ * @example
+ * ```ts
+ * import { legalPlays, startTrain } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(legalPlays(game));
+ * ```
  */
 export function legalPlays(game: TrainGame): { tile: Domino; train: number }[] {
   if (game.phase !== TRAIN_PHASES.playing) return [];
@@ -178,6 +247,18 @@ export function legalPlays(game: TrainGame): { tile: Domino; train: number }[] {
 /**
  * Whether the player to move may lay this tile on this train now: the same
  * answer `legalPlays` gives, for one tile, without listing every other.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @param tile - A canonical tile number: low * 16 + high.
+ * @param train - The zero-based train index; players.length is the Mexican Train.
+ * @returns Whether the player to move may lay this tile on this train now: the same answer `legalPlays` gives, for one tile, without listing every other.
+ * @example
+ * ```ts
+ * import { mayLay, mexicanOf, startTrain } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(mayLay(game,game.hands[game.toPlay][0],mexicanOf(game)));
+ * ```
  */
 export function mayLay(game: TrainGame, tile: Domino, train: number): boolean {
   if (game.phase !== TRAIN_PHASES.playing || train < 0 || train >= game.trains.length) return false;
@@ -199,7 +280,18 @@ function canLay(game: TrainGame): boolean {
   return false;
 }
 
-/** Every move the player to move may make now; none once the game is over. */
+/** Every move the player to move may make now; none once the game is over.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @returns Every move the player to move may make now; none once the game is over.
+ * @example
+ * ```ts
+ * import { startTrain, trainMoves } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(trainMoves(game));
+ * ```
+ */
 export function trainMoves(game: TrainGame): TrainMove[] {
   if (game.phase === TRAIN_PHASES.finished) return [];
   if (game.phase === TRAIN_PHASES.roundOver) return [{ kind: "next" }];
@@ -208,24 +300,70 @@ export function trainMoves(game: TrainGame): TrainMove[] {
   return game.boneyard.length > 0 && !game.drew ? [{ kind: "draw" }] : [{ kind: "pass" }];
 }
 
-/** Every move a game has made, first to last. */
+/** Every move a game has made, first to last.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @returns Every move a game has made, first to last.
+ * @example
+ * ```ts
+ * import { movesOf, playTrain, startTrain, trainMoves } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const moved = playTrain(game,trainMoves(game)[0])!;
+ * console.log(movesOf(moved));
+ * ```
+ */
 export function movesOf(game: Pick<TrainGame, "history">): TrainMove[] {
   const moves: TrainMove[] = [];
   for (let link = game.history; link !== null; link = link.before) moves.push(link.move);
   return moves.reverse();
 }
 
-/** How many moves a game has made. */
+/** How many moves a game has made.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @returns How many moves a game has made.
+ * @example
+ * ```ts
+ * import { moveCount, playTrain, startTrain, trainMoves } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const moved = playTrain(game,trainMoves(game)[0])!;
+ * console.log(moveCount(moved));
+ * ```
+ */
 export function moveCount(game: Pick<TrainGame, "history">): number {
   return game.history?.count ?? 0;
 }
 
-/** Each seat's total over every round played: the lowest wins. */
+/** Each seat's total over every round played: the lowest wins.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @returns Each seat's total over every round played: the lowest wins.
+ * @example
+ * ```ts
+ * import { startTrain, trainTotals } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(trainTotals(game));
+ * ```
+ */
 export function trainTotals(game: Pick<TrainGame, "players" | "results">): number[] {
   return game.players.map((_, seat) => game.results.reduce((sum, result) => sum + result.pips[seat], 0));
 }
 
-/** The pips in a hand, which count against its holder when the round ends. */
+/** The pips in a hand, which count against its holder when the round ends.
+ *
+ * @param hand - The canonical tile numbers in one hand.
+ * @returns The pips in a hand, which count against its holder when the round ends.
+ * @example
+ * ```ts
+ * import { handPips, startTrain } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(handPips(game.hands[0]));
+ * ```
+ */
 export function handPips(hand: readonly Domino[]): number {
   return hand.reduce((sum, tile) => sum + pipsOf(tile), 0);
 }
@@ -283,6 +421,17 @@ function allowedNow(game: TrainGame, move: TrainMove): boolean {
 /**
  * The game after that move, or null for a move that may not be made now.
  * The game given is left untouched, and the move is added to its record.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @param move - A requested native play, draw, pass or next-round action.
+ * @returns The next immutable game, or null when the move is illegal in this state.
+ * @example
+ * ```ts
+ * import { playTrain, startTrain, trainMoves } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(playTrain(game,trainMoves(game)[0])?.turn);
+ * ```
  */
 export function playTrain(game: TrainGame, move: TrainMove): TrainGame | null {
   if (!allowedNow(game, move)) return null;
@@ -312,6 +461,22 @@ export function playTrain(game: TrainGame, move: TrainMove): TrainGame | null {
 /**
  * A game played again from its table and its moves: what reading a kept game
  * back does. Null if any move is one the rules would not have taken.
+ *
+ * @param set - The highest double of the supported set: 9, 12 or 15.
+ * @param players - Player count, or names in seat order, as specified by this signature.
+ * @param seed - The seed for reproducible shuffles.
+ * @param options - Native sound-player choices or Mexican Train house rules specified by the signature.
+ * @param computers - Which seats are computer-controlled, in player order.
+ * @param moves - Recorded native moves in chronological order.
+ * @returns A game played again from its table and its moves: what reading a kept game back does. null if any move is one the rules would not have taken.
+ * @example
+ * ```ts
+ * import { movesOf, playTrain, replayTrain, startTrain, trainMoves } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const moved = playTrain(game,trainMoves(game)[0])!;
+ * console.log(replayTrain(game.set,game.players,game.seed,game.options,game.computers,movesOf(moved))?.turn);
+ * ```
  */
 export function replayTrain(
   set: number,
@@ -329,19 +494,54 @@ export function replayTrain(
   return game;
 }
 
-/** The same table again, the same seats and options, with a fresh shuffle. */
+/** The same table again, the same seats and options, with a fresh shuffle.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @param seed - The seed for reproducible shuffles.
+ * @returns The same table again, the same seats and options, with a fresh shuffle.
+ * @example
+ * ```ts
+ * import { startTrain, trainAgain } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(trainAgain(game,43).seed);
+ * ```
+ */
 export function trainAgain(game: TrainGame, seed: number): TrainGame {
   return startTrain(game.set, game.players, seed, game.options, game.computers)!;
 }
 
-/** A seat's name as the table reads it: the one given, or "Computer 3" for a computer's seat left blank, "Player 3" for a person's. */
+/** A seat's name as the table reads it: the one given, or "Computer 3" for a computer's seat left blank, "Player 3" for a person's.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @param seat - The zero-based player seat.
+ * @returns A seat's name as the table reads it: the one given, or "Computer 3" for a computer's seat left blank, "Player 3" for a person's.
+ * @example
+ * ```ts
+ * import { startTrain, trainPlayerName } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(trainPlayerName(game,1));
+ * ```
+ */
 export function trainPlayerName(game: Pick<TrainGame, "players" | "computers">, seat: TrainSeat): string {
   const given = game.players[seat]?.trim() ?? "";
   if (given !== "") return given;
   return `${game.computers[seat] ? "Computer" : "Player"} ${seat + 1}`;
 }
 
-/** The seats a person plays: a table with two or more of them passes the device, and covers each hand between turns. */
+/** The seats a person plays: a table with two or more of them passes the device, and covers each hand between turns.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @returns The seats a person plays: a table with two or more of them passes the device, and covers each hand between turns.
+ * @example
+ * ```ts
+ * import { peopleAt, startTrain } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(peopleAt(game));
+ * ```
+ */
 export function peopleAt(game: Pick<TrainGame, "computers">): TrainSeat[] {
   return game.computers.flatMap((computer, seat) => (computer ? [] : [seat]));
 }

@@ -6,10 +6,29 @@
  * filled in with `dominoSay`; a table of your own must keep them.
  */
 
-/** The languages Domino speaks. */
+/** The languages Domino speaks.
+ *
+ * @example
+ * ```ts
+ * import type { Language } from "@johnmorrisdotca/domino";
+ *
+ * const value: Language = "ja";
+ * console.log(value);
+ * ```
+ */
 export type Language = "en" | "ja";
 
-/** The names of the strings. Each is one line or one block of text. */
+/** The names of the strings. Each is one line or one block of text.
+ *
+ * @example
+ * ```ts
+ * import type { DominoStrings } from "@johnmorrisdotca/domino";
+ * import { DOMINO_STRINGS } from "@johnmorrisdotca/domino";
+ *
+ * const value: DominoStrings = DOMINO_STRINGS.en;
+ * console.log(value);
+ * ```
+ */
 export type DominoStrings = {
   /** The set's names, by its highest double. */
   set9: string;
@@ -88,7 +107,14 @@ export type DominoStrings = {
   cliPhaseFinished: string;
 };
 
-/** Every string, in both languages. The Japanese has not yet been read by a native reader. */
+/** Every string, in both languages. The Japanese has not yet been read by a native reader.
+ *
+ * @example
+ * ```ts
+ * import { DOMINO_STRINGS } from "@johnmorrisdotca/domino";
+ * console.log(DOMINO_STRINGS);
+ * ```
+ */
 export const DOMINO_STRINGS: Record<Language, DominoStrings> = {
   en: {
     set9: "Double-nine",
@@ -288,12 +314,33 @@ rules refuse), 2 the command was wrong.
   },
 };
 
-/** A string with its braces filled in from `values`; a brace with no value is left as it is. */
+/** A string with its braces filled in from `values`; a brace with no value is left as it is.
+ *
+ * @param text - The localized template, or saved-game text specified by this signature.
+ * @param values - Replacement strings or numbers for brace-delimited placeholders.
+ * @returns A string with its braces filled in from `values`; a brace with no value is left as it is.
+ * @example
+ * ```ts
+ * import { dominoSay } from "@johnmorrisdotca/domino";
+ *
+ * console.log(dominoSay("Round {n}",{n:2}));
+ * ```
+ */
 export function dominoSay(text: string, values: Readonly<Record<string, string | number>> = {}): string {
   return text.replace(/\{(\w+)\}/g, (whole, name: string) => (name in values ? String(values[name]) : whole));
 }
 
-/** The language a person asked for, by `en` or `ja` or a tag that begins with one: English for anything else. */
+/** The language a person asked for, by `en` or `ja` or a tag that begins with one: English for anything else.
+ *
+ * @param tag - A language tag, or undefined to select English.
+ * @returns The language a person asked for, by `en` or `ja` or a tag that begins with one: English for anything else.
+ * @example
+ * ```ts
+ * import { dominoLanguage } from "@johnmorrisdotca/domino";
+ *
+ * console.log(dominoLanguage("ja-JP"));
+ * ```
+ */
 export function dominoLanguage(tag: string | undefined): Language {
   return (tag ?? "en").toLowerCase().startsWith("ja") ? "ja" : "en";
 }

@@ -15,7 +15,17 @@ import { trainNews, trainSeatName, trainSetLabel, trainStatus } from "./words.ts
  * network, so every line of it is tested as plain data.
  */
 
-/** What the command line is run in. All of it is optional. */
+/** What the command line is run in. All of it is optional.
+ *
+ * @example
+ * ```ts
+ * import type { CliSurroundings } from "@johnmorrisdotca/domino";
+ * import { seededRandom } from "@johnmorrisdotca/domino";
+ *
+ * const value: CliSurroundings = {locale:"ja-JP",random:seededRandom(42)};
+ * console.log(value);
+ * ```
+ */
 export type CliSurroundings = {
   /** The environment, for the language: `LC_ALL`, `LC_MESSAGES` and `LANG`. */
   env?: Record<string, string | undefined>;
@@ -27,7 +37,17 @@ export type CliSurroundings = {
   random?: () => number;
 };
 
-/** What the command line came to. */
+/** What the command line came to.
+ *
+ * @example
+ * ```ts
+ * import type { CliResult } from "@johnmorrisdotca/domino";
+ * import { runCli } from "@johnmorrisdotca/domino";
+ *
+ * const value: CliResult = runCli(["--version"]);
+ * console.log(value);
+ * ```
+ */
 export type CliResult = {
   /** 0 when all went well, 1 when what was asked for could not be done, 2 when the command itself was wrong. */
   code: 0 | 1 | 2;
@@ -37,10 +57,29 @@ export type CliResult = {
   err: string;
 };
 
-/** The most moves a played game may take before the command line gives up, far above any game the rules allow. */
+/** The most moves a played game may take before the command line gives up, far above any game the rules allow.
+ *
+ * @example
+ * ```ts
+ * import { CLI_MOVES_MOST } from "@johnmorrisdotca/domino";
+ * console.log(CLI_MOVES_MOST);
+ * ```
+ */
 export const CLI_MOVES_MOST = 100_000;
 
-/** The language the command line speaks: `--lang`, or the environment's, or the system's; Japanese for `ja…`, English for anything else. */
+/** The language the command line speaks: `--lang`, or the environment's, or the system's; Japanese for `ja…`, English for anything else.
+ *
+ * @param flag - The explicit CLI language flag, if supplied.
+ * @param env - Language environment values, including LC_ALL, LC_MESSAGES and LANG.
+ * @param locale - The system locale used when no environment language is supplied.
+ * @returns The language the command line speaks: `--lang`, or the environment's, or the system's; Japanese for `ja…`, English for anything else.
+ * @example
+ * ```ts
+ * import { cliLanguage } from "@johnmorrisdotca/domino";
+ *
+ * console.log(cliLanguage(undefined,{LANG:"ja_JP.UTF-8"},"en-US"));
+ * ```
+ */
 export function cliLanguage(flag: string | undefined, env: Record<string, string | undefined> = {}, locale?: string): Language {
   const named = [flag, env.LC_ALL, env.LC_MESSAGES, env.LANG].find((value) => value !== undefined && value !== "" && value !== "C" && value !== "POSIX" && !value.startsWith("C."));
   return dominoLanguage(named ?? locale);
@@ -96,7 +135,18 @@ const sorted = (hand: readonly Domino[]): Domino[] =>
 /** Names every seat, for a table the command line made. */
 const seatNames = (game: TrainGame, language: Language): string[] => game.players.map((_, seat) => trainSeatName(game, seat, language));
 
-/** Run the command line. See `domino --help` for what it takes. One seed serves the whole run, so the same command prints the same lines on every machine. */
+/** Run the command line. See `domino --help` for what it takes. One seed serves the whole run, so the same command prints the same lines on every machine.
+ *
+ * @param args - Command-line arguments without the executable name.
+ * @param around - Optional environment, input, locale and seed source for the pure CLI.
+ * @returns Output and error strings with exit code 0 for success, 1 for refused input, or 2 for invalid command usage.
+ * @example
+ * ```ts
+ * import { runCli } from "@johnmorrisdotca/domino";
+ *
+ * console.log(runCli(["deal","--seed","42","--players","2","--set","9"],{locale:"en-US"}).code);
+ * ```
+ */
 export function runCli(args: readonly string[], around: CliSurroundings = {}): CliResult {
   const asked = sortArguments(args);
   const env = around.env ?? {};

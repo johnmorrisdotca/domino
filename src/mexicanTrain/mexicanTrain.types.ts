@@ -15,13 +15,42 @@
  * to everybody.
  */
 
-/** Who sits where: 0 is the first player, round the table in the order the set-up named them. */
+/** Who sits where: 0 is the first player, round the table in the order the set-up named them.
+ *
+ * @example
+ * ```ts
+ * import type { TrainSeat } from "@johnmorrisdotca/domino";
+ *
+ * const value: TrainSeat = 0;
+ * console.log(value);
+ * ```
+ */
 export type TrainSeat = number;
 
-/** A domino in a hand or the boneyard: `low * 16 + high`. */
+/** A domino in a hand or the boneyard: `low * 16 + high`.
+ *
+ * @example
+ * ```ts
+ * import type { Domino } from "@johnmorrisdotca/domino";
+ * import { tileOf } from "@johnmorrisdotca/domino";
+ *
+ * const value: Domino = tileOf(4,6);
+ * console.log(value);
+ * ```
+ */
 export type Domino = number;
 
-/** A domino laid in a train, turned so its `from` end touches the train: `from * 16 + to`. */
+/** A domino laid in a train, turned so its `from` end touches the train: `from * 16 + to`.
+ *
+ * @example
+ * ```ts
+ * import type { LaidDomino } from "@johnmorrisdotca/domino";
+ * import { laidAgainst, tileOf } from "@johnmorrisdotca/domino";
+ *
+ * const value: LaidDomino = laidAgainst(tileOf(4,6),6);
+ * console.log(value);
+ * ```
+ */
 export type LaidDomino = number;
 
 /**
@@ -33,6 +62,14 @@ export type LaidDomino = number;
  * - `chain`: after laying a double you may lay another double in the same
  *   turn, anywhere one fits, before covering; then every double left open is
  *   covered, the last laid first, before anything else is played.
+ *
+ * @example
+ * ```ts
+ * import type { DoublesRule } from "@johnmorrisdotca/domino";
+ *
+ * const value: DoublesRule = "chain";
+ * console.log(value);
+ * ```
  */
 export type DoublesRule = "one" | "chain";
 
@@ -43,20 +80,57 @@ export type DoublesRule = "one" | "chain";
  * - `ownFirst`: a player may lay on the Mexican Train only once their own
  *   train has been started, the common house rule that keeps a first turn
  *   about your own train.
+ *
+ * @example
+ * ```ts
+ * import type { MexicanStart } from "@johnmorrisdotca/domino";
+ *
+ * const value: MexicanStart = "ownFirst";
+ * console.log(value);
+ * ```
  */
 export type MexicanStart = "any" | "ownFirst";
 
-/** How many rounds: all of them, one for every double from the set's highest down to double blank, or half as many. */
+/** How many rounds: all of them, one for every double from the set's highest down to double blank, or half as many.
+ *
+ * @example
+ * ```ts
+ * import type { TrainLength } from "@johnmorrisdotca/domino";
+ *
+ * const value: TrainLength = "short";
+ * console.log(value);
+ * ```
+ */
 export type TrainLength = "full" | "short";
 
-/** What the set-up chose, beyond the set and the players. */
+/** What the set-up chose, beyond the set and the players.
+ *
+ * @example
+ * ```ts
+ * import type { TrainOptions } from "@johnmorrisdotca/domino";
+ *
+ * const value: TrainOptions = {length:"short",doubles:"one",mexican:"any"};
+ * console.log(value);
+ * ```
+ */
 export type TrainOptions = {
   length: TrainLength;
   doubles: DoublesRule;
   mexican: MexicanStart;
 };
 
-/** A train on the table: the tiles laid on it in order, and whether its owner's marker says anybody may play on it. */
+/** A train on the table: the tiles laid on it in order, and whether its owner's marker says anybody may play on it.
+ *
+ * @example
+ * ```ts
+ * import { startTrain } from "@johnmorrisdotca/domino";
+ * import type { Train } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const value: Train = game.trains[0];
+ * console.log(value);
+ * ```
+ */
 export type Train = {
   laid: readonly LaidDomino[];
   /** Open to everybody: the Mexican Train always, a player's own once they could not play. */
@@ -71,6 +145,16 @@ export type Train = {
  * - `pass`: nothing to play and nothing to draw (or the tile drawn will not
  *   go): your train's marker goes on, and the turn passes.
  * - `next`: a round is over and everybody has seen how it went; deal the next.
+ *
+ * @example
+ * ```ts
+ * import { startTrain, trainMoves } from "@johnmorrisdotca/domino";
+ * import type { TrainMove } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const value: TrainMove = trainMoves(game)[0];
+ * console.log(value);
+ * ```
  */
 export type TrainMove =
   | { kind: "play"; tile: Domino; train: number }
@@ -78,7 +162,18 @@ export type TrainMove =
   | { kind: "pass" }
   | { kind: "next" };
 
-/** One link of a game's record: a move, and every move before it. */
+/** One link of a game's record: a move, and every move before it.
+ *
+ * @example
+ * ```ts
+ * import { startTrain, trainMoves } from "@johnmorrisdotca/domino";
+ * import type { TrainHistory } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const value: TrainHistory = {move:trainMoves(game)[0],before:null,count:1};
+ * console.log(value);
+ * ```
+ */
 export type TrainHistory = {
   readonly move: TrainMove;
   readonly before: TrainHistory | null;
@@ -86,12 +181,40 @@ export type TrainHistory = {
   readonly count: number;
 };
 
+/** Whether the game is playing, awaiting the next round, or finished.
+ *
+ * @example
+ * ```ts
+ * import type { TrainPhase } from "@johnmorrisdotca/domino";
+ *
+ * const value: TrainPhase = "playing";
+ * console.log(value);
+ * ```
+ */
 export type TrainPhase = "playing" | "roundOver" | "finished";
 
-/** Why a round ended: somebody played their last tile, or nobody could play and nothing was left to draw. */
+/** Why a round ended: somebody played their last tile, or nobody could play and nothing was left to draw.
+ *
+ * @example
+ * ```ts
+ * import type { RoundEnding } from "@johnmorrisdotca/domino";
+ *
+ * const value: RoundEnding = "domino";
+ * console.log(value);
+ * ```
+ */
 export type RoundEnding = "domino" | "blocked";
 
-/** A round's result, kept for the table of scores. */
+/** A round's result, kept for the table of scores.
+ *
+ * @example
+ * ```ts
+ * import type { RoundResult } from "@johnmorrisdotca/domino";
+ *
+ * const value: RoundResult = {engine:9,pips:[0,12],ending:"domino",out:0};
+ * console.log(value);
+ * ```
+ */
 export type RoundResult = {
   /** The round's engine double, by its number: 12 for double-twelve. */
   engine: number;
@@ -107,6 +230,16 @@ export type RoundResult = {
  * seed, the seats and the moves are ever kept (`encodeTrain`); everything
  * else is read again from them (`replayTrain`), so a kept game can never hold
  * a hand or a train its moves do not make, and a reload cannot deal again.
+ *
+ * @example
+ * ```ts
+ * import { startTrain } from "@johnmorrisdotca/domino";
+ * import type { TrainGame } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * const value: TrainGame = game;
+ * console.log(value);
+ * ```
  */
 export type TrainGame = {
   /** The set, by its highest double: 9, 12 or 15. The party game's "board size". */

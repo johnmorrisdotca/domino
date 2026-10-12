@@ -12,23 +12,66 @@
  * Domino never makes a sound by itself. A table asks for one with `play`.
  */
 
-/** Every kind of sound, in the order a game meets them. */
+/** Every kind of sound, in the order a game meets them.
+ *
+ * @example
+ * ```ts
+ * import { TILE_SOUND_KINDS } from "@johnmorrisdotca/domino/tile-sounds";
+ * console.log(TILE_SOUND_KINDS);
+ * ```
+ */
 export const TILE_SOUND_KINDS = ["shuffle", "draw", "lay", "knock"] as const;
 
-/** One kind of sound: `shuffle` the tiles stirred face down, `draw` a tile taken from the boneyard, `lay` a tile set down on a train, `knock` a rap on the table, which is how a pass is announced. */
+/** One kind of sound: `shuffle` the tiles stirred face down, `draw` a tile taken from the boneyard, `lay` a tile set down on a train, `knock` a rap on the table, which is how a pass is announced.
+ *
+ * @example
+ * ```ts
+ * import type { TileSoundKind } from "@johnmorrisdotca/domino/tile-sounds";
+ *
+ * const value: TileSoundKind = "lay";
+ * console.log(value);
+ * ```
+ */
 export type TileSoundKind = (typeof TILE_SOUND_KINDS)[number];
 
-/** The recordings, by name (`lay-2`), as base64 AAC. */
+/** The recordings, by name (`lay-2`), as base64 AAC.
+ *
+ * @example
+ * ```ts
+ * import type { TileSoundData } from "@johnmorrisdotca/domino/tile-sounds";
+ *
+ * const value: TileSoundData = {};
+ * console.log(value);
+ * ```
+ */
 export type TileSoundData = Readonly<Record<string, string>>;
 
-/** The parts of a window the sounds use: an audio context and `atob`. Any of them may be missing. */
+/** The parts of a window the sounds use: an audio context and `atob`. Any of them may be missing.
+ *
+ * @example
+ * ```ts
+ * import type { TileSoundWindow } from "@johnmorrisdotca/domino/tile-sounds";
+ *
+ * const value: TileSoundWindow = {};
+ * console.log(value);
+ * ```
+ */
 export type TileSoundWindow = {
   AudioContext?: typeof AudioContext;
   webkitAudioContext?: typeof AudioContext;
   atob?: (text: string) => string;
 };
 
-/** How a table's sounds are made. Every field may be left out. */
+/** How a table's sounds are made. Every field may be left out.
+ *
+ * @example
+ * ```ts
+ * import type { TileSoundsOptions } from "@johnmorrisdotca/domino/tile-sounds";
+ *
+ * const value: TileSoundsOptions = {muted:true,window:null};
+ * console.log(value);
+ * ```
+ */
 export type TileSoundsOptions = {
   /** Start muted: nothing plays, and nothing is fetched, until `setMuted(false)`. Unless said, not muted. */
   muted?: boolean;
@@ -40,7 +83,16 @@ export type TileSoundsOptions = {
   window?: TileSoundWindow | null;
 };
 
-/** How one sound is played. */
+/** How one sound is played.
+ *
+ * @example
+ * ```ts
+ * import type { PlayTileSoundOptions } from "@johnmorrisdotca/domino/tile-sounds";
+ *
+ * const value: PlayTileSoundOptions = {count:3,gap:85};
+ * console.log(value);
+ * ```
+ */
 export type PlayTileSoundOptions = {
   /** How many tiles: `draw` with 7 is seven tiles taken one after another (heard as at most `MOST_SOUNDS_AT_ONCE`). Unless said, one. */
   count?: number;
@@ -50,7 +102,17 @@ export type PlayTileSoundOptions = {
   delay?: number;
 };
 
-/** A table's sounds: `play` one, mute and unmute, change the volume, `close` when the table goes. */
+/** A table's sounds: `play` one, mute and unmute, change the volume, `close` when the table goes.
+ *
+ * @example
+ * ```ts
+ * import type { TileSounds } from "@johnmorrisdotca/domino/tile-sounds";
+ * import { createTileSounds } from "@johnmorrisdotca/domino/tile-sounds";
+ *
+ * const value: TileSounds = createTileSounds({muted:true,window:null});
+ * console.log(value);
+ * ```
+ */
 export type TileSounds = {
   /** Play a sound, or several of one kind in a row; nothing while muted or closed. */
   play(kind: TileSoundKind, options?: PlayTileSoundOptions): void;
@@ -66,10 +128,28 @@ export type TileSounds = {
   close(): void;
 };
 
-/** As many sounds as one call plays: fifteen tiles drawn are eight clicks, not a wall of noise. */
+/** As many sounds as one call plays: fifteen tiles drawn are eight clicks, not a wall of noise.
+ *
+ * @example
+ * ```ts
+ * import { MOST_SOUNDS_AT_ONCE } from "@johnmorrisdotca/domino/tile-sounds";
+ * console.log(MOST_SOUNDS_AT_ONCE);
+ * ```
+ */
 export const MOST_SOUNDS_AT_ONCE = 8;
 
-/** When each of `count` sounds starts, in milliseconds from the first: one every `gap`, and no more than `MOST_SOUNDS_AT_ONCE`, spread over the same time. */
+/** When each of `count` sounds starts, in milliseconds from the first: one every `gap`, and no more than `MOST_SOUNDS_AT_ONCE`, spread over the same time.
+ *
+ * @param count - The requested number of tile sounds.
+ * @param gap - Milliseconds between consecutive tile sounds.
+ * @returns When each of `count` sounds starts, in milliseconds from the first: one every `gap`, and no more than `MOST_SOUNDS_AT_ONCE`, spread over the same time.
+ * @example
+ * ```ts
+ * import { soundTimes } from "@johnmorrisdotca/domino/tile-sounds";
+ *
+ * console.log(soundTimes(4,85));
+ * ```
+ */
 export function soundTimes(count: number, gap = 85): number[] {
   const whole = Math.max(1, Math.floor(Number.isFinite(count) ? count : 1));
   const span = (whole - 1) * Math.max(0, gap);
@@ -105,7 +185,17 @@ const MADE: Record<TileSoundKind, { ticks: number; over: number; length: number;
   shuffle: { ticks: 18, over: 0.9, length: 0.03, pitch: 2000 },
 };
 
-/** A table's tile sounds. Nothing is fetched and no audio context is made until the first sound. */
+/** A table's tile sounds. Nothing is fetched and no audio context is made until the first sound.
+ *
+ * @param options - Native sound-player choices or Mexican Train house rules specified by the signature.
+ * @returns A lazy sound-player handle; close it when the table is removed.
+ * @example
+ * ```ts
+ * import { createTileSounds } from "@johnmorrisdotca/domino/tile-sounds";
+ *
+ * console.log(createTileSounds({muted:true,window:null}).muted);
+ * ```
+ */
 export function createTileSounds(options: TileSoundsOptions = {}): TileSounds {
   const win: TileSoundWindow | undefined = options.window === null ? undefined : (options.window ?? (typeof window === "undefined" ? undefined : (window as unknown as TileSoundWindow)));
   const load = options.load ?? ((): Promise<{ TILE_SOUND_DATA: TileSoundData }> => import("./sounds.ts"));

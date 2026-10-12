@@ -33,6 +33,16 @@ const PLAN_STEPS = 4000;
  * against `end`, in the order they would be laid. A depth-first search over
  * the hand, bounded by `PLAN_STEPS`, preferring the heavier run of two the
  * same length: pips laid are pips that do not count.
+ *
+ * @param hand - The canonical tile numbers in one hand.
+ * @param end - The pip value the next laid tile must match.
+ * @returns The longest run of tiles from `hand` that can be laid one after another against `end`, in the order they would be laid. A depth-first search over the hand, bounded by `PLAN_STEPS`, preferring the heavier run of two the same length: pips laid are pips that do not count.
+ * @example
+ * ```ts
+ * import { longestRun, tileOf } from "@johnmorrisdotca/domino";
+ *
+ * console.log(longestRun([tileOf(1,2),tileOf(2,3),tileOf(3,4)],1));
+ * ```
  */
 export function longestRun(hand: readonly Domino[], end: number): Domino[] {
   let best: Domino[] = [];
@@ -87,7 +97,18 @@ function scoreOf(game: TrainGame, move: Extract<TrainMove, { kind: "play" }>, pl
   return score;
 }
 
-/** The move the computer in the seat to move makes now: the best-scored lay, or the draw, pass or next round it must take. */
+/** The move the computer in the seat to move makes now: the best-scored lay, or the draw, pass or next round it must take.
+ *
+ * @param game - The current immutable Mexican Train game or required fields of it.
+ * @returns The move the computer in the seat to move makes now: the best-scored lay, or the draw, pass or next round it must take.
+ * @example
+ * ```ts
+ * import { computerMove, startTrain } from "@johnmorrisdotca/domino";
+ *
+ * const game = startTrain(9,["A","B"],42,{length:"short",doubles:"one",mexican:"any"},[false,true])!;
+ * console.log(computerMove(game));
+ * ```
+ */
 export function computerMove(game: TrainGame): TrainMove {
   const offered = trainMoves(game);
   if (offered.length === 0) throw new Error("no move to make: the game is over");

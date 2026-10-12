@@ -11,7 +11,7 @@ const icon = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewB
 const frame = ({ title, description, links, body, scripts }) => `<!doctype html>
 <html lang="en">
   <head>
-    ${familyHead({ id, title, description, ogTitle: "Domino ドミノ: Mexican Train", ogDescription: "Play Mexican Train against the computers, with dominoes in three sizes of set." })}
+    ${familyHead({ id, title, description, ogTitle: "Domino ドミノ — Dominoes and Mexican Train", ogDescription: "Play Mexican Train against the computers, with dominoes in three sizes of set." })}
     <link rel="icon" href="${icon}" />
     <link rel="stylesheet" href="family.css" />
     <link rel="stylesheet" href="domino.css" />
@@ -36,9 +36,9 @@ cpSync("dist", "site/dist", { recursive: true });
 writeFileSync(
   "site/index.html",
   frame({
-    title: "Domino · Mexican Train, against computers",
+    title: "Domino ドミノ — Dominoes and Mexican Train",
     description: "Play Mexican Train against one to seven computers with double-nine, double-twelve or double-fifteen dominoes, every rule and house rule the Domino package plays by, in English and Japanese. Free and open source.",
-    links: [{ href: "api.html", say: "pageApi" }],
+    links: [{ href: "docs/index.html", say: "pageDocs" }, { href: "api.html", say: "pageApi" }],
     body: readFileSync("demo/body.html", "utf8").replace("__UNREVIEWED__", familyUnreviewed({ id })).trimEnd(),
     scripts: `<script type="module" src="page.js"></script>`,
   }),

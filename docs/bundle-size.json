@@ -1,0 +1,17 @@
+{
+  "measured": "esbuild 0.28.2, bundled, minified, ES2020, gzip level 9",
+  "entries": {
+    ".": {
+      "minified": 28613,
+      "gzip": 9782
+    },
+    "./tile-sounds": {
+      "minified": 35102,
+      "gzip": 19343
+    },
+    "./sounds": {
+      "minified": 31863,
+      "gzip": 17396
+    }
+  }
+}

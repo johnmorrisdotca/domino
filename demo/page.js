@@ -12,6 +12,7 @@ const PAGE = {
     pitch: "Mexican Train for one against the computers: lay a train of dominoes out from the hub, and be first to empty your hand. Double-nine, double-twelve or double-fifteen, two to eight players.",
     name: "Domino is ドミノ, the word Japanese borrowed for dominoes.",
     nameLink: "About the name",
+    pageDocs: "Docs",
     pageApi: "API reference",
     pageBack: "The table",
     pageApiIntro: "Every export of every entry point, with its signature and its doc comment. Made from the source when the site is built, so it cannot fall behind the code.",
@@ -45,6 +46,7 @@ const PAGE = {
     pitch: "コンピューターを相手に遊ぶメキシカントレイン。ハブのドミノから牌を並べて道を伸ばし、手牌を最初に出し切りましょう。ダブルナイン、ダブルトゥエルブ、ダブルフィフティーン、2〜8人。",
     name: "「ドミノ」は、英語の domino をそのまま日本語に取り入れた言葉です。",
     nameLink: "名前について（英語）",
+    pageDocs: "ドキュメント",
     pageApi: "API リファレンス",
     pageBack: "テーブル",
     pageApiIntro: "すべてのエントリポイントのすべてのエクスポートを、シグネチャとドキュメントコメントつきで載せています。サイトをビルドするときにソースから作るので、コードとずれません。",
@@ -95,7 +97,7 @@ let timer = null;
 const language = familyLanguage({
   id: "domino",
   words: WORDS,
-  onChange: () => render(),
+  onChange: () => { docsLink(); render(); },
 });
 const t = (key, values = {}) => dominoSay(language.word(key), values);
 
@@ -376,3 +378,6 @@ $("copy-saved").addEventListener("click", () => copy($("copy-saved"), $("saved-c
 
 deal();
 document.documentElement.dataset.ready = "true";
+
+function docsLink() { document.querySelector('[data-say="pageDocs"]')?.setAttribute("href", language.lang === "ja" ? "docs/ja/index.html" : "docs/index.html"); }
+docsLink();

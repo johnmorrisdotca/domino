@@ -151,6 +151,8 @@ How a double is dealt with, the table's one house rule about them.
 encodeTrain(game: TrainGame): string
 ```
 
+Serialize setup and recorded legal moves so the same seeded game can be replayed.
+
 <a id="main-endsOf"></a>
 
 ### function `endsOf`
@@ -530,6 +532,8 @@ The options a table opens on: every round, one double at a time, and the Mexican
 TRAIN_DOUBLES: { readonly one: "one"; readonly chain: "chain"; }
 ```
 
+The one-double and chained-double house-rule choices.
+
 <a id="main-TRAIN_LENGTHS"></a>
 
 ### const `TRAIN_LENGTHS`
@@ -538,6 +542,8 @@ TRAIN_DOUBLES: { readonly one: "one"; readonly chain: "chain"; }
 TRAIN_LENGTHS: { readonly full: "full"; readonly short: "short"; }
 ```
 
+The full and short round-count choices for a game.
+
 <a id="main-TRAIN_MEXICAN"></a>
 
 ### const `TRAIN_MEXICAN`
@@ -545,6 +551,8 @@ TRAIN_LENGTHS: { readonly full: "full"; readonly short: "short"; }
 ```ts
 TRAIN_MEXICAN: { readonly any: "any"; readonly ownFirst: "ownFirst"; }
 ```
+
+The unrestricted and own-train-first Mexican Train opening choices.
 
 <a id="main-TRAIN_NAME_MOST"></a>
 
@@ -732,6 +740,8 @@ What the set-up chose, beyond the set and the players.
 ```ts
 type TrainPhase = "playing" | "roundOver" | "finished";
 ```
+
+Whether the game is playing, awaiting the next round, or finished.
 
 <a id="main-trainPlayerName"></a>
 

@@ -1,4 +1,4 @@
-<h1 align="center">Domino <sub>ドミノ</sub></h1>
+<h1 align="center">Domino <sub>ドミノ</sub> — Dominoes and Mexican Train</h1>
 
 <p align="center"><strong>Dominoes and Mexican Train for JavaScript and TypeScript.</strong><br>
 Double-nine, double-twelve and double-fifteen sets; the full rules of Mexican Train for two to eight players; a computer player; seeded deals that replay exactly; and a saved game small enough to keep in a column; the words of the table in English and Japanese; tile sounds; and a command line. No dependencies.</p>
@@ -9,16 +9,18 @@ Double-nine, double-twelve and double-fifteen sets; the full rules of Mexican Tr
   <a href="./LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-2f5d4a"></a>
   <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-0-2f5d4a">
   <img alt="TypeScript" src="https://img.shields.io/badge/types-TypeScript-3178c6">
+  <a href="https://johnmorrisdotca.github.io/domino/docs/api/main/index.html"><img alt="9.8 kB minified and gzipped" src="https://img.shields.io/badge/min%2Bgzip-9.8%20kB-2f5d4a"></a>
+  <a href="https://www.npmjs.com/package/@johnmorrisdotca/domino#provenance"><img alt="Published with npm provenance" src="https://img.shields.io/badge/npm-provenance-2f5d4a"></a>
 </p>
 
-<p align="center"><a href="https://johnmorrisdotca.github.io/domino/"><strong>Play Mexican Train →</strong></a> · <a href="https://johnmorrisdotca.github.io/domino/api.html">API reference</a></p>
+<p align="center"><a href="https://johnmorrisdotca.github.io/domino/"><strong>Play Mexican Train →</strong></a> · <a href="https://johnmorrisdotca.github.io/domino/docs/">Documentation</a> · <a href="https://johnmorrisdotca.github.io/domino/docs/guides/getting-started.html">Getting started</a> · <a href="https://johnmorrisdotca.github.io/domino/api.html">API reference</a></p>
 
 <table align="center">
 <tr>
 <td align="center" valign="top">
 <picture>
 <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/hero-desk-dark.webp">
-<img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/hero-desk-light.webp" alt="The demo on a desk, in English, a few turns into a game of Mexican Train for three: the page header with the language chooser, five cloth patches and the Help switch, the choices of set, players, rounds, doubles rule and Mexican Train rule, then the green table with a train for each seat and the Mexican Train, the status line Your turn, Cover the double, and your hand of tiles with the ones that may be laid lifted" width="600">
+<img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/hero-desk-light.webp" alt="The demo on a desk, in English, a few turns into a game of Mexican Train for three: the page header with the language chooser, Docs link, five cloth patches and the Help switch, the choices of set, players, rounds, doubles rule and Mexican Train rule, then the green table with a train for each seat and the Mexican Train, the status line Your turn, Cover the double, and your hand of tiles with the ones that may be laid lifted" width="600">
 </picture>
 <br><em>The demo on a desk: a double-nine table for three, a few turns in.</em>
 </td>
@@ -143,6 +145,17 @@ however you like, and pass each move through `playTrain`. The table in the
 [demo](https://johnmorrisdotca.github.io/domino/) is
 [`demo/page.js`](./demo/page.js), a page of plain DOM that does exactly that,
 and the demo's *Using it* panel shows the code for the game on the table.
+
+### Install under another name
+
+```sh
+npm install dominoes@npm:@johnmorrisdotca/domino
+```
+
+```ts no-check
+import { everyTile } from "dominoes";
+console.log(everyTile(9).length);
+```
 
 ### Install
 
@@ -650,6 +663,8 @@ muteButton.onclick = () => sounds.setMuted(!sounds.muted);
 
 ## API
 
+The [documentation](https://johnmorrisdotca.github.io/domino/docs/) provides paired guides, local search and checked examples. The [API index](https://johnmorrisdotca.github.io/domino/api.html) keeps the export anchors.
+
 The [API reference](https://johnmorrisdotca.github.io/domino/api.html) (also kept in the repository as [`docs/api.md`](https://github.com/johnmorrisdotca/domino/blob/main/docs/api.md)) lists every export of every entry point with its signature and its doc comment. It is made from the source by `pnpm docs:api`, and a test fails when it falls behind the code.
 
 | Export | What it does |
@@ -765,38 +780,7 @@ needs a server. A game here is plain data, so your own server can carry it.
 
 ## Architecture
 
-The dominoes and the rules of Mexican Train are plain functions over plain
-data with no DOM and no dependency: a game is a value, every move returns the
-next one, and a seed replays a deal exactly. The computer player and the
-saved-game format are separate modules over the same rules, and every game so
-far lives in a folder of its own, so the next one is a sibling of
-`mexicanTrain/`.
-
-```text
-src/
-├── index.ts        the main entry: the dominoes, Mexican Train's rules, its computer player, its saved-game format, its words and its command line
-├── cli.ts          the command line, as a pure function
-├── random.ts       seeded randomness, the one thing every deal is made from
-├── sounds.ts       the recordings of the tile sounds, as base64 (written by scripts/sounds.mjs)
-├── strings.ts      every word Domino says, in English and Japanese
-├── tile-sounds.ts  the tile sounds: a player that fetches the recordings on the first sound
-├── version.ts      the package's version
-├── words.ts        what a table says: who is who, what just happened, whose turn it is
-└── mexicanTrain/   Mexican Train, the one game so far
-    ├── dominoes.ts                the dominoes themselves: the double-nine, double-twelve and double-fifteen sets, their ends and pips, and which fit
-    ├── mexicanTrain.constants.ts  the numbers the game is played by: set sizes, train lengths and the doubles rules
-    ├── mexicanTrain.ts            the rules of Mexican Train: deal, trains, doubles, drawing and scoring
-    ├── mexicanTrain.types.ts      the game, its moves and its options, as the rules speak of them
-    ├── trainCodec.ts              a game as text and back: its options, its seed and every move
-    └── trainComputer.ts           the computer player
-```
-
-Tests sit beside the code they test (`*.test.ts`), and `src/docs.test.js` holds
-this README's examples and tables to the code. `bin/` is the command line's few
-lines. `scripts/` checks the package as npm packs it (`pnpm test:package`), runs
-the command line as a child process (`pnpm test:cli`), makes the API reference,
-`docs/api.md`, cuts the sounds, and builds the demo (`pnpm site`) and tests it in
-a real browser (`pnpm test:demo`); `demo/` is the page published on GitHub Pages.
+The pure rules, immutable state, linked history and saved-game replay are explained in the [architecture guide](docs/guides/architecture.md), which retains the file-by-file source tree.
 
 ## The name
 

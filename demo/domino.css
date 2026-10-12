@@ -66,3 +66,6 @@ td[data-out="true"] { font-weight: 800; }
 .snippet { white-space: pre; }
 .snippet.saved { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 9rem; overflow-y: auto; }
 .more .fam-row { gap: 8px 14px; }
+
+/* Keep navigation width stable across languages. */
+header nav a[data-say="pageDocs"] { inline-size: 8rem; justify-content: center; flex: none; }

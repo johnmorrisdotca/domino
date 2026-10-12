@@ -1,0 +1,26 @@
+{
+  "job": "Dominoes and Mexican Train",
+  "pitch": {
+    "en": "Deal seeded dominoes, play Mexican Train with native rules and computers, and replay a saved game.",
+    "ja": "シード付きでドミノを配り、標準のルールとコンピューターでメキシカントレインを遊び、保存したゲームを再生します。"
+  },
+  "name": {
+    "en": "Domino is the Japanese borrowed word ドミノ for dominoes.",
+    "ja": "「ドミノ」は、英語の domino をそのまま日本語に取り入れた言葉です。"
+  },
+  "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='8' y='22' width='84' height='56' rx='10' fill='%23fffdf8' stroke='%232f5d4a' stroke-width='6'/%3E%3Cpath d='M50 22V78' stroke='%232f5d4a' stroke-width='5'/%3E%3Ccircle cx='28' cy='50' r='6' fill='%231f2320'/%3E%3Ccircle cx='66' cy='38' r='6' fill='%231f2320'/%3E%3Ccircle cx='78' cy='62' r='6' fill='%231f2320'/%3E%3C/svg%3E",
+  "entries": {
+    ".": {
+      "en": "Tiles, Mexican Train and replay",
+      "ja": "牌・メキシカントレイン・再生"
+    },
+    "./tile-sounds": {
+      "en": "Sound controls",
+      "ja": "音の操作"
+    },
+    "./sounds": {
+      "en": "Recorded sounds",
+      "ja": "収録された音"
+    }
+  }
+}

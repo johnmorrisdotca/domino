@@ -7,7 +7,7 @@ description: "Keep saved-format versions and house rules explicit."
 
 ## The current version-1 API
 
-The published public major is 1. Read [the changelog](../../CHANGELOG.md) for minor and patch changes; this documentation rollout adds discovery, examples and native Docs links without changing exported behavior or recordings. There is no version-2 migration in this package yet. The README's framework examples adapt the pure rules to host state; they do not depend on a separate framework SDK.
+The published public major is 1. Read [the changelog](../../CHANGELOG.md) for minor and patch changes. There is no version-2 migration in this package yet. The README's framework examples adapt the pure rules to host state; they do not depend on a separate framework SDK.
 
 The save format has its own version field. A package version is not a substitute for that field, and `decodeTrain` refuses a format it cannot replay. Preserve seed, seat order, computer flags, complete options and action order. To start another game at the same table, use `trainAgain` with the new seed rather than altering the saved record.
 

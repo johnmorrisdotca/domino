@@ -3,15 +3,15 @@
   "entries": {
     ".": {
       "minified": 28613,
-      "gzip": 9782
+      "gzip": 9881
     },
     "./tile-sounds": {
       "minified": 35102,
-      "gzip": 19343
+      "gzip": 19286
     },
     "./sounds": {
       "minified": 31863,
-      "gzip": 17396
+      "gzip": 17288
     }
   }
 }

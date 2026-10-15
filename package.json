@@ -1,6 +1,6 @@
 {
   "name": "@johnmorrisdotca/domino",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Domino ドミノ — Dominoes and Mexican Train: double-nine to double-fifteen sets, rules for two to eight, computer players, seeded deals, saved-game replay, English and Japanese words, and a CLI. TypeScript, zero dependencies.",
   "keywords": [
     "ai-player",

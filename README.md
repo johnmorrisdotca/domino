@@ -9,7 +9,7 @@ Double-nine, double-twelve and double-fifteen sets; the full rules of Mexican Tr
   <a href="./LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-2f5d4a"></a>
   <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-0-2f5d4a">
   <img alt="TypeScript" src="https://img.shields.io/badge/types-TypeScript-3178c6">
-  <a href="https://johnmorrisdotca.github.io/domino/docs/api/main/index.html"><img alt="9.8 kB minified and gzipped" src="https://img.shields.io/badge/min%2Bgzip-9.8%20kB-2f5d4a"></a>
+  <a href="https://johnmorrisdotca.github.io/domino/docs/api/main/index.html"><img alt="9.9 kB minified and gzipped" src="https://img.shields.io/badge/min%2Bgzip-9.9%20kB-2f5d4a"></a>
   <a href="https://www.npmjs.com/package/@johnmorrisdotca/domino#provenance"><img alt="Published with npm provenance" src="https://img.shields.io/badge/npm-provenance-2f5d4a"></a>
 </p>
 
@@ -799,7 +799,7 @@ Using it somewhere? [Tell us](https://github.com/johnmorrisdotca/domino/issues/n
 ### The family
 
 <!-- family:start (made by scripts/family-readme.mjs from scripts/family-template.mjs; change those, not this) -->
-Domino is one of twenty-eight packages, each made for the same site, each at
+Domino is one of thirty-two packages, each made for the same site, each at
 [github.com/johnmorrisdotca](https://github.com/johnmorrisdotca) or [github.com/spxis](https://github.com/spxis). The code of every one is MIT.
 
 **Games — board**
@@ -847,12 +847,19 @@ Domino is one of twenty-eight packages, each made for the same site, each at
 - [Hata](https://github.com/johnmorrisdotca/hata) (旗): country and regional flags as SVG, at their true proportions and keyed by ISO code. [Demo](https://johnmorrisdotca.github.io/hata/).
 - [Kuni](https://github.com/johnmorrisdotca/kuni) (国): countries and their regions, with ISO codes and names in English and Japanese. [Demo](https://johnmorrisdotca.github.io/kuni/).
 
+**Sports**
+
+- [Dougu Sports](https://github.com/johnmorrisdotca/dougu-sports) (道具): sports emblems as SVG: trophies, medals, crests, and the ball and gear of every sport, with optional 3D turning. [Demo](https://johnmorrisdotca.github.io/dougu-sports/).
+- [Kyogijo Stadiums](https://github.com/johnmorrisdotca/kyogijo-stadiums) (競技場): sports fields, rinks, courts and ballparks drawn to scale as SVG, with each team and the score on them. [Demo](https://johnmorrisdotca.github.io/kyogijo-stadiums/).
+- [Senshu Jerseys](https://github.com/johnmorrisdotca/senshu-jerseys) (選手): sports jerseys, sweaters, kits, caps, helmets and retired-number banners as SVG, front and back, with optional 2.5D turning. [Demo](https://johnmorrisdotca.github.io/senshu-jerseys/).
+- [Taisen Brackets](https://github.com/johnmorrisdotca/taisen-brackets) (対戦): a sport-agnostic tournament bracket, drawn as SVG, from a list of ties. [Demo](https://johnmorrisdotca.github.io/taisen-brackets/).
+
 **Developer tools**
 
 - [REST in Pieces](https://github.com/spxis/rest-in-pieces) (レスト・イン・ピーシーズ): seeded test data and REST APIs for frontend development, with latency and error drills. [Demo](https://spxis.github.io/rest-in-pieces/).
 
 
-**This package is Domino.** The demos of all twenty-eight share one header and footer, so each links the rest.
+**This package is Domino.** The demos of all thirty-two share one header and footer, so each links the rest.
 <!-- family:end -->
 
 ## Development
@@ -875,7 +882,7 @@ exactly as it did. Please follow the [code of conduct](./CODE_OF_CONDUCT.md).
 
 ## Changes
 
-See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.1.2, adds no code: it is this README in full, with pictures of the table, examples that are run on every change, examples for React, Vue, Svelte and Angular, and an Accessibility section.
+See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.1.3, adds no code: it adds the documentation site, with a checked example for every export, in English and Japanese.
 
 ## Licence
 

@@ -13,7 +13,7 @@ const PAGE = {
     name: "Domino is ドミノ, the word Japanese borrowed for dominoes.",
     nameLink: "About the name",
     pageDocs: "Docs",
-    pageApi: "API reference",
+    pageApi: "API",
     pageBack: "The table",
     pageApiIntro: "Every export of every entry point, with its signature and its doc comment. Made from the source when the site is built, so it cannot fall behind the code.",
     pageSetup: "Set up the table",

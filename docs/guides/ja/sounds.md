@@ -23,4 +23,4 @@ sounds.close();
 
 ## 音は必要なときだけ
 
-操作には `/tile-sounds`、AAC の録音には `/sounds` を使います。録音は Kenney's Casino Audio の CC0 素材で、[CREDITS.md](../../../CREDITS.md)に出典があります。連続音は `soundTimes` で数と間隔を調整します。ミュートは新しい音を止め、close はプレイヤーを終了します。置く、引く、混ぜる、パスの音をいつ鳴らすかはホスト側で決めます。ルール自体は音を鳴らしません。
+操作には`/tile-sounds`、AACの録音には`/sounds`を使います。録音はKenney's Casino AudioのCC0素材で、[CREDITS.md](../../../CREDITS.md)に出典があります。連続音は`soundTimes`で数と間隔を調整します。ミュートは新しい音を止め、closeはプレイヤーを終了します。置く、引く、混ぜる、パスの音をいつ鳴らすかはホスト側で決めます。ルール自体は音を鳴らしません。

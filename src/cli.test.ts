@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { runCli } from "./cli.ts";
-import { TRAIN_PHASES, moveCount, startTrain, trainTotals } from "./mexicanTrain/mexicanTrain.ts";
+import { moveCount, startTrain, TRAIN_PHASES, trainTotals } from "./mexicanTrain/mexicanTrain.ts";
 import { decodeTrain } from "./mexicanTrain/trainCodec.ts";
 import { DOMINO_STRINGS } from "./strings.ts";
 import { VERSION } from "./version.ts";

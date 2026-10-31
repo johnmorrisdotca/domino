@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { seededRandom } from "../random.ts";
 import { tileOf } from "./dominoes.ts";
 import { TRAIN_DEFAULT_OPTIONS } from "./mexicanTrain.constants.ts";
-import { TRAIN_PHASES, mayLay, playTrain, startTrain, trainMoves, trainTotals } from "./mexicanTrain.ts";
+import { mayLay, playTrain, startTrain, TRAIN_PHASES, trainMoves, trainTotals } from "./mexicanTrain.ts";
 import type { TrainGame, TrainOptions } from "./mexicanTrain.types.ts";
 import { computerMove, longestRun } from "./trainComputer.ts";
 

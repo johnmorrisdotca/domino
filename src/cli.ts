@@ -5,8 +5,8 @@ import {
   TRAIN_LENGTHS,
   TRAIN_MEXICAN,
 } from "./mexicanTrain/mexicanTrain.constants.ts";
+import { moveCount, movesOf, playTrain, startTrain, TRAIN_PHASES, trainTotals } from "./mexicanTrain/mexicanTrain.ts";
 import type { Domino, TrainGame, TrainOptions } from "./mexicanTrain/mexicanTrain.types.ts";
-import { TRAIN_PHASES, moveCount, movesOf, playTrain, startTrain, trainTotals } from "./mexicanTrain/mexicanTrain.ts";
 import { decodeTrain, encodeTrain } from "./mexicanTrain/trainCodec.ts";
 import { computerMove } from "./mexicanTrain/trainComputer.ts";
 import { DOMINO_STRINGS, dominoLanguage, dominoSay, type Language } from "./strings.ts";

@@ -287,7 +287,7 @@ describe("package.json", () => {
 });
 
 describe("docs/strings-ja.md", () => {
-  const escape = (text) => text.replaceAll("|", "\\|").replaceAll("\n", "<br>");
+  const escapeCell = (text) => text.replaceAll("|", "\\|").replaceAll("\n", "<br>");
   const lines = [
     "# Domino's words, in English and Japanese",
     "",
@@ -301,7 +301,7 @@ describe("docs/strings-ja.md", () => {
     "| --- | --- | --- |",
     ...Object.keys(DOMINO_STRINGS.en)
       .filter((key) => key !== "cliUsage")
-      .map((key) => `| \`${key}\` | ${escape(DOMINO_STRINGS.en[key])} | ${escape(DOMINO_STRINGS.ja[key])} |`),
+      .map((key) => `| \`${key}\` | ${escapeCell(DOMINO_STRINGS.en[key])} | ${escapeCell(DOMINO_STRINGS.ja[key])} |`),
     "",
     "## The command line's help",
     "",

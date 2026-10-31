@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import { endsOf, everyTile, isDouble, laidEnds, pipsOf, tileOf } from "./dominoes.ts";
-import { TRAIN_DEFAULT_OPTIONS, handSizeFor, roundsFor } from "./mexicanTrain.constants.ts";
+import { handSizeFor, roundsFor, TRAIN_DEFAULT_OPTIONS } from "./mexicanTrain.constants.ts";
 import {
-  TRAIN_PHASES,
   legalPlays,
   mexicanOf,
   movesOf,
@@ -11,6 +10,7 @@ import {
   playTrain,
   replayTrain,
   startTrain,
+  TRAIN_PHASES,
   trainMoves,
   trainTotals,
 } from "./mexicanTrain.ts";

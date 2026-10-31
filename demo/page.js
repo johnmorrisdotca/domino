@@ -2,8 +2,8 @@
 // legal plays, the computer's move and the words of the table (in English or Japanese) are the package's own;
 // this page draws the state it is given and passes the person's choices on.
 import {
-  DOMINO_STRINGS,
   computerMove,
+  DOMINO_STRINGS,
   dominoSay,
   encodeTrain,
   endsOf,

@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { startTrain, playTrain } from "./mexicanTrain.ts";
-import { computerMove } from "./trainComputer.ts";
-import { encodeTrain } from "./trainCodec.ts";
+import { playTrain, startTrain } from "./mexicanTrain.ts";
 import fixture from "./train.fixture.json" with { type: "json" };
+import { encodeTrain } from "./trainCodec.ts";
+import { computerMove } from "./trainComputer.ts";
 
 /** Two 32-bit FNV-1a hashes of a text side by side: a fingerprint, enough to tell one finished game from another. */
 const fingerprint = (text: string): string => {

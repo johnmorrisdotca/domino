@@ -3,11 +3,11 @@ import { seededRandom, shuffled } from "../random.ts";
 
 import { everyTile, fits, isDouble, laidAgainst, laidEnds, pipsOf, tileOf } from "./dominoes.ts";
 import {
+  handSizeFor,
+  roundsFor,
   TRAIN_DEFAULT_OPTIONS,
   TRAIN_DOUBLES,
   TRAIN_MEXICAN,
-  handSizeFor,
-  roundsFor,
 } from "./mexicanTrain.constants.ts";
 import type {
   Domino,

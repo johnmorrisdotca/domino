@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { tileOf } from "./mexicanTrain/dominoes.ts";
 import { TRAIN_DEFAULT_OPTIONS } from "./mexicanTrain/mexicanTrain.constants.ts";
-import { TRAIN_PHASES, playTrain, startTrain, trainMoves } from "./mexicanTrain/mexicanTrain.ts";
+import { playTrain, startTrain, TRAIN_PHASES, trainMoves } from "./mexicanTrain/mexicanTrain.ts";
 import type { TrainGame } from "./mexicanTrain/mexicanTrain.types.ts";
 import { computerMove } from "./mexicanTrain/trainComputer.ts";
 import { trainName, trainNews, trainSeatName, trainSetLabel, trainStatus } from "./words.ts";

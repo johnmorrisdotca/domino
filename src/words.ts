@@ -1,7 +1,7 @@
 import { tileWords } from "./mexicanTrain/dominoes.ts";
-import { TRAIN_PHASES, mexicanOf, trainMoves, trainTotals } from "./mexicanTrain/mexicanTrain.ts";
+import { mexicanOf, TRAIN_PHASES, trainMoves, trainTotals } from "./mexicanTrain/mexicanTrain.ts";
 import type { TrainGame, TrainSeat } from "./mexicanTrain/mexicanTrain.types.ts";
-import { DOMINO_STRINGS, dominoSay, type DominoStrings, type Language } from "./strings.ts";
+import { DOMINO_STRINGS, type DominoStrings, dominoSay, type Language } from "./strings.ts";
 
 /**
  * A TABLE'S WORDS, in English or Japanese: who is who, what just happened,

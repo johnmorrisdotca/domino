@@ -952,7 +952,7 @@ a sound is first played, so a page that stays silent never downloads it.
 ### type `TileSoundFile`
 
 ```ts
-type TileSoundFile = "draw-1" | "draw-2" | "knock-1" | "knock-2" | "lay-1" | "lay-2" | "lay-3" | "shuffle-1" | "shuffle-2";
+type TileSoundFile = | "draw-1" | "draw-2" | "knock-1" | "knock-2" | "lay-1" | "lay-2" | "lay-3" | "shuffle-1" | "shuffle-2";
 ```
 
 The name of one recording: its kind of sound and a number, such as `lay-2`.

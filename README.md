@@ -882,7 +882,7 @@ exactly as it did. Please follow the [code of conduct](./CODE_OF_CONDUCT.md).
 
 ## Changes
 
-See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.1.3, adds no code: it adds the documentation site, with a checked example for every export, in English and Japanese.
+See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.1.4, changes nothing a player sees.
 
 ## Licence
 

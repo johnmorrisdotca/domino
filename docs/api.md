@@ -820,7 +820,7 @@ Each seat's total over every round played: the lowest wins.
 ### const `VERSION`
 
 ```ts
-VERSION: "1.1.3"
+VERSION: "1.1.4"
 ```
 
 The package's version.

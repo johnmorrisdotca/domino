@@ -13,7 +13,11 @@ const LIFTED = '[data-testid="hand"] .tile[data-playable="true"]';
 const ASKED = '[data-testid="moves"] button';
 
 /** What the table looks like now, so that a move can be waited for. */
-const looks = (page) => page.evaluate(() => `${document.querySelectorAll('[data-testid="trains"] .tile').length}|${document.querySelectorAll('[data-testid="hand"] .tile').length}|${document.querySelector('[data-testid="status"]')?.textContent}`);
+const looks = (page) =>
+  page.evaluate(
+    () =>
+      `${document.querySelectorAll('[data-testid="trains"] .tile').length}|${document.querySelectorAll('[data-testid="hand"] .tile').length}|${document.querySelector('[data-testid="status"]')?.textContent}`,
+  );
 
 /** Play `count` turns as a person does: lay a lifted tile (on the train offered), else press what is asked, and let the computers answer. Ends on a turn where a tile can be laid. */
 async function play(page, count) {
@@ -23,15 +27,26 @@ async function play(page, count) {
     const before = await looks(page);
     if ((await page.locator(LIFTED).count()) > 0) {
       await page.locator(LIFTED).first().click();
-      if ((await page.locator('[data-testid="lay"]').count()) > 0) await page.locator('[data-testid="lay"]').first().click();
+      if ((await page.locator('[data-testid="lay"]').count()) > 0)
+        await page.locator('[data-testid="lay"]').first().click();
     } else await page.locator(ASKED).first().click();
-    await page.waitForFunction((was) => `${document.querySelectorAll('[data-testid="trains"] .tile').length}|${document.querySelectorAll('[data-testid="hand"] .tile').length}|${document.querySelector('[data-testid="status"]')?.textContent}` !== was, before);
+    await page.waitForFunction(
+      (was) =>
+        `${document.querySelectorAll('[data-testid="trains"] .tile').length}|${document.querySelectorAll('[data-testid="hand"] .tile').length}|${document.querySelector('[data-testid="status"]')?.textContent}` !==
+        was,
+      before,
+    );
     await page.waitForSelector('[data-train="0"][data-turn="true"], [data-testid="moves"] button');
   }
 }
 
-const scrollTo = (selector) => (page) => page.locator(selector).evaluate((element) => window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY - 16));
-const noDelay = () => { window.dominoDelay = 0; };
+const scrollTo = (selector) => (page) =>
+  page
+    .locator(selector)
+    .evaluate((element) => window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY - 16));
+const noDelay = () => {
+  window.dominoDelay = 0;
+};
 
 await takePictures({
   shots: [
@@ -56,7 +71,15 @@ await takePictures({
       },
     },
     // The table in the middle of a round: a train for every seat and the Mexican Train, the hand with the tiles that may be laid lifted.
-    { subject: "table", views: ["desk"], url: address("set=12&players=4"), init: noDelay, ready: READY, target: TABLE, prepare: (page) => play(page, 6) },
+    {
+      subject: "table",
+      views: ["desk"],
+      url: address("set=12&players=4"),
+      init: noDelay,
+      ready: READY,
+      target: TABLE,
+      prepare: (page) => play(page, 6),
+    },
     // The set-up: the set, the number of players, the rounds, the doubles rule and when the Mexican Train may be started.
     { subject: "set-up", views: ["desk"], url: address("set=12&players=4"), ready: READY, target: ".setup" },
     // The largest table: a double-fifteen set for eight, every train in its own row and a hand of fifteen.
@@ -64,6 +87,14 @@ await takePictures({
     // The words and the tiles in Japanese, on a phone, at the first turn.
     { subject: "japanese", views: ["phone"], url: address("set=9&players=3", "ja"), ready: READY, target: TABLE },
     // The code for the game on the table, the same deal on the command line, and the game kept as text.
-    { subject: "using-it", views: ["desk"], url: address("set=9&players=3"), init: noDelay, ready: READY, target: "section.more", prepare: (page) => play(page, 2) },
+    {
+      subject: "using-it",
+      views: ["desk"],
+      url: address("set=9&players=3"),
+      init: noDelay,
+      ready: READY,
+      target: "section.more",
+      prepare: (page) => play(page, 2),
+    },
   ],
 });

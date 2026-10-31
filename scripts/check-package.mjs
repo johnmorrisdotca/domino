@@ -20,7 +20,11 @@ const scratch = mkdtempSync(join(tmpdir(), "domino-package-"));
 function run(command, args, cwd, viaShell = false) {
   const shell = viaShell && windows;
   // A path is quoted for the shell; a bare name such as npm is left for the shell to find.
-  const ran = spawnSync(shell && /[\\/]/.test(command) ? `"${command}"` : command, args, { cwd, encoding: "utf8", shell });
+  const ran = spawnSync(shell && /[\\/]/.test(command) ? `"${command}"` : command, args, {
+    cwd,
+    encoding: "utf8",
+    shell,
+  });
   if (ran.status !== 0) {
     console.error(`FAIL ${command} ${args.join(" ")}\n${ran.stdout}\n${ran.stderr}`);
     process.exit(1);
@@ -29,7 +33,9 @@ function run(command, args, cwd, viaShell = false) {
 }
 
 // 1. Pack, with npm.
-const packed = JSON.parse(run("npm", ["pack", "--json", "--ignore-scripts", "--pack-destination", scratch], root, true));
+const packed = JSON.parse(
+  run("npm", ["pack", "--json", "--ignore-scripts", "--pack-destination", scratch], root, true),
+);
 const tarball = join(scratch, packed[0].filename);
 const inTarball = new Set(packed[0].files.map((file) => file.path));
 console.log(`ok   npm pack: ${packed[0].filename}, ${packed[0].files.length} files`);
@@ -42,7 +48,13 @@ if (shipped.length > 0) {
 console.log("ok   no picture and nothing from docs/ is in the tarball");
 
 // 2. Everything package.json points at is in the tarball.
-const pointed = [pkg.main, pkg.module, pkg.types, ...Object.values(pkg.bin ?? {}), ...Object.values(pkg.exports).flatMap((entry) => (typeof entry === "string" ? [entry] : Object.values(entry)))];
+const pointed = [
+  pkg.main,
+  pkg.module,
+  pkg.types,
+  ...Object.values(pkg.bin ?? {}),
+  ...Object.values(pkg.exports).flatMap((entry) => (typeof entry === "string" ? [entry] : Object.values(entry))),
+];
 for (const file of new Set(pointed)) {
   if (!inTarball.has(file.replace(/^\.\//, ""))) {
     console.error(`FAIL package.json points at ${file}, which is not in the tarball`);
@@ -67,7 +79,9 @@ run("npm", ["install", "--no-audit", "--no-fund", "--silent", tarball], project,
 console.log("ok   npm install of the tarball");
 
 // The deal a seed makes, as the built package in this checkout makes it: the installed one must make the same.
-const { startTrain: localStart, encodeTrain: localEncode } = await import(new URL("../dist/index.js", import.meta.url).href);
+const { startTrain: localStart, encodeTrain: localEncode } = await import(
+  new URL("../dist/index.js", import.meta.url).href
+);
 const dealt = localEncode(localStart(12, ["A", "B", "C", "D"], 2026));
 
 // 4. Every entry in `exports`, by ESM and by require.
@@ -105,17 +119,31 @@ for (const name of Object.keys(pkg.bin ?? {})) {
     console.error(`FAIL ${name} --version said ${version}`);
     process.exit(1);
   }
-  const dealt = run(command, ["deal", "--seed", "2026", "--players", "3", "--set", "9"], project, true).replace(/\r\n/g, "\n");
+  const dealt = run(command, ["deal", "--seed", "2026", "--players", "3", "--set", "9"], project, true).replace(
+    /\r\n/g,
+    "\n",
+  );
   if (!dealt.startsWith("Double-nine, 3 players, seed 2026\nRound 1 of 10, hub double 9\nComputer 1: 3-0 4-2 4-3")) {
     console.error(`FAIL ${name} dealt ${JSON.stringify(dealt)}`);
     process.exit(1);
   }
-  const game = run(command, ["play", "--seed", "2026", "--players", "3", "--set", "9", "--length", "short", "--save"], project, true).replace(/\r\n/g, "\n");
+  const game = run(
+    command,
+    ["play", "--seed", "2026", "--players", "3", "--set", "9", "--length", "short", "--save"],
+    project,
+    true,
+  ).replace(/\r\n/g, "\n");
   const kept = game.trim().split("\n").at(-1);
   // The saved game is JSON, which a Windows shell would mangle: node runs the installed script itself.
-  const checked = run(process.execPath, [join(project, "node_modules", ...pkg.name.split("/"), pkg.bin[name]), "check", kept], project);
+  const checked = run(
+    process.execPath,
+    [join(project, "node_modules", ...pkg.name.split("/"), pkg.bin[name]), "check", kept],
+    project,
+  );
   if (!/moves made: 277/.test(game) || !/moves made: 277/.test(checked) || !/The game is over\./.test(checked)) {
-    console.error(`FAIL ${name} played ${JSON.stringify(game.slice(0, 200))} and read it back as ${JSON.stringify(checked.slice(0, 200))}`);
+    console.error(
+      `FAIL ${name} played ${JSON.stringify(game.slice(0, 200))} and read it back as ${JSON.stringify(checked.slice(0, 200))}`,
+    );
     process.exit(1);
   }
   console.log(`ok   ${name} --version, a seeded deal and a game played and read back, as installed`);

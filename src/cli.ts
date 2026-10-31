@@ -1,5 +1,10 @@
 import { endsOf } from "./mexicanTrain/dominoes.ts";
-import { TRAIN_DEFAULT_OPTIONS, TRAIN_DOUBLES, TRAIN_LENGTHS, TRAIN_MEXICAN } from "./mexicanTrain/mexicanTrain.constants.ts";
+import {
+  TRAIN_DEFAULT_OPTIONS,
+  TRAIN_DOUBLES,
+  TRAIN_LENGTHS,
+  TRAIN_MEXICAN,
+} from "./mexicanTrain/mexicanTrain.constants.ts";
 import type { Domino, TrainGame, TrainOptions } from "./mexicanTrain/mexicanTrain.types.ts";
 import { TRAIN_PHASES, moveCount, movesOf, playTrain, startTrain, trainTotals } from "./mexicanTrain/mexicanTrain.ts";
 import { decodeTrain, encodeTrain } from "./mexicanTrain/trainCodec.ts";
@@ -80,23 +85,56 @@ export const CLI_MOVES_MOST = 100_000;
  * console.log(cliLanguage(undefined,{LANG:"ja_JP.UTF-8"},"en-US"));
  * ```
  */
-export function cliLanguage(flag: string | undefined, env: Record<string, string | undefined> = {}, locale?: string): Language {
-  const named = [flag, env.LC_ALL, env.LC_MESSAGES, env.LANG].find((value) => value !== undefined && value !== "" && value !== "C" && value !== "POSIX" && !value.startsWith("C."));
+export function cliLanguage(
+  flag: string | undefined,
+  env: Record<string, string | undefined> = {},
+  locale?: string,
+): Language {
+  const named = [flag, env.LC_ALL, env.LC_MESSAGES, env.LANG].find(
+    (value) => value !== undefined && value !== "" && value !== "C" && value !== "POSIX" && !value.startsWith("C."),
+  );
   return dominoLanguage(named ?? locale);
 }
 
-const FLAGS_WITH_VALUES: Record<string, string> = { "-s": "seed", "--seed": "seed", "--set": "set", "--players": "players", "--length": "length", "--doubles": "doubles", "--mexican": "mexican", "--lang": "lang" };
-const FLAGS: Record<string, string> = { "--moves": "moves", "--save": "save", "--stdin": "stdin", "-j": "json", "--json": "json", "-h": "help", "--help": "help", "-v": "version", "--version": "version" };
+const FLAGS_WITH_VALUES: Record<string, string> = {
+  "-s": "seed",
+  "--seed": "seed",
+  "--set": "set",
+  "--players": "players",
+  "--length": "length",
+  "--doubles": "doubles",
+  "--mexican": "mexican",
+  "--lang": "lang",
+};
+const FLAGS: Record<string, string> = {
+  "--moves": "moves",
+  "--save": "save",
+  "--stdin": "stdin",
+  "-j": "json",
+  "--json": "json",
+  "-h": "help",
+  "--help": "help",
+  "-v": "version",
+  "--version": "version",
+};
 const COMMANDS = ["deal", "play", "check", "replay"] as const;
 
-type Asked = { values: Record<string, string>; flags: Set<string>; words: string[]; wrong: { message: "cliUnknown" | "cliNeeds"; part: string } | null };
+type Asked = {
+  values: Record<string, string>;
+  flags: Set<string>;
+  words: string[];
+  wrong: { message: "cliUnknown" | "cliNeeds"; part: string } | null;
+};
 
 /** The arguments sorted into options and words. */
 function sortArguments(args: readonly string[]): Asked {
   const asked: Asked = { values: {}, flags: new Set(), words: [], wrong: null };
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i] as string;
-    const [name, inline] = arg.startsWith("--") && arg.includes("=") ? [arg.slice(0, arg.indexOf("=")), arg.slice(arg.indexOf("=") + 1)] : [arg, undefined];
+    const [name, inline] =
+      arg.startsWith("--") && arg.includes("=")
+        ? [arg.slice(0, arg.indexOf("=")), arg.slice(arg.indexOf("=") + 1)]
+        : [arg, undefined];
     if (arg === "--") {
       asked.words.push(...args.slice(i + 1));
       break;
@@ -116,7 +154,8 @@ function sortArguments(args: readonly string[]): Asked {
   return asked;
 }
 
-const wholeNumber = (text: string | undefined, least: number, most: number): number | null => (text !== undefined && /^\d{1,10}$/.test(text) && Number(text) >= least && Number(text) <= most ? Number(text) : null);
+const wholeNumber = (text: string | undefined, least: number, most: number): number | null =>
+  text !== undefined && /^\d{1,10}$/.test(text) && Number(text) >= least && Number(text) <= most ? Number(text) : null;
 
 /** A tile as text a program can read: the larger end first, "12-3". */
 const tileText = (tile: Domino): string => {
@@ -133,7 +172,8 @@ const sorted = (hand: readonly Domino[]): Domino[] =>
   });
 
 /** Names every seat, for a table the command line made. */
-const seatNames = (game: TrainGame, language: Language): string[] => game.players.map((_, seat) => trainSeatName(game, seat, language));
+const seatNames = (game: TrainGame, language: Language): string[] =>
+  game.players.map((_, seat) => trainSeatName(game, seat, language));
 
 /** Run the command line. See `domino --help` for what it takes. One seed serves the whole run, so the same command prints the same lines on every machine.
  *
@@ -189,7 +229,11 @@ export function runCli(args: readonly string[], around: CliSurroundings = {}): C
     seed = read;
   }
   const options: TrainOptions = { ...TRAIN_DEFAULT_OPTIONS };
-  const choose = (flag: "length" | "doubles" | "mexican", allowed: Record<string, string>, spelled: Record<string, string> = {}): string | null => {
+  const choose = (
+    flag: "length" | "doubles" | "mexican",
+    allowed: Record<string, string>,
+    spelled: Record<string, string> = {},
+  ): string | null => {
     const value = asked.values[flag];
     if (value === undefined) return options[flag];
     const key = spelled[value] ?? value;
@@ -198,15 +242,26 @@ export function runCli(args: readonly string[], around: CliSurroundings = {}): C
   const length = choose("length", TRAIN_LENGTHS);
   const doubles = choose("doubles", TRAIN_DOUBLES);
   const mexican = choose("mexican", TRAIN_MEXICAN, { "own-first": "ownFirst" });
-  if (length === null) return wrong(dominoSay(t.cliValueBad, { part: "--length", choices: Object.keys(TRAIN_LENGTHS).join(", ") }));
-  if (doubles === null) return wrong(dominoSay(t.cliValueBad, { part: "--doubles", choices: Object.keys(TRAIN_DOUBLES).join(", ") }));
+  if (length === null)
+    return wrong(dominoSay(t.cliValueBad, { part: "--length", choices: Object.keys(TRAIN_LENGTHS).join(", ") }));
+  if (doubles === null)
+    return wrong(dominoSay(t.cliValueBad, { part: "--doubles", choices: Object.keys(TRAIN_DOUBLES).join(", ") }));
   if (mexican === null) return wrong(dominoSay(t.cliValueBad, { part: "--mexican", choices: "any, own-first" }));
   Object.assign(options, { length, doubles, mexican });
 
-  const dealt = startTrain(set, Array.from({ length: players }, () => ""), seed, options, Array.from({ length: players }, () => true));
+  const dealt = startTrain(
+    set,
+    Array.from({ length: players }, () => ""),
+    seed,
+    options,
+    Array.from({ length: players }, () => true),
+  );
   if (dealt === null) return wrong(t.cliSetBad);
   const note = fresh ? `domino: ${dominoSay(t.cliFresh, { seed })}\n` : "";
-  const done = command === "deal" ? dealOut(dealt, language, json) : playOut(dealt, language, json, asked.flags.has("moves"), asked.flags.has("save"));
+  const done =
+    command === "deal"
+      ? dealOut(dealt, language, json)
+      : playOut(dealt, language, json, asked.flags.has("moves"), asked.flags.has("save"));
   return { ...done, err: done.err + note };
 }
 
@@ -215,13 +270,29 @@ function dealOut(game: TrainGame, language: Language, json: boolean): CliResult 
   const t = DOMINO_STRINGS[language];
   const names = seatNames(game, language);
   if (json) {
-    const data = { format: 1, generator: `domino ${VERSION}`, set: game.set, players: names, seed: game.seed, options: game.options, engine: game.engine, hands: game.hands.map((hand) => sorted(hand).map(tileText)), boneyard: game.boneyard.length };
+    const data = {
+      format: 1,
+      generator: `domino ${VERSION}`,
+      set: game.set,
+      players: names,
+      seed: game.seed,
+      options: game.options,
+      engine: game.engine,
+      hands: game.hands.map((hand) => sorted(hand).map(tileText)),
+      boneyard: game.boneyard.length,
+    };
     return { code: 0, out: `${JSON.stringify(data, null, 2)}\n`, err: "" };
   }
   const lines = [
-    dominoSay(t.cliDeal, { set: trainSetLabel(game.set, language) ?? game.set, players: game.players.length, seed: game.seed }),
+    dominoSay(t.cliDeal, {
+      set: trainSetLabel(game.set, language) ?? game.set,
+      players: game.players.length,
+      seed: game.seed,
+    }),
     dominoSay(t.round, { n: 1, total: game.rounds, engine: game.engine }),
-    ...game.hands.map((hand, seat) => dominoSay(t.cliSeat, { who: names[seat] as string, tiles: sorted(hand).map(tileText).join(" ") })),
+    ...game.hands.map((hand, seat) =>
+      dominoSay(t.cliSeat, { who: names[seat] as string, tiles: sorted(hand).map(tileText).join(" ") }),
+    ),
     dominoSay(t.cliBoneyard, { n: game.boneyard.length }),
   ];
   return { code: 0, out: `${lines.join("\n")}\n`, err: "" };
@@ -231,16 +302,31 @@ function dealOut(game: TrainGame, language: Language, json: boolean): CliResult 
 function scoreTable(game: TrainGame, language: Language): string[] {
   const t = DOMINO_STRINGS[language];
   const names = seatNames(game, language);
-  const rows = [[t.hub, ...names], ...game.results.map((result) => [String(result.engine), ...result.pips.map((pips, seat) => `${pips}${result.out === seat ? "*" : ""}`)]), [t.total, ...trainTotals(game).map(String)]];
+  const rows = [
+    [t.hub, ...names],
+    ...game.results.map((result) => [
+      String(result.engine),
+      ...result.pips.map((pips, seat) => `${pips}${result.out === seat ? "*" : ""}`),
+    ]),
+    [t.total, ...trainTotals(game).map(String)],
+  ];
   const widths = rows[0]!.map((_, column) => Math.max(...rows.map((row) => [...(row[column] as string)].length)));
-  return rows.map((row) => row.map((cell, column) => (column === 0 ? cell.padEnd(widths[column]!) : cell.padStart(widths[column]!))).join("  ").trimEnd());
+  return rows.map((row) =>
+    row
+      .map((cell, column) => (column === 0 ? cell.padEnd(widths[column]!) : cell.padStart(widths[column]!)))
+      .join("  ")
+      .trimEnd(),
+  );
 }
 
 /** The winners' line. */
 function winnerLine(game: TrainGame, language: Language): string {
   const t = DOMINO_STRINGS[language];
   const who = game.winners.map((seat) => trainSeatName(game, seat, language)).join(", ");
-  return dominoSay(game.winners.length === 1 ? t.cliWinner : t.cliWinners, { who, pips: Math.min(...trainTotals(game)) });
+  return dominoSay(game.winners.length === 1 ? t.cliWinner : t.cliWinners, {
+    who,
+    pips: Math.min(...trainTotals(game)),
+  });
 }
 
 /** A game played out by the computers. */
@@ -258,8 +344,21 @@ function playOut(start: TrainGame, language: Language, json: boolean, moves: boo
     }
   }
   if (json) return { code: 0, out: `${JSON.stringify(summary(game, language, true), null, 2)}\n`, err: "" };
-  const head = dominoSay(t.cliPlayed, { set: trainSetLabel(game.set, language) ?? game.set, players: game.players.length, seed: game.seed, rounds: game.rounds, moves: moveCount(game) });
-  const lines = [head, ...(moves ? ["", ...told, ""] : []), ...scoreTable(game, language), "", winnerLine(game, language), ...(save ? ["", t.cliSaved, encodeTrain(game)] : [])];
+  const head = dominoSay(t.cliPlayed, {
+    set: trainSetLabel(game.set, language) ?? game.set,
+    players: game.players.length,
+    seed: game.seed,
+    rounds: game.rounds,
+    moves: moveCount(game),
+  });
+  const lines = [
+    head,
+    ...(moves ? ["", ...told, ""] : []),
+    ...scoreTable(game, language),
+    "",
+    winnerLine(game, language),
+    ...(save ? ["", t.cliSaved, encodeTrain(game)] : []),
+  ];
   return { code: 0, out: `${lines.join("\n")}\n`, err: "" };
 }
 
@@ -278,7 +377,12 @@ function summary(game: TrainGame, language: Language, saved: boolean): Record<st
     moves: moveCount(game),
     phase: game.phase,
     toPlay: game.phase === TRAIN_PHASES.playing ? game.toPlay : null,
-    results: game.results.map((result) => ({ hub: result.engine, pips: result.pips, ending: result.ending, out: result.out })),
+    results: game.results.map((result) => ({
+      hub: result.engine,
+      pips: result.pips,
+      ending: result.ending,
+      out: result.out,
+    })),
     totals: trainTotals(game),
     winners: game.winners,
     ...(saved ? { saved: encodeTrain(game) } : {}),
@@ -292,8 +396,21 @@ function checkOut(game: TrainGame, language: Language, json: boolean): CliResult
   const where =
     game.phase === TRAIN_PHASES.finished
       ? t.cliPhaseFinished
-      : dominoSay(game.phase === TRAIN_PHASES.roundOver ? t.cliPhaseRoundOver : t.cliPhasePlaying, { n: game.round + 1, total: game.rounds, who: trainSeatName(game, game.toPlay, language) });
-  const lines = [dominoSay(t.cliPlayed, { set: trainSetLabel(game.set, language) ?? game.set, players: game.players.length, seed: game.seed, rounds: game.rounds, moves: moveCount(game) }), where];
+      : dominoSay(game.phase === TRAIN_PHASES.roundOver ? t.cliPhaseRoundOver : t.cliPhasePlaying, {
+          n: game.round + 1,
+          total: game.rounds,
+          who: trainSeatName(game, game.toPlay, language),
+        });
+  const lines = [
+    dominoSay(t.cliPlayed, {
+      set: trainSetLabel(game.set, language) ?? game.set,
+      players: game.players.length,
+      seed: game.seed,
+      rounds: game.rounds,
+      moves: moveCount(game),
+    }),
+    where,
+  ];
   if (game.results.length > 0) lines.push("", ...scoreTable(game, language));
   if (game.phase === TRAIN_PHASES.finished) lines.push("", winnerLine(game, language));
   return { code: 0, out: `${lines.join("\n")}\n`, err: "" };

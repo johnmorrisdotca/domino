@@ -9,7 +9,28 @@ import * as domino from "./index.ts";
 import { TILE_SOUND_DATA } from "./sounds.ts";
 import * as sounds from "./tile-sounds.ts";
 
-const { CLI_MOVES_MOST, DOMINO_STRINGS, TRAIN_NAME_MOST, TRAIN_PIP_BASE, TRAIN_SETS, VERSION, computerMove, decodeTrain, encodeTrain, everyTile, handSizeFor, legalPlays, mexicanOf, playTrain, roundsFor, runCli, startTrain, trainNews, trainSeatName, trainStatus } = domino;
+const {
+  CLI_MOVES_MOST,
+  DOMINO_STRINGS,
+  TRAIN_NAME_MOST,
+  TRAIN_PIP_BASE,
+  TRAIN_SETS,
+  VERSION,
+  computerMove,
+  decodeTrain,
+  encodeTrain,
+  everyTile,
+  handSizeFor,
+  legalPlays,
+  mexicanOf,
+  playTrain,
+  roundsFor,
+  runCli,
+  startTrain,
+  trainNews,
+  trainSeatName,
+  trainStatus,
+} = domino;
 
 const readme = readFileSync("README.md", "utf8");
 const pkg = JSON.parse(readFileSync("package.json", "utf8"));
@@ -21,7 +42,13 @@ function table(heading, doc = readme) {
   if (from < 0) throw new Error(`no “${heading}”`);
   const rows = [];
   for (const line of doc.slice(from).split("\n").slice(1)) {
-    if (line.startsWith("|")) rows.push(line.split(/(?<!\\)\|/).slice(1, -1).map(cell));
+    if (line.startsWith("|"))
+      rows.push(
+        line
+          .split(/(?<!\\)\|/)
+          .slice(1, -1)
+          .map(cell),
+      );
     else if (rows.length > 0) break;
   }
   return rows.slice(2);
@@ -29,7 +56,9 @@ function table(heading, doc = readme) {
 
 /** The text of the fenced block of this language that holds `part`. */
 function block(language, part) {
-  const found = [...readme.matchAll(new RegExp(`\`\`\`${language}\\n([\\s\\S]*?)\`\`\``, "g"))].map((match) => match[1]).find((text) => text.includes(part));
+  const found = [...readme.matchAll(new RegExp(`\`\`\`${language}\\n([\\s\\S]*?)\`\`\``, "g"))]
+    .map((match) => match[1])
+    .find((text) => text.includes(part));
   if (found === undefined) throw new Error(`no ${language} block with “${part}”`);
   return found;
 }
@@ -60,11 +89,17 @@ describe("the README in 30 seconds", () => {
 
 describe("the README on the API alone", () => {
   it("every line comes to what its comment says", () => {
-    says('let game = startTrain(9, ["Ann", "Ben", ""], 7, { length: "short", doubles: "chain", mexican: "ownFirst" }, [false, false, true])!;');
-    const game = startTrain(9, ["Ann", "Ben", ""], 7, { length: "short", doubles: "chain", mexican: "ownFirst" }, [false, false, true]);
+    says(
+      'let game = startTrain(9, ["Ann", "Ben", ""], 7, { length: "short", doubles: "chain", mexican: "ownFirst" }, [false, false, true])!;',
+    );
+    const game = startTrain(9, ["Ann", "Ben", ""], 7, { length: "short", doubles: "chain", mexican: "ownFirst" }, [
+      false,
+      false,
+      true,
+    ]);
     expect(game).not.toBeNull();
     expect(legalPlays(game).every((play) => Number.isInteger(play.tile) && Number.isInteger(play.train))).toBe(true);
-    says("playTrain(game, { kind: \"draw\" });        // null: the rules refuse a draw while a tile fits");
+    says('playTrain(game, { kind: "draw" });        // null: the rules refuse a draw while a tile fits');
     expect(legalPlays(game).length).toBeGreaterThan(0);
     expect(playTrain(game, { kind: "draw" })).toBeNull();
     says('trainStatus(game, "en", 0);               // "Your turn. Tap a tile to lay it." (seat 0 is you)');
@@ -84,7 +119,9 @@ describe("the README on the API alone", () => {
 
   it("the plain page's script is the one the README shows, and deals a hand of tiles", () => {
     const html = block("html", "startTrain");
-    expect(html).toContain('import { startTrain, tileWords } from "./node_modules/@johnmorrisdotca/domino/dist/index.js";');
+    expect(html).toContain(
+      'import { startTrain, tileWords } from "./node_modules/@johnmorrisdotca/domino/dist/index.js";',
+    );
     const game = startTrain(12, ["You", "", ""], 2026, undefined, [false, true, true]);
     expect(game.hands[0].map(domino.tileWords).join("  ")).toMatch(/^\d+–\d+( {2}\d+–\d+){14}$/);
   });
@@ -95,7 +132,9 @@ describe("the README on languages", () => {
     let game = table2026();
     game = playTrain(game, computerMove(game));
     says('trainStatus(game, "ja", 0);        // "あなたの番です。牌をタップして置きます。"');
-    expect(trainStatus(startTrain(12, ["You", "", "", ""], 2026), "ja", 0)).toBe("あなたの番です。牌をタップして置きます。");
+    expect(trainStatus(startTrain(12, ["You", "", "", ""], 2026), "ja", 0)).toBe(
+      "あなたの番です。牌をタップして置きます。",
+    );
     says('trainNews(game, "en", 0);          // "You laid 12–9 on Your train."  (after the first move)');
     expect(trainNews(game, "en", 0)).toBe("You laid 12–9 on Your train.");
     says('trainSeatName(game, 1, "en", 0);   // "Computer 2"');
@@ -113,11 +152,15 @@ describe("the README's command line", () => {
     const shown = block("sh", "$ domino deal");
     const deal = runCli(["deal", "--seed", "2026", "--players", "3", "--set", "9"]).out;
     const play = runCli(["play", "--seed", "2026", "--players", "3", "--set", "9", "--length", "short"]).out;
-    expect(shown).toBe(`$ domino deal --seed 2026 --players 3 --set 9\n${deal}$ domino play --seed 2026 --players 3 --set 9 --length short\n${play}`);
+    expect(shown).toBe(
+      `$ domino deal --seed 2026 --players 3 --set 9\n${deal}$ domino play --seed 2026 --players 3 --set 9 --length short\n${play}`,
+    );
   });
 
   it("runCli's line is the shape it returns", () => {
-    says('runCli(["deal", "--seed", "2026", "--players", "3", "--set", "9"]);   // { code: 0, out: "Double-nine, 3 players, …", err: "" }');
+    says(
+      'runCli(["deal", "--seed", "2026", "--players", "3", "--set", "9"]);   // { code: 0, out: "Double-nine, 3 players, …", err: "" }',
+    );
     const ran = runCli(["deal", "--seed", "2026", "--players", "3", "--set", "9"]);
     expect(ran.code).toBe(0);
     expect(ran.out.startsWith("Double-nine, 3 players, ")).toBe(true);
@@ -128,11 +171,22 @@ describe("the README's command line", () => {
 describe("the README on sounds", () => {
   it("the table of kinds is the kinds the player has, in order", () => {
     expect(table("## Sounds").map((row) => row[0].replaceAll("`", ""))).toEqual([...sounds.TILE_SOUND_KINDS]);
-    for (const kind of sounds.TILE_SOUND_KINDS) expect(Object.keys(TILE_SOUND_DATA).some((name) => name.startsWith(`${kind}-`)), kind).toBe(true);
+    for (const kind of sounds.TILE_SOUND_KINDS)
+      expect(
+        Object.keys(TILE_SOUND_DATA).some((name) => name.startsWith(`${kind}-`)),
+        kind,
+      ).toBe(true);
   });
 
   it("the example's calls are the player's", () => {
-    for (const call of ['sounds.play("shuffle");', 'sounds.play("draw", { count: 7, gap: 120 });', 'sounds.play("lay");', 'sounds.play("knock");', "sounds.setMuted(!sounds.muted)"]) says(call);
+    for (const call of [
+      'sounds.play("shuffle");',
+      'sounds.play("draw", { count: 7, gap: 120 });',
+      'sounds.play("lay");',
+      'sounds.play("knock");',
+      "sounds.setMuted(!sounds.muted)",
+    ])
+      says(call);
     const silent = sounds.createTileSounds({ window: null });
     for (const kind of sounds.TILE_SOUND_KINDS) expect(() => silent.play(kind, { count: 7, gap: 120 })).not.toThrow();
     expect(silent.volume).toBe(0.6);
@@ -154,16 +208,40 @@ describe("the README's tables", () => {
     const rows = Object.fromEntries(table("## Limits").map((row) => [row[0], row]));
     const tiles = Object.values(TRAIN_SETS).map((set) => everyTile(set).length);
     expect(tiles).toEqual([55, 91, 136]);
-    expect(rows.Sets[1]).toBe(`double-nine (${tiles[0]} tiles), double-twelve (${tiles[1]}), double-fifteen (${tiles[2]})`);
+    expect(rows.Sets[1]).toBe(
+      `double-nine (${tiles[0]} tiles), double-twelve (${tiles[1]}), double-fifteen (${tiles[2]})`,
+    );
     expect(startTrain(12, ["a"])).toBeNull();
     expect(startTrain(12, ["a", "b"])).not.toBeNull();
-    expect(startTrain(12, Array.from({ length: 8 }, () => "x"))).not.toBeNull();
-    expect(startTrain(12, Array.from({ length: 9 }, () => "x"))).toBeNull();
+    expect(
+      startTrain(
+        12,
+        Array.from({ length: 8 }, () => "x"),
+      ),
+    ).not.toBeNull();
+    expect(
+      startTrain(
+        12,
+        Array.from({ length: 9 }, () => "x"),
+      ),
+    ).toBeNull();
     expect(rows["Players at a table"][1]).toBe("2 to 8");
-    const hands = Object.values(TRAIN_SETS).flatMap((set) => [2, 3, 4, 5, 6, 7, 8].map((players) => handSizeFor(set, players)));
-    expect(rows["Tiles in a hand"][1]).toBe(`${Math.min(...hands)} to ${Math.max(...hands)}, by the set and the players`);
+    const hands = Object.values(TRAIN_SETS).flatMap((set) =>
+      [2, 3, 4, 5, 6, 7, 8].map((players) => handSizeFor(set, players)),
+    );
+    expect(rows["Tiles in a hand"][1]).toBe(
+      `${Math.min(...hands)} to ${Math.max(...hands)}, by the set and the players`,
+    );
     const rounds = Object.values(TRAIN_SETS).map((set) => [roundsFor(set, "full"), roundsFor(set, "short")]);
-    expect(rows.Rounds[1]).toBe(`one for every double (${rounds.map((pair) => pair[0]).join(", ").replace(/, (\d+)$/, " or $1")}), or about half of them (${rounds.map((pair) => pair[1]).join(", ").replace(/, (\d+)$/, " or $1")})`);
+    expect(rows.Rounds[1]).toBe(
+      `one for every double (${rounds
+        .map((pair) => pair[0])
+        .join(", ")
+        .replace(/, (\d+)$/, " or $1")}), or about half of them (${rounds
+        .map((pair) => pair[1])
+        .join(", ")
+        .replace(/, (\d+)$/, " or $1")})`,
+    );
     expect(rows["A seat's name"][1]).toBe(`${TRAIN_NAME_MOST} characters`);
     expect(rows["Moves a played game may take on the command line"][1]).toBe(CLI_MOVES_MOST.toLocaleString("en-US"));
     expect(rows["A tile"][1]).toContain(`${TRAIN_PIP_BASE - 1}`);
@@ -183,7 +261,13 @@ describe("the version", () => {
 
 describe("package.json", () => {
   it("names built files directly, has no dependencies, and needs Node 22 or later", () => {
-    const pointed = [pkg.main, pkg.module, pkg.types, ...Object.values(pkg.bin), ...Object.values(pkg.exports).flatMap((entry) => Object.values(entry))];
+    const pointed = [
+      pkg.main,
+      pkg.module,
+      pkg.types,
+      ...Object.values(pkg.bin),
+      ...Object.values(pkg.exports).flatMap((entry) => Object.values(entry)),
+    ];
     for (const file of pointed) expect(/^\.?\/?(dist|bin)\//.test(file), file).toBe(true);
     expect(pkg.dependencies).toBeUndefined();
     expect(pkg.engines.node).toBe(">=22");
@@ -197,7 +281,8 @@ describe("package.json", () => {
   });
 
   it("ships what the README says it ships", () => {
-    for (const file of ["dist", "bin", "CREDITS.md", "README.md", "LICENSE", "CHANGELOG.md"]) expect(pkg.files).toContain(file);
+    for (const file of ["dist", "bin", "CREDITS.md", "README.md", "LICENSE", "CHANGELOG.md"])
+      expect(pkg.files).toContain(file);
   });
 });
 
@@ -214,7 +299,9 @@ describe("docs/strings-ja.md", () => {
     "",
     "| Name | English | Japanese |",
     "| --- | --- | --- |",
-    ...Object.keys(DOMINO_STRINGS.en).filter((key) => key !== "cliUsage").map((key) => `| \`${key}\` | ${escape(DOMINO_STRINGS.en[key])} | ${escape(DOMINO_STRINGS.ja[key])} |`),
+    ...Object.keys(DOMINO_STRINGS.en)
+      .filter((key) => key !== "cliUsage")
+      .map((key) => `| \`${key}\` | ${escape(DOMINO_STRINGS.en[key])} | ${escape(DOMINO_STRINGS.ja[key])} |`),
     "",
     "## The command line's help",
     "",

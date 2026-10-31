@@ -46,7 +46,12 @@ export function trainSetLabel(set: number, language: Language): string | null {
  * console.log(trainSeatName(game,1,"ja",0));
  * ```
  */
-export function trainSeatName(game: Pick<TrainGame, "players" | "computers">, seat: TrainSeat, language: Language, you?: TrainSeat): string {
+export function trainSeatName(
+  game: Pick<TrainGame, "players" | "computers">,
+  seat: TrainSeat,
+  language: Language,
+  you?: TrainSeat,
+): string {
   const t = DOMINO_STRINGS[language];
   const given = game.players[seat]?.trim() ?? "";
   if (given !== "") return given;
@@ -69,7 +74,12 @@ export function trainSeatName(game: Pick<TrainGame, "players" | "computers">, se
  * console.log(trainName(game,mexicanOf(game),"en",0));
  * ```
  */
-export function trainName(game: Pick<TrainGame, "players" | "computers">, train: number, language: Language, you?: TrainSeat): string {
+export function trainName(
+  game: Pick<TrainGame, "players" | "computers">,
+  train: number,
+  language: Language,
+  you?: TrainSeat,
+): string {
   const t = DOMINO_STRINGS[language];
   if (train === mexicanOf(game)) return t.mexican;
   if (train === you) return t.trainYours;
@@ -98,7 +108,11 @@ export function trainNews(game: TrainGame, language: Language, you?: TrainSeat):
   const who = trainSeatName(game, last.seat, language, you);
   switch (last.move.kind) {
     case "play":
-      return dominoSay(t.laid, { who, tile: tileWords(last.move.tile), train: trainName(game, last.move.train, language, you) });
+      return dominoSay(t.laid, {
+        who,
+        tile: tileWords(last.move.tile),
+        train: trainName(game, last.move.train, language, you),
+      });
     case "draw":
       return dominoSay(t.drew, { who });
     case "pass":
@@ -112,7 +126,9 @@ export function trainNews(game: TrainGame, language: Language, you?: TrainSeat):
 function why(game: TrainGame, language: Language, you?: TrainSeat): string {
   const t = DOMINO_STRINGS[language];
   const result = game.results[game.results.length - 1];
-  return result !== undefined && result.ending === "domino" && result.out !== null ? dominoSay(t.outBy, { who: trainSeatName(game, result.out, language, you) }) : t.blocked;
+  return result !== undefined && result.ending === "domino" && result.out !== null
+    ? dominoSay(t.outBy, { who: trainSeatName(game, result.out, language, you) })
+    : t.blocked;
 }
 
 /**
@@ -139,7 +155,8 @@ export function trainStatus(game: TrainGame, language: Language, you?: TrainSeat
     return dominoSay(t.gameOver, { who, pips: Math.min(...trainTotals(game)) });
   }
   if (game.phase === TRAIN_PHASES.roundOver) return dominoSay(t.roundOver, { why: why(game, language, you) });
-  if (you === undefined || game.toPlay !== you) return dominoSay(t.thinking, { who: trainSeatName(game, game.toPlay, language, you) });
+  if (you === undefined || game.toPlay !== you)
+    return dominoSay(t.thinking, { who: trainSeatName(game, game.toPlay, language, you) });
   const first = trainMoves(game)[0];
   if (first?.kind === "draw") return t.yourTurnDraw;
   if (first?.kind === "pass") return t.yourTurnPass;

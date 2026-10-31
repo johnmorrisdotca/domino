@@ -41,4 +41,13 @@ export const TILE_SOUND_DATA: Readonly<Record<TileSoundFile, string>> = {
  * console.log(file);
  * ```
  */
-export type TileSoundFile = "draw-1" | "draw-2" | "knock-1" | "knock-2" | "lay-1" | "lay-2" | "lay-3" | "shuffle-1" | "shuffle-2";
+export type TileSoundFile =
+  | "draw-1"
+  | "draw-2"
+  | "knock-1"
+  | "knock-2"
+  | "lay-1"
+  | "lay-2"
+  | "lay-3"
+  | "shuffle-1"
+  | "shuffle-2";

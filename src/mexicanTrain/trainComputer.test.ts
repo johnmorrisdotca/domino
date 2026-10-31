@@ -29,14 +29,21 @@ describe("the computer at the Mexican Train table", () => {
   it("starts its own train with the first tile of that run, and keeps the rest of it off the Mexican Train", () => {
     const game = position([[tileOf(12, 4), tileOf(4, 9), tileOf(9, 1), tileOf(12, 2), tileOf(0, 3)], [tileOf(5, 5)]]);
     expect(computerMove(game)).toEqual({ kind: "play", tile: tileOf(12, 4), train: 0 });
-    const laid = { ...game, trains: game.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 4], open: false } : train)), hands: [[tileOf(4, 9), tileOf(9, 1), tileOf(12, 2), tileOf(0, 3)], [tileOf(5, 5)]] };
+    const laid = {
+      ...game,
+      trains: game.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 4], open: false } : train)),
+      hands: [[tileOf(4, 9), tileOf(9, 1), tileOf(12, 2), tileOf(0, 3)], [tileOf(5, 5)]],
+    };
     // The spare 12–2 goes on the Mexican Train rather than break the run at home.
     expect(computerMove(laid)).toEqual({ kind: "play", tile: tileOf(4, 9), train: 0 });
   });
 
   it("lays a double only when it holds the tile to cover it", () => {
     const covered = position([[tileOf(12, 12 - 0), tileOf(12, 5)], [tileOf(1, 1)]]);
-    const home = { ...covered, trains: covered.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 6], open: false } : train)) };
+    const home = {
+      ...covered,
+      trains: covered.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 6], open: false } : train)),
+    };
     const withCover = { ...home, hands: [[tileOf(6, 6), tileOf(6, 3), tileOf(12, 11)], [tileOf(1, 1)]] };
     expect(computerMove(withCover)).toEqual({ kind: "play", tile: tileOf(6, 6), train: 0 });
     const without = { ...home, hands: [[tileOf(6, 6), tileOf(12, 11)], [tileOf(1, 1)]] };
@@ -44,7 +51,10 @@ describe("the computer at the Mexican Train table", () => {
   });
 
   it("always makes a move the rules take, whole games through, under every house rule", () => {
-    for (const options of [TRAIN_DEFAULT_OPTIONS, { length: "short", doubles: "chain", mexican: "ownFirst" } as TrainOptions]) {
+    for (const options of [
+      TRAIN_DEFAULT_OPTIONS,
+      { length: "short", doubles: "chain", mexican: "ownFirst" } as TrainOptions,
+    ]) {
       let game = startTrain(9, ["", "", ""], 5, options, [true, true, true])!;
       let steps = 0;
       while (game.phase !== TRAIN_PHASES.finished && steps < 20_000) {
@@ -64,7 +74,10 @@ describe("the computer at the Mexican Train table", () => {
     let won = 0;
     for (let seed = 1; seed <= 40; seed += 1) {
       const random = seededRandom(seed);
-      let game = startTrain(12, ["Computer", "Random"], seed, { ...TRAIN_DEFAULT_OPTIONS, length: "short" }, [true, false])!;
+      let game = startTrain(12, ["Computer", "Random"], seed, { ...TRAIN_DEFAULT_OPTIONS, length: "short" }, [
+        true,
+        false,
+      ])!;
       while (game.phase !== TRAIN_PHASES.finished) {
         const offered = trainMoves(game);
         const move = game.toPlay === 0 ? computerMove(game) : offered[Math.floor(random() * offered.length)];

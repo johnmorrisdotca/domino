@@ -30,11 +30,21 @@ describe("a game deals and plays as it did on itsutsu.com", () => {
   it("every recorded table, dealt and played to the end by computers", () => {
     for (const [key, want] of Object.entries(fixture)) {
       const [set, players, seed, length] = key.split("/");
-      const options = length === "full" ? ({ length: "full", doubles: "one", mexican: "any" } as const) : ({ length: "short", doubles: "chain", mexican: "ownFirst" } as const);
+      const options =
+        length === "full"
+          ? ({ length: "full", doubles: "one", mexican: "any" } as const)
+          : ({ length: "short", doubles: "chain", mexican: "ownFirst" } as const);
       const names = Array.from({ length: Number(players) }, (_, at) => `P${at}`);
-      let game = startTrain(Number(set), names, Number(seed), options, names.map(() => true))!;
+      let game = startTrain(
+        Number(set),
+        names,
+        Number(seed),
+        options,
+        names.map(() => true),
+      )!;
       expect(encodeTrain(game), `${key} dealt`).toBe(want.start);
-      for (let move = 0; move < 3000 && game.phase !== "finished"; move += 1) game = playTrain(game, computerMove(game))!;
+      for (let move = 0; move < 3000 && game.phase !== "finished"; move += 1)
+        game = playTrain(game, computerMove(game))!;
       expect(fingerprint(encodeTrain(game)), `${key} played out`).toBe(want.end);
     }
   }, 120_000);

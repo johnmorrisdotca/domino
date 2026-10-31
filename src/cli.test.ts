@@ -21,7 +21,9 @@ describe("the command line", () => {
     expect(runCli(["--help", "--lang", "ja"]).out).toBe(DOMINO_STRINGS.ja.cliUsage);
     expect(runCli(["--help"], { env: { LANG: "ja_JP.UTF-8" } }).out).toBe(DOMINO_STRINGS.ja.cliUsage);
     expect(runCli(["--help", "--lang", "en"], { env: { LANG: "ja_JP.UTF-8" } }).out).toBe(DOMINO_STRINGS.en.cliUsage);
-    expect(runCli(["--help"], { env: { LC_ALL: "en_US.UTF-8", LANG: "ja_JP.UTF-8" } }).out).toBe(DOMINO_STRINGS.en.cliUsage);
+    expect(runCli(["--help"], { env: { LC_ALL: "en_US.UTF-8", LANG: "ja_JP.UTF-8" } }).out).toBe(
+      DOMINO_STRINGS.en.cliUsage,
+    );
     expect(runCli(["--help"], { env: { LANG: "C" }, locale: "ja-JP" }).out).toBe(DOMINO_STRINGS.ja.cliUsage);
   });
 
@@ -41,8 +43,32 @@ Boneyard: 24 tiles
   });
 
   it("deals as JSON, every hand and the boneyard's size", () => {
-    const data = JSON.parse(runCli(["deal", "--json", "--seed", "7", "--players", "2", "--set", "12", "--doubles", "chain", "--mexican", "own-first", "--length", "short"]).out);
-    expect(data).toMatchObject({ format: 1, generator: `domino ${VERSION}`, set: 12, seed: 7, engine: 12, options: { length: "short", doubles: "chain", mexican: "ownFirst" } });
+    const data = JSON.parse(
+      runCli([
+        "deal",
+        "--json",
+        "--seed",
+        "7",
+        "--players",
+        "2",
+        "--set",
+        "12",
+        "--doubles",
+        "chain",
+        "--mexican",
+        "own-first",
+        "--length",
+        "short",
+      ]).out,
+    );
+    expect(data).toMatchObject({
+      format: 1,
+      generator: `domino ${VERSION}`,
+      set: 12,
+      seed: 7,
+      engine: 12,
+      options: { length: "short", doubles: "chain", mexican: "ownFirst" },
+    });
     expect(data.hands).toHaveLength(2);
     expect(data.hands[0]).toHaveLength(15);
     expect(data.boneyard).toBe(91 - 1 - 30);
@@ -83,7 +109,11 @@ Boneyard: 24 tiles
     expect(checked.code).toBe(0);
     expect(checked.out).toMatch(/moves made: 20/);
     expect(checked.out).toMatch(/Round 1 of 5 is being played; Computer \d is to play\./);
-    expect(JSON.parse(runCli(["check", "--stdin", "--json"], { stdin: half }).out)).toMatchObject({ phase: "playing", moves: 20, round: 1 });
+    expect(JSON.parse(runCli(["check", "--stdin", "--json"], { stdin: half }).out)).toMatchObject({
+      phase: "playing",
+      moves: 20,
+      round: 1,
+    });
   });
 
   it("replays every move in words, ending on how the game stands", () => {
@@ -104,11 +134,22 @@ Boneyard: 24 tiles
   });
 
   it("refuses a saved game the rules will not play out, with exit code 1", () => {
-    for (const bad of ["{}", "not a game", '{"v":1,"set":9,"options":{"length":"short","doubles":"one","mexican":"any"},"seed":1,"players":["",""],"computers":[true,true],"moves":"p999.0"}']) {
-      expect(runCli(["check", bad])).toEqual({ code: 1, out: "", err: "domino: that is not a game these rules can play out again\n" });
+    for (const bad of [
+      "{}",
+      "not a game",
+      '{"v":1,"set":9,"options":{"length":"short","doubles":"one","mexican":"any"},"seed":1,"players":["",""],"computers":[true,true],"moves":"p999.0"}',
+    ]) {
+      expect(runCli(["check", bad])).toEqual({
+        code: 1,
+        out: "",
+        err: "domino: that is not a game these rules can play out again\n",
+      });
     }
     const saved = savedOf(["play", "--seed", "3", "--players", "2", "--set", "9", "--length", "short"]);
-    const tampered = saved.replace(/"moves":"p(\d+)\.(\d)/, (_, tile, train) => `"moves":"p${Number(tile) + 1}.${train}`);
+    const tampered = saved.replace(
+      /"moves":"p(\d+)\.(\d)/,
+      (_, tile, train) => `"moves":"p${Number(tile) + 1}.${train}`,
+    );
     expect(tampered).not.toBe(saved);
     expect(runCli(["replay", tampered]).code).toBe(1);
   });
@@ -119,12 +160,18 @@ Boneyard: 24 tiles
     expect(ran.err).toBe("domino: seed 1073741824 (pass --seed 1073741824 to repeat this)\n");
     expect(ran.out).toBe(runCli(["deal", "--seed", "1073741824"]).out);
     expect(runCli(["deal", "--seed", "5"]).err).toBe("");
-    expect(runCli(["deal"], { random: () => 0.5, env: { LANG: "ja_JP.UTF-8" } }).err).toBe("domino: シード 1073741824（--seed 1073741824 で同じ結果を再現できます）\n");
+    expect(runCli(["deal"], { random: () => 0.5, env: { LANG: "ja_JP.UTF-8" } }).err).toBe(
+      "domino: シード 1073741824（--seed 1073741824 で同じ結果を再現できます）\n",
+    );
   });
 
   it("is exit code 2, with a pointer to the help, for a command that is wrong", () => {
     const tried = (args: string[]) => runCli(args);
-    expect(tried([])).toEqual({ code: 2, out: "", err: "domino: say what to do: deal, play, check or replay\nTry `domino --help`.\n" });
+    expect(tried([])).toEqual({
+      code: 2,
+      out: "",
+      err: "domino: say what to do: deal, play, check or replay\nTry `domino --help`.\n",
+    });
     expect(tried(["shuffle"]).err).toContain("“shuffle” is not a command");
     expect(tried(["deal", "--bogus"]).err).toContain("unknown option --bogus");
     expect(tried(["deal", "--seed"]).err).toContain("--seed needs a value");
@@ -143,7 +190,11 @@ Boneyard: 24 tiles
   });
 
   it("takes an option as --name=value too, and both spellings of the Mexican Train rule", () => {
-    expect(runCli(["deal", "--seed=7", "--set=9", "--players=2"]).out).toBe(runCli(["deal", "--seed", "7", "--set", "9", "--players", "2"]).out);
-    expect(JSON.parse(runCli(["deal", "--json", "--seed", "1", "--mexican", "ownFirst"]).out).options.mexican).toBe("ownFirst");
+    expect(runCli(["deal", "--seed=7", "--set=9", "--players=2"]).out).toBe(
+      runCli(["deal", "--seed", "7", "--set", "9", "--players", "2"]).out,
+    );
+    expect(JSON.parse(runCli(["deal", "--json", "--seed", "1", "--mexican", "ownFirst"]).out).options.mexican).toBe(
+      "ownFirst",
+    );
   });
 });

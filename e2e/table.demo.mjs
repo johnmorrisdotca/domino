@@ -7,11 +7,18 @@ import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 
 const site = join(dirname(fileURLToPath(import.meta.url)), "..", "site");
-const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml" };
+const TYPES = {
+  ".html": "text/html",
+  ".js": "text/javascript",
+  ".css": "text/css",
+  ".json": "application/json",
+  ".svg": "image/svg+xml",
+};
 
 /** Open the demo (or another page of it), the computers moving at once, and collect anything the page complains of. */
 async function open(page, address = "?lang=en") {
-  if (!existsSync(join(site, "index.html"))) throw new Error("site/ is not built: run `pnpm site` first (`pnpm test:demo` does)");
+  if (!existsSync(join(site, "index.html")))
+    throw new Error("site/ is not built: run `pnpm site` first (`pnpm test:demo` does)");
   const errors = [];
   page.on("pageerror", (error) => errors.push(String(error)));
   page.on("console", (message) => message.type() === "error" && errors.push(message.text()));
@@ -19,7 +26,10 @@ async function open(page, address = "?lang=en") {
     const { pathname } = new URL(route.request().url());
     const file = join(site, pathname === "/" ? "index.html" : pathname);
     if (!existsSync(file)) return route.fulfill({ status: 404, body: "" });
-    return route.fulfill({ body: readFileSync(file), contentType: TYPES[file.slice(file.lastIndexOf("."))] ?? "application/octet-stream" });
+    return route.fulfill({
+      body: readFileSync(file),
+      contentType: TYPES[file.slice(file.lastIndexOf("."))] ?? "application/octet-stream",
+    });
   });
   await page.addInitScript(() => {
     window.dominoDelay = 30;
@@ -46,7 +56,10 @@ async function sound(page, errors) {
     };
     const small = [...document.querySelectorAll("button:not(:disabled), input, select, nav a, footer .family a")]
       .filter(seen)
-      .map((el) => ({ what: el.id || el.className || el.textContent.trim().slice(0, 20), box: el.getBoundingClientRect() }))
+      .map((el) => ({
+        what: el.id || el.className || el.textContent.trim().slice(0, 20),
+        box: el.getBoundingClientRect(),
+      }))
       .filter(({ box }) => box.width < 43.5 || box.height < 43.5)
       .map(({ what, box }) => `${what} ${Math.round(box.width)}×${Math.round(box.height)}`);
     return { over: document.documentElement.scrollWidth - window.innerWidth, small };
@@ -68,7 +81,9 @@ test("opens on a double-twelve table of four, in the family's look", async ({ pa
   await expect(page.locator('[data-testid="info"]')).toContainText("hub double 12");
   await expect(page.locator("footer .family a[aria-current='page']")).toHaveText("Domino");
   await expect(page.locator("footer .family a", { hasText: "Kotoba" })).toHaveCount(1);
-  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toMatch(/^rgb\((244, 239, 228|20, 22, 20)\)$/);
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toMatch(
+    /^rgb\((244, 239, 228|20, 22, 20)\)$/,
+  );
   await sound(page, errors);
 });
 
@@ -93,16 +108,33 @@ test("a seeded deal is the same deal every time", async ({ page }) => {
   expect(await hand(page).evaluateAll((all) => all.map((el) => el.dataset.ends))).toEqual(first);
 });
 
-test("the address names the deal: opening it deals the same hands at the same table, and Deal again takes a new seed", async ({ page }) => {
+test("the address names the deal: opening it deals the same hands at the same table, and Deal again takes a new seed", async ({
+  page,
+}) => {
   const errors = await open(page, "?lang=en&set=9&players=3&length=full&doubles=chain&mexican=own-first&seed=2026");
-  for (const [group, attribute, value] of [["sets", "data-set", "9"], ["players", "data-count", "3"], ["lengths", "data-length", "full"], ["doubles", "data-doubles", "chain"], ["mexicans", "data-mexican", "ownFirst"]]) {
+  for (const [group, attribute, value] of [
+    ["sets", "data-set", "9"],
+    ["players", "data-count", "3"],
+    ["lengths", "data-length", "full"],
+    ["doubles", "data-doubles", "chain"],
+    ["mexicans", "data-mexican", "ownFirst"],
+  ]) {
     await expect(page.locator(`[data-testid="${group}"] [aria-pressed="true"]`)).toHaveAttribute(attribute, value);
   }
   // The same hand `domino deal --seed 2026 --players 3 --set 9` prints for the first seat.
-  expect(await hand(page).evaluateAll((all) => all.map((el) => el.dataset.ends))).toEqual("3-0 4-2 4-3 6-3 6-6 7-7 8-4 8-7 9-4 9-5".split(" "));
+  expect(await hand(page).evaluateAll((all) => all.map((el) => el.dataset.ends))).toEqual(
+    "3-0 4-2 4-3 6-3 6-6 7-7 8-4 8-7 9-4 9-5".split(" "),
+  );
   await expect(page.locator('[data-testid="info"]')).toContainText("Round 1 of 10");
   const query = () => new URL(page.url()).searchParams;
-  expect(Object.fromEntries(query())).toMatchObject({ set: "9", players: "3", length: "full", doubles: "chain", mexican: "own-first", seed: "2026" });
+  expect(Object.fromEntries(query())).toMatchObject({
+    set: "9",
+    players: "3",
+    length: "full",
+    doubles: "chain",
+    mexican: "own-first",
+    seed: "2026",
+  });
   // Another table keeps the seed in use; Deal again takes a new one.
   await tap(page, '[data-testid="players"] [data-count="2"]');
   expect(query().get("players")).toBe("2");
@@ -115,14 +147,22 @@ test("the address names the deal: opening it deals the same hands at the same ta
 test("Using it: the code, the command and the saved game are the table's own, and the code runs", async ({ page }) => {
   const errors = await open(page, "?lang=en&set=9&players=3&length=short&seed=2026");
   const code = page.locator('[data-testid="using-code"]');
-  await expect(code).toContainText('startTrain(9, ["","",""], 2026, { length: "short", doubles: "one", mexican: "any" }, [false, true, true]);');
-  await expect(page.locator('[data-testid="cli-code"]')).toHaveText("npx @johnmorrisdotca/domino deal --seed 2026 --players 3 --set 9");
+  await expect(code).toContainText(
+    'startTrain(9, ["","",""], 2026, { length: "short", doubles: "one", mexican: "any" }, [false, true, true]);',
+  );
+  await expect(page.locator('[data-testid="cli-code"]')).toHaveText(
+    "npx @johnmorrisdotca/domino deal --seed 2026 --players 3 --set 9",
+  );
   // The code, run against the package this page was built from, deals the hand on the table.
   const dealt = await page.evaluate(async () => {
     const lib = await import("./dist/index.js");
     const source = document.querySelector('[data-testid="using-code"]').textContent.replace(/^import .*$/m, "");
     const game = new Function(...Object.keys(lib), `${source}\nreturn game;`)(...Object.values(lib));
-    return { seed: game.seed, moves: lib.movesOf(game).length, hand: [...game.hands[0]].sort((x, y) => x - y).map((tile) => lib.tileWords(tile)) };
+    return {
+      seed: game.seed,
+      moves: lib.movesOf(game).length,
+      hand: [...game.hands[0]].sort((x, y) => x - y).map((tile) => lib.tileWords(tile)),
+    };
   });
   expect(dealt.seed).toBe(2026);
   // Its last line lays the first tile, so the first player is down to nine.
@@ -147,7 +187,9 @@ test("Using it: the code, the command and the saved game are the table's own, an
   await sound(page, errors);
 });
 
-test("a person lays a tile, the computers answer, and play goes round until the person is wanted again", async ({ page }) => {
+test("a person lays a tile, the computers answer, and play goes round until the person is wanted again", async ({
+  page,
+}) => {
   const errors = await open(page, "?lang=en&seed=2026");
   // Whoever leads, wait for a turn that is the person's.
   await expect(status(page)).toContainText(/Your turn|Nothing fits/, { timeout: 15000 });
@@ -178,7 +220,10 @@ test("with nothing that fits, the person draws, and passes when the drawn tile w
     if ((await page.locator('[data-testid="lay"]').count()) > 0) await tap(page, '[data-testid="lay"]');
     await page.waitForTimeout(60);
   }
-  const label = await asked.first().textContent().catch(() => "");
+  const label = await asked
+    .first()
+    .textContent()
+    .catch(() => "");
   if (label === "Draw a tile") {
     const before = await hand(page).count();
     await tap(page, asked.first());
@@ -187,7 +232,9 @@ test("with nothing that fits, the person draws, and passes when the drawn tile w
   expect(typeof label).toBe("string");
 });
 
-test("Sound is off until pressed, then a tile laid makes a sound, and pressing again silences the table", async ({ page }) => {
+test("Sound is off until pressed, then a tile laid makes a sound, and pressing again silences the table", async ({
+  page,
+}) => {
   // A page of audio nodes that count what is started: a sound made is a source started.
   await page.addInitScript(() => {
     window.__started = 0;
@@ -196,13 +243,33 @@ test("Sound is off until pressed, then a tile laid makes a sound, and pressing a
       currentTime = 0;
       sampleRate = 44100;
       destination = {};
-      createGain() { return { gain: { value: 1 }, connect() {} }; }
-      createBiquadFilter() { return { frequency: { value: 0 }, Q: { value: 0 }, connect() {} }; }
-      createBuffer(_channels, length) { return { getChannelData: () => new Float32Array(length) }; }
-      createBufferSource() { return { playbackRate: { value: 1 }, connect() {}, start() { window.__started += 1; } }; }
-      decodeAudioData() { return Promise.resolve({ duration: 0.1 }); }
-      resume() { return Promise.resolve(); }
-      close() { return Promise.resolve(); }
+      createGain() {
+        return { gain: { value: 1 }, connect() {} };
+      }
+      createBiquadFilter() {
+        return { frequency: { value: 0 }, Q: { value: 0 }, connect() {} };
+      }
+      createBuffer(_channels, length) {
+        return { getChannelData: () => new Float32Array(length) };
+      }
+      createBufferSource() {
+        return {
+          playbackRate: { value: 1 },
+          connect() {},
+          start() {
+            window.__started += 1;
+          },
+        };
+      }
+      decodeAudioData() {
+        return Promise.resolve({ duration: 0.1 });
+      }
+      resume() {
+        return Promise.resolve();
+      }
+      close() {
+        return Promise.resolve();
+      }
     };
   });
   const errors = await open(page, "?lang=en&seed=2026");
@@ -300,7 +367,9 @@ test("the API reference is in the family's frame and links back", async ({ page 
 
 // The Help switch in the family header (scripts/family-template.mjs): off, the page is as it was; on, every
 // option row says in one line what it does, in the page's language, and every control in it has hover words.
-test("Help is off at first, and on it shows a line under each option row, in either language, without resizing the play area", async ({ page }) => {
+test("Help is off at first, and on it shows a line under each option row, in either language, without resizing the play area", async ({
+  page,
+}) => {
   const errors = await open(page);
   const lines = page.locator(".fam-help");
   const rows = page.locator("[data-help-en]");
@@ -315,8 +384,16 @@ test("Help is off at first, and on it shows a line under each option row, in eit
     // A row in a tab that is not showing has its line, and shows it when the tab opens.
     if (await row.isVisible()) {
       const shown = await row.evaluate((el) => {
-        const line = el.classList.contains("fam-seg") || el.hasAttribute("data-help-after") ? el.nextElementSibling : el.querySelector(":scope > .fam-help");
-        return line !== null && line.classList.contains("fam-help") && window.getComputedStyle(line).display !== "none" && line.textContent.length > 10;
+        const line =
+          el.classList.contains("fam-seg") || el.hasAttribute("data-help-after")
+            ? el.nextElementSibling
+            : el.querySelector(":scope > .fam-help");
+        return (
+          line !== null &&
+          line.classList.contains("fam-help") &&
+          window.getComputedStyle(line).display !== "none" &&
+          line.textContent.length > 10
+        );
       });
       expect(shown).toBe(true);
     }
@@ -328,7 +405,9 @@ test("Help is off at first, and on it shows a line under each option row, in eit
   expect(Math.abs(after.width - before.width)).toBeLessThan(0.5);
   expect(Math.abs(after.height - before.height)).toBeLessThan(0.5);
   // Every button in an option row says what it does on hover.
-  const untitled = await page.evaluate(() => [...document.querySelectorAll("[data-help-en] button")].filter((b) => !b.title).map((b) => b.textContent.trim()));
+  const untitled = await page.evaluate(() =>
+    [...document.querySelectorAll("[data-help-en] button")].filter((b) => !b.title).map((b) => b.textContent.trim()),
+  );
   expect(untitled).toEqual([]);
   const english = await lines.first().textContent();
   await page.locator('[data-lang="ja"]').click();

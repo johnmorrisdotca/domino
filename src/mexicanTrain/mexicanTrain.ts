@@ -2,8 +2,23 @@
 import { seededRandom, shuffled } from "../random.ts";
 
 import { everyTile, fits, isDouble, laidAgainst, laidEnds, pipsOf, tileOf } from "./dominoes.ts";
-import { TRAIN_DEFAULT_OPTIONS, TRAIN_DOUBLES, TRAIN_MEXICAN, handSizeFor, roundsFor } from "./mexicanTrain.constants.ts";
-import type { Domino, RoundEnding, TrainGame, TrainHistory, TrainMove, TrainOptions, TrainPhase, TrainSeat } from "./mexicanTrain.types.ts";
+import {
+  TRAIN_DEFAULT_OPTIONS,
+  TRAIN_DOUBLES,
+  TRAIN_MEXICAN,
+  handSizeFor,
+  roundsFor,
+} from "./mexicanTrain.constants.ts";
+import type {
+  Domino,
+  RoundEnding,
+  TrainGame,
+  TrainHistory,
+  TrainMove,
+  TrainOptions,
+  TrainPhase,
+  TrainSeat,
+} from "./mexicanTrain.types.ts";
 
 /**
  * MEXICAN TRAIN, THE DOMINO GAME: the rules, and nothing else.
@@ -41,7 +56,11 @@ import type { Domino, RoundEnding, TrainGame, TrainHistory, TrainMove, TrainOpti
  * ```
  */
 
-export const TRAIN_PHASES = { playing: "playing", roundOver: "roundOver", finished: "finished" } as const satisfies Record<TrainPhase, TrainPhase>;
+export const TRAIN_PHASES = {
+  playing: "playing",
+  roundOver: "roundOver",
+  finished: "finished",
+} as const satisfies Record<TrainPhase, TrainPhase>;
 
 /** The sets a table may be dealt from, and how many may sit at it. */
 const SPEC = { sizes: [9, 12, 15] as readonly number[], fewestPlayers: 2, mostPlayers: 8 };
@@ -118,7 +137,10 @@ function dealRound(table: TrainGame, round: number): TrainGame {
   const count = table.players.length;
   const engine = table.set - round;
   const random = shuffleFor(table.seed, round);
-  const deck = shuffled(everyTile(table.set).filter((tile) => tile !== tileOf(engine, engine)), random);
+  const deck = shuffled(
+    everyTile(table.set).filter((tile) => tile !== tileOf(engine, engine)),
+    random,
+  );
   const each = handSizeFor(table.set, count);
   const hands = table.players.map((_, seat) => deck.slice(seat * each, (seat + 1) * each));
   return {
@@ -387,7 +409,13 @@ function endRound(game: TrainGame, ending: RoundEnding, out: TrainSeat | null): 
 
 /** The turn passes to the next seat round the table. */
 function nextSeat(game: TrainGame): TrainGame {
-  return { ...game, toPlay: (game.toPlay + 1) % game.players.length, turn: game.turn + 1, drew: false, chaining: false };
+  return {
+    ...game,
+    toPlay: (game.toPlay + 1) % game.players.length,
+    turn: game.turn + 1,
+    drew: false,
+    chaining: false,
+  };
 }
 
 /** A tile laid: from the hand to the train, turned to fit, and what it leaves to be done this turn. */
@@ -402,7 +430,8 @@ function lay(game: TrainGame, tile: Domino, train: number): TrainGame {
   const uncovered = covering ? game.uncovered.slice(0, -1) : game.uncovered;
   const laid: TrainGame = { ...game, hands, trains, uncovered, passes: 0, drew: false };
   if (hands[seat].length === 0) return endRound(laid, "domino", seat);
-  if (isDouble(tile)) return { ...laid, uncovered: [...uncovered, train], chaining: game.options.doubles === TRAIN_DOUBLES.chain };
+  if (isDouble(tile))
+    return { ...laid, uncovered: [...uncovered, train], chaining: game.options.doubles === TRAIN_DOUBLES.chain };
   // Covering one of several doubles: the same player goes on covering the rest.
   if (covering && uncovered.length > 0) return { ...laid, chaining: false };
   return nextSeat(laid);

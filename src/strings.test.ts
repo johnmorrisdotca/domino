@@ -18,7 +18,11 @@ describe("the strings", () => {
   it("the two helps list the same options and the same commands, in the same order", () => {
     const options = (text: string) => [...text.matchAll(/^\s+(?:-\w, )?(--[\w-]+)/gm)].map((match) => match[1]);
     expect(options(DOMINO_STRINGS.ja.cliUsage)).toEqual(options(DOMINO_STRINGS.en.cliUsage));
-    const commands = (text: string) => text.split("\n").filter((line) => line.startsWith("  domino ")).map((line) => /^ {2}domino \w+( --\w+)?/.exec(line)?.[0]);
+    const commands = (text: string) =>
+      text
+        .split("\n")
+        .filter((line) => line.startsWith("  domino "))
+        .map((line) => /^ {2}domino \w+( --\w+)?/.exec(line)?.[0]);
     expect(commands(DOMINO_STRINGS.ja.cliUsage)).toEqual(commands(DOMINO_STRINGS.en.cliUsage));
   });
 

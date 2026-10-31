@@ -37,8 +37,12 @@ writeFileSync(
   "site/index.html",
   frame({
     title: "Domino ドミノ — Dominoes and Mexican Train",
-    description: "Play Mexican Train against one to seven computers with double-nine, double-twelve or double-fifteen dominoes, every rule and house rule the Domino package plays by, in English and Japanese. Free and open source.",
-    links: [{ href: "docs/index.html", say: "pageDocs" }, { href: "api.html", say: "pageApi" }],
+    description:
+      "Play Mexican Train against one to seven computers with double-nine, double-twelve or double-fifteen dominoes, every rule and house rule the Domino package plays by, in English and Japanese. Free and open source.",
+    links: [
+      { href: "docs/index.html", say: "pageDocs" },
+      { href: "api.html", say: "pageApi" },
+    ],
     body: readFileSync("demo/body.html", "utf8").replace("__UNREVIEWED__", familyUnreviewed({ id })).trimEnd(),
     scripts: `<script type="module" src="page.js"></script>`,
   }),
@@ -49,7 +53,8 @@ writeFileSync(
   "site/api.html",
   frame({
     title: "Domino API reference: every export, with its signature",
-    description: "The API reference of the Domino package: every export of every entry point, with its signature and its documentation, made from the source.",
+    description:
+      "The API reference of the Domino package: every export of every entry point, with its signature and its documentation, made from the source.",
     links: [{ href: "./", say: "pageBack" }],
     body: `      ${api.html}\n      ${familyUnreviewed({ id })}`,
     scripts: `<script type="module">

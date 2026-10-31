@@ -12,8 +12,11 @@ const table = () => startTrain(12, ["", "Ben", ""], 2026, TRAIN_DEFAULT_OPTIONS,
 
 /** The game played to its end by computers, and every state on the way. */
 function played(seed: number): TrainGame[] {
-  const states = [startTrain(9, ["", "", ""], seed, { ...TRAIN_DEFAULT_OPTIONS, length: "short" }, [true, true, true])!];
-  while (states[states.length - 1]!.phase !== TRAIN_PHASES.finished) states.push(playTrain(states[states.length - 1]!, computerMove(states[states.length - 1]!))!);
+  const states = [
+    startTrain(9, ["", "", ""], seed, { ...TRAIN_DEFAULT_OPTIONS, length: "short" }, [true, true, true])!,
+  ];
+  while (states[states.length - 1]!.phase !== TRAIN_PHASES.finished)
+    states.push(playTrain(states[states.length - 1]!, computerMove(states[states.length - 1]!))!);
   return states;
 }
 
@@ -62,7 +65,11 @@ describe("what is said", () => {
     expect(trainStatus(game, "en", 1)).toBe("Player 1 to play.");
     const covering = { ...game, uncovered: [0] };
     expect(trainStatus(covering, "en", 0)).toBe("Your turn. Cover the double.");
-    const stuck = { ...game, hands: [[tileOf(0, 1)], game.hands[1]!, game.hands[2]!], trains: game.trains.map((train, at) => (at === 3 ? train : { laid: [12 * 16 + 5], open: false })) };
+    const stuck = {
+      ...game,
+      hands: [[tileOf(0, 1)], game.hands[1]!, game.hands[2]!],
+      trains: game.trains.map((train, at) => (at === 3 ? train : { laid: [12 * 16 + 5], open: false })),
+    };
     expect(trainMoves(stuck)[0]!.kind).toBe("draw");
     expect(trainStatus(stuck, "en", 0)).toBe("Nothing fits. Draw a tile.");
     expect(trainStatus({ ...stuck, boneyard: [] }, "ja", 0)).toBe("置ける牌がありません。パスしてください。");
@@ -82,7 +89,13 @@ describe("what is said", () => {
     for (const seed of [1, 2, 3]) {
       for (const state of played(seed)) {
         const news = trainNews(state, "en");
-        for (const [name, pattern] of [["laid", /laid/], ["drew", /drew a tile/], ["passed", /passed/], ["dealt", /dealt: the hub double is \d+/]] as const) if (pattern.test(news)) seen.add(name);
+        for (const [name, pattern] of [
+          ["laid", /laid/],
+          ["drew", /drew a tile/],
+          ["passed", /passed/],
+          ["dealt", /dealt: the hub double is \d+/],
+        ] as const)
+          if (pattern.test(news)) seen.add(name);
         if (state.phase === TRAIN_PHASES.roundOver) {
           expect(trainStatus(state, "en")).toMatch(/^Round over\. (Computer \d played out\.|Nobody can play\.)$/);
           seen.add("roundOver");

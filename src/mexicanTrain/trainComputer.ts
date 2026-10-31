@@ -120,7 +120,10 @@ export function computerMove(game: TrainGame): TrainMove {
   let bestScore = -Infinity;
   for (const move of plays) {
     const score = scoreOf(game, move, plan);
-    if (score > bestScore || (score === bestScore && (move.tile > best.tile || (move.tile === best.tile && move.train < best.train)))) {
+    if (
+      score > bestScore ||
+      (score === bestScore && (move.tile > best.tile || (move.tile === best.tile && move.train < best.train)))
+    ) {
       best = move;
       bestScore = score;
     }

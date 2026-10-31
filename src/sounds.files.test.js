@@ -8,11 +8,14 @@ import { describe, expect, it } from "vitest";
 import { TILE_SOUND_DATA } from "./sounds.ts";
 
 describe("the recordings", () => {
-  const files = readdirSync("sounds").filter((name) => name.endsWith(".m4a")).sort();
+  const files = readdirSync("sounds")
+    .filter((name) => name.endsWith(".m4a"))
+    .sort();
 
   it("are the files in ./sounds, byte for byte: run `pnpm sounds` after changing one", () => {
     expect(Object.keys(TILE_SOUND_DATA).sort()).toEqual(files.map((name) => name.replace(".m4a", "")));
-    for (const name of files) expect(TILE_SOUND_DATA[name.replace(".m4a", "")]).toBe(readFileSync(`sounds/${name}`).toString("base64"));
+    for (const name of files)
+      expect(TILE_SOUND_DATA[name.replace(".m4a", "")]).toBe(readFileSync(`sounds/${name}`).toString("base64"));
   });
 
   it("are AAC in an .m4a, with no empty padding, and small", () => {
@@ -38,12 +41,20 @@ describe("the recordings", () => {
   it("are each given in CREDITS.md at the size they are", () => {
     const credits = readFileSync("CREDITS.md", "utf8");
     for (const name of files) expect(credits).toContain(`| \`sounds/${name}\` |`);
-    for (const name of files) expect(credits, name).toMatch(new RegExp(`\\| \`sounds/${name}\` \\|[^\\n]*\\| ${readFileSync(`sounds/${name}`).length.toLocaleString("en-US")} bytes \\|`));
-    expect(credits).toContain(`${files.reduce((sum, name) => sum + readFileSync(`sounds/${name}`).length, 0).toLocaleString("en-US")} bytes in all`);
+    for (const name of files)
+      expect(credits, name).toMatch(
+        new RegExp(
+          `\\| \`sounds/${name}\` \\|[^\\n]*\\| ${readFileSync(`sounds/${name}`).length.toLocaleString("en-US")} bytes \\|`,
+        ),
+      );
+    expect(credits).toContain(
+      `${files.reduce((sum, name) => sum + readFileSync(`sounds/${name}`).length, 0).toLocaleString("en-US")} bytes in all`,
+    );
   });
 
   it("are never part of the core: only a sound played imports them", () => {
-    for (const path of ["src/index.ts", "src/cli.ts", "src/words.ts"]) expect(readFileSync(path, "utf8")).not.toMatch(/from "\.\/sounds\.ts"/);
+    for (const path of ["src/index.ts", "src/cli.ts", "src/words.ts"])
+      expect(readFileSync(path, "utf8")).not.toMatch(/from "\.\/sounds\.ts"/);
     const player = readFileSync("src/tile-sounds.ts", "utf8");
     expect(player).toContain('import("./sounds.ts")');
     expect(player).not.toMatch(/^import .*sounds\.ts/m);

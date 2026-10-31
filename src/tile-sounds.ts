@@ -197,7 +197,10 @@ const MADE: Record<TileSoundKind, { ticks: number; over: number; length: number;
  * ```
  */
 export function createTileSounds(options: TileSoundsOptions = {}): TileSounds {
-  const win: TileSoundWindow | undefined = options.window === null ? undefined : (options.window ?? (typeof window === "undefined" ? undefined : (window as unknown as TileSoundWindow)));
+  const win: TileSoundWindow | undefined =
+    options.window === null
+      ? undefined
+      : (options.window ?? (typeof window === "undefined" ? undefined : (window as unknown as TileSoundWindow)));
   const load = options.load ?? ((): Promise<{ TILE_SOUND_DATA: TileSoundData }> => import("./sounds.ts"));
   let muted = options.muted === true;
   let volume = clampVolume(options.volume ?? 0.6);
@@ -223,11 +226,14 @@ export function createTileSounds(options: TileSoundsOptions = {}): TileSounds {
         const atob = win?.atob ?? globalThis.atob;
         const { TILE_SOUND_DATA } = await load();
         const names = Object.keys(TILE_SOUND_DATA).sort();
-        const buffers = await Promise.all(names.map((name) => decode(audio, bytesOf(TILE_SOUND_DATA[name] as string, atob))));
+        const buffers = await Promise.all(
+          names.map((name) => decode(audio, bytesOf(TILE_SOUND_DATA[name] as string, atob))),
+        );
         const made: Loaded = {};
         names.forEach((name, at) => {
           const kind = name.replace(/-\d+$/, "") as TileSoundKind;
-          if ((TILE_SOUND_KINDS as readonly string[]).includes(kind)) (made[kind] ??= []).push(buffers[at] as AudioBuffer);
+          if ((TILE_SOUND_KINDS as readonly string[]).includes(kind))
+            (made[kind] ??= []).push(buffers[at] as AudioBuffer);
         });
         return Object.keys(made).length > 0 ? made : null;
       } catch {

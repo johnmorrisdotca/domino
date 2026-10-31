@@ -2,7 +2,18 @@ import { describe, expect, it } from "vitest";
 
 import { endsOf, everyTile, isDouble, laidEnds, pipsOf, tileOf } from "./dominoes.ts";
 import { TRAIN_DEFAULT_OPTIONS, handSizeFor, roundsFor } from "./mexicanTrain.constants.ts";
-import { TRAIN_PHASES, legalPlays, mexicanOf, movesOf, openEnd, playTrain, replayTrain, startTrain, trainMoves, trainTotals } from "./mexicanTrain.ts";
+import {
+  TRAIN_PHASES,
+  legalPlays,
+  mexicanOf,
+  movesOf,
+  openEnd,
+  playTrain,
+  replayTrain,
+  startTrain,
+  trainMoves,
+  trainTotals,
+} from "./mexicanTrain.ts";
 import type { TrainGame, TrainMove, TrainOptions } from "./mexicanTrain.types.ts";
 import { decodeTrain, encodeTrain } from "./trainCodec.ts";
 
@@ -78,7 +89,12 @@ describe("the set and the deal", () => {
 describe("laying a tile", () => {
   it("starts a train with a tile matching the hub's double, and goes on from its open end", () => {
     const game = position(dealt(), [[tileOf(12, 3), tileOf(3, 9), tileOf(1, 1)], [tileOf(0, 0)]]);
-    expect(legalPlays(game)).toEqual(expect.arrayContaining([{ tile: tileOf(12, 3), train: 0 }, { tile: tileOf(12, 3), train: 2 }]));
+    expect(legalPlays(game)).toEqual(
+      expect.arrayContaining([
+        { tile: tileOf(12, 3), train: 0 },
+        { tile: tileOf(12, 3), train: 2 },
+      ]),
+    );
     // Ben's own train is not open to Ann.
     expect(legalPlays(game).some((one) => one.train === 1)).toBe(false);
     const after = playTrain(game, play(tileOf(12, 3), 0))!;
@@ -124,7 +140,10 @@ describe("drawing and the marker", () => {
 describe("doubles", () => {
   it("must be covered, by the one who laid it, before anything else", () => {
     const base = position(dealt(), [[tileOf(12, 6), tileOf(6, 6), tileOf(6, 2), tileOf(12, 1)], [tileOf(0, 0)]]);
-    const started = { ...base, trains: base.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 6], open: false } : train)) };
+    const started = {
+      ...base,
+      trains: base.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 6], open: false } : train)),
+    };
     const game = { ...started, hands: [[tileOf(6, 6), tileOf(6, 2), tileOf(12, 1)], [tileOf(0, 0)]] };
     const doubled = playTrain(game, play(tileOf(6, 6), 0))!;
     expect(doubled.toPlay).toBe(0);
@@ -137,8 +156,14 @@ describe("doubles", () => {
   });
 
   it("left uncovered, binds the next player to cover it, on a train not otherwise open to them", () => {
-    const base = position(dealt(), [[tileOf(6, 6), tileOf(1, 1)], [tileOf(6, 9), tileOf(12, 0)]]);
-    const game = { ...base, trains: base.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 6], open: false } : train)) };
+    const base = position(dealt(), [
+      [tileOf(6, 6), tileOf(1, 1)],
+      [tileOf(6, 9), tileOf(12, 0)],
+    ]);
+    const game = {
+      ...base,
+      trains: base.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 6], open: false } : train)),
+    };
     const doubled = playTrain(game, play(tileOf(6, 6), 0))!;
     expect(trainMoves(doubled)).toEqual([{ kind: "pass" }]);
     const passed = playTrain(doubled, { kind: "pass" })!;
@@ -148,9 +173,20 @@ describe("doubles", () => {
 
   it("chained: another double may follow before covering, and the last laid is covered first", () => {
     const options: TrainOptions = { ...TRAIN_DEFAULT_OPTIONS, doubles: "chain" };
-    const base = position(dealt(options), [[tileOf(12, 12 - 12), tileOf(0, 0), tileOf(12, 3), tileOf(3, 3), tileOf(3, 8), tileOf(0, 5), tileOf(9, 9)], [tileOf(1, 1)]]);
-    const game = { ...base, trains: base.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 0], open: false } : at === 2 ? { laid: [12 * 16 + 3], open: true } : train)) };
-    const first = playTrain({ ...game, hands: [[tileOf(0, 0), tileOf(3, 3), tileOf(3, 8), tileOf(0, 5), tileOf(9, 9)], [tileOf(1, 1)]] }, play(tileOf(0, 0), 0))!;
+    const base = position(dealt(options), [
+      [tileOf(12, 12 - 12), tileOf(0, 0), tileOf(12, 3), tileOf(3, 3), tileOf(3, 8), tileOf(0, 5), tileOf(9, 9)],
+      [tileOf(1, 1)],
+    ]);
+    const game = {
+      ...base,
+      trains: base.trains.map((train, at) =>
+        at === 0 ? { laid: [12 * 16 + 0], open: false } : at === 2 ? { laid: [12 * 16 + 3], open: true } : train,
+      ),
+    };
+    const first = playTrain(
+      { ...game, hands: [[tileOf(0, 0), tileOf(3, 3), tileOf(3, 8), tileOf(0, 5), tileOf(9, 9)], [tileOf(1, 1)]] },
+      play(tileOf(0, 0), 0),
+    )!;
     expect(first.chaining).toBe(true);
     expect(trainMoves(first)).toContainEqual(play(tileOf(3, 3), 2));
     const second = playTrain(first, play(tileOf(3, 3), 2))!;
@@ -167,7 +203,12 @@ describe("doubles", () => {
 
   it("one at a time by default: no second double before the first is covered", () => {
     const base = position(dealt(), [[tileOf(0, 0), tileOf(3, 3), tileOf(0, 7)], [tileOf(1, 1)]]);
-    const game = { ...base, trains: base.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 0], open: false } : at === 2 ? { laid: [12 * 16 + 3], open: true } : train)) };
+    const game = {
+      ...base,
+      trains: base.trains.map((train, at) =>
+        at === 0 ? { laid: [12 * 16 + 0], open: false } : at === 2 ? { laid: [12 * 16 + 3], open: true } : train,
+      ),
+    };
     const first = playTrain(game, play(tileOf(0, 0), 0))!;
     expect(trainMoves(first)).toEqual([play(tileOf(0, 7), 0)]);
   });
@@ -183,7 +224,10 @@ describe("the Mexican Train", () => {
     const options: TrainOptions = { ...TRAIN_DEFAULT_OPTIONS, mexican: "ownFirst" };
     const game = position(dealt(options), [[tileOf(12, 2), tileOf(12, 4)], [tileOf(0, 0)]]);
     expect(legalPlays(game).some((one) => one.train === 2)).toBe(false);
-    const started = { ...game, trains: game.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 9], open: false } : train)) };
+    const started = {
+      ...game,
+      trains: game.trains.map((train, at) => (at === 0 ? { laid: [12 * 16 + 9], open: false } : train)),
+    };
     expect(legalPlays(started)).toContainEqual({ tile: tileOf(12, 2), train: 2 });
   });
 });
@@ -218,14 +262,22 @@ describe("the end of a round, and of the game", () => {
     expect(over.winners).toEqual([0]);
     expect(trainTotals(over)).toEqual([0, 1]);
     expect(trainMoves(over)).toEqual([]);
-    const tied = { ...position(dealt(), [[tileOf(12, 1)], []]), rounds: 1, results: [{ engine: 13, pips: [0, 0], ending: "domino" as const, out: 0 }] };
+    const tied = {
+      ...position(dealt(), [[tileOf(12, 1)], []]),
+      rounds: 1,
+      results: [{ engine: 13, pips: [0, 0], ending: "domino" as const, out: 0 }],
+    };
     expect(trainTotals(tied)).toEqual([0, 0]);
   });
 });
 
 describe("keeping a game", () => {
   it("reads a kept game back exactly, and refuses one it cannot play out", () => {
-    let game = startTrain(9, ["Ann", "Ben", "Cy"], 11, { length: "short", doubles: "chain", mexican: "ownFirst" }, [false, true, false])!;
+    let game = startTrain(9, ["Ann", "Ben", "Cy"], 11, { length: "short", doubles: "chain", mexican: "ownFirst" }, [
+      false,
+      true,
+      false,
+    ])!;
     for (let step = 0; step < 40; step += 1) game = playTrain(game, trainMoves(game)[0])!;
     const text = encodeTrain(game);
     expect(decodeTrain(text)).toEqual(game);

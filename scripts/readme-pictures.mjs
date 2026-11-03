@@ -97,4 +97,38 @@ await takePictures({
       prepare: (page) => play(page, 2),
     },
   ],
+  // The family's thumbnail, dark thumbnail and icon (scripts/family-thumbnail.mjs): the trains of a game of Mexican Train
+  // for four, six turns in, laid out from their one hub double, from the page's own tiles; the icon is the first three
+  // tiles of the longest train, stepped.
+  thumbnail: {
+    url: address("set=12&players=4"),
+    init: noDelay,
+    ready: READY,
+    target: "#thumbnail-trains",
+    icon: { target: "#thumbnail-step" },
+    label: "Domino ドミノ",
+    async prepare(page) {
+      await play(page, 6);
+      await page.evaluate(() => {
+        const trains = [...document.querySelectorAll('[data-testid="trains"] .train-line')].map((line) =>
+          [...line.querySelectorAll(".tile")].map((tile) => tile.outerHTML),
+        );
+        const hub = trains[0][0];
+        const rows = trains
+          .map((tiles) => tiles.slice(1))
+          .filter((tiles) => tiles.length > 0)
+          .map((tiles) => `<div style="display:flex;gap:6px">${tiles.join("")}</div>`)
+          .join("");
+        const stage = `<div id="thumbnail-trains" style="display:flex;align-items:center;gap:14px;padding:10px;width:max-content;zoom:2.1">${hub}<div style="display:grid;gap:10px;padding-left:10px;border-left:3px solid var(--tile-edge)">${rows}</div></div>`;
+        const longest = trains.reduce((most, tiles) => (tiles.length > most.length ? tiles : most), []);
+        const steps = longest
+          .slice(0, 3)
+          .map((tile, index) => `<div style="margin-left:${index * 34}px">${tile}</div>`)
+          .join("");
+        const icon = `<div id="thumbnail-step" style="display:grid;gap:6px;padding:8px;width:max-content;zoom:4">${steps}</div>`;
+        document.body.replaceChildren();
+        document.body.insertAdjacentHTML("beforeend", stage + icon);
+      });
+    },
+  },
 });

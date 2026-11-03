@@ -1,3 +1,5 @@
+<p align="center"><a href="https://johnmorrisdotca.github.io/domino/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/thumbnail-dark.png"><img src="https://raw.githubusercontent.com/johnmorrisdotca/domino/main/docs/images/thumbnail.png" alt="Domino: the trains of a game of Mexican Train for four, laid out from their hub double twelve, drawn with the package's own tiles." width="1200"></picture></a></p>
+
 <h1 align="center">Domino <sub>ドミノ</sub> — Dominoes and Mexican Train</h1>
 
 <p align="center"><strong>Dominoes and Mexican Train for JavaScript and TypeScript.</strong><br>

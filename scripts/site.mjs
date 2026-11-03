@@ -5,14 +5,17 @@ import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 
 import { apiBody } from "./api.mjs";
 import { FAMILY_SCRIPT, familyFooter, familyHead, familyHeader, familyUnreviewed } from "./family-template.mjs";
+import { publishThumbnails, thumbnailHead } from "./family-thumbnail.mjs";
 
 const id = "domino";
+const ALT =
+  "Domino: the trains of a game of Mexican Train for four, laid out from their hub double twelve, drawn with the package's own tiles.";
 const icon = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='8' y='22' width='84' height='56' rx='10' fill='%23fffdf8' stroke='%232f5d4a' stroke-width='6'/%3E%3Cpath d='M50 22V78' stroke='%232f5d4a' stroke-width='5'/%3E%3Ccircle cx='28' cy='50' r='6' fill='%231f2320'/%3E%3Ccircle cx='66' cy='38' r='6' fill='%231f2320'/%3E%3Ccircle cx='78' cy='62' r='6' fill='%231f2320'/%3E%3C/svg%3E`;
-const frame = ({ title, description, links, body, scripts }) => `<!doctype html>
+const frame = ({ title, description, links, body, scripts, head = "" }) => `<!doctype html>
 <html lang="en">
   <head>
     ${familyHead({ id, title, description, ogTitle: "Domino ドミノ — Dominoes and Mexican Train", ogDescription: "Play Mexican Train against the computers, with dominoes in three sizes of set." })}
-    <link rel="icon" href="${icon}" />
+    ${head}<link rel="icon" href="${icon}" />
     <link rel="stylesheet" href="family.css" />
     <link rel="stylesheet" href="domino.css" />
   </head>
@@ -37,6 +40,7 @@ writeFileSync(
   "site/index.html",
   frame({
     title: "Domino ドミノ — Dominoes and Mexican Train",
+    head: `${thumbnailHead(JSON.parse(readFileSync("package.json", "utf8")), { alt: ALT })}\n    `,
     description:
       "Play Mexican Train against one to seven computers with double-nine, double-twelve or double-fifteen dominoes, every rule and house rule the Domino package plays by, in English and Japanese. Free and open source.",
     links: [
@@ -47,6 +51,9 @@ writeFileSync(
     scripts: `<script type="module" src="page.js"></script>`,
   }),
 );
+
+// The family's card, dark card and icon, at <site>/thumbnail.png, thumbnail-dark.png and icon.png.
+publishThumbnails(".", "site");
 
 const api = apiBody();
 writeFileSync(
